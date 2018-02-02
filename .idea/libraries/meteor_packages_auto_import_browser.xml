@@ -68,6 +68,7 @@
         <item url="file://$USER_HOME$/.meteor/packages/check/1.3.0/web.browser/isPlainObject.js" />
         <item url="file://$USER_HOME$/.meteor/packages/check/1.3.0/web.browser/match.js" />
         <item url="file://$USER_HOME$/.meteor/packages/check/1.3.0/web.browser/match_test.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/dburles_collection-helpers/1.0.4/web.browser/collection-helpers.js" />
         <item url="file://$USER_HOME$/.meteor/packages/ddp-client/2.3.1/web.browser/client/client.js" />
         <item url="file://$USER_HOME$/.meteor/packages/ddp-client/2.3.1/web.browser/client/client_convenience.js" />
         <item url="file://$USER_HOME$/.meteor/packages/ddp-client/2.3.1/web.browser/common/MethodInvoker.js" />
@@ -146,6 +147,11 @@
         <item url="file://$USER_HOME$/.meteor/packages/modules/0.11.3/web.browser/stubs.js" />
         <item url="file://$USER_HOME$/.meteor/packages/mongo-dev-server/1.1.0/web.browser/server.js" />
         <item url="file://$USER_HOME$/.meteor/packages/mongo-id/1.0.6/web.browser/id.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/nicolaslopezj_roles/2.6.4/web.browser/helpers.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/nicolaslopezj_roles/2.6.4/web.browser/keys.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/nicolaslopezj_roles/2.6.4/web.browser/roles.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/nicolaslopezj_roles/2.6.4/web.browser/roles_client.js" />
+        <item url="file://$USER_HOME$/.meteor/packages/nicolaslopezj_roles/2.6.4/web.browser/roles_server.js" />
         <item url="file://$USER_HOME$/.meteor/packages/observe-sequence/1.0.16/web.browser/observe_sequence.js" />
         <item url="file://$USER_HOME$/.meteor/packages/ordered-dict/1.1.0/web.browser/ordered_dict.js" />
         <item url="file://$USER_HOME$/.meteor/packages/promise/0.10.1/web.browser/client.js" />
@@ -286,6 +292,7 @@
       <root url="file://$USER_HOME$/.meteor/packages/check/1.3.0/web.browser/isPlainObject.js" />
       <root url="file://$USER_HOME$/.meteor/packages/check/1.3.0/web.browser/match.js" />
       <root url="file://$USER_HOME$/.meteor/packages/check/1.3.0/web.browser/match_test.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/dburles_collection-helpers/1.0.4/web.browser/collection-helpers.js" />
       <root url="file://$USER_HOME$/.meteor/packages/ddp-client/2.3.1/web.browser/client/client.js" />
       <root url="file://$USER_HOME$/.meteor/packages/ddp-client/2.3.1/web.browser/client/client_convenience.js" />
       <root url="file://$USER_HOME$/.meteor/packages/ddp-client/2.3.1/web.browser/common/MethodInvoker.js" />
@@ -364,6 +371,11 @@
       <root url="file://$USER_HOME$/.meteor/packages/modules/0.11.3/web.browser/stubs.js" />
       <root url="file://$USER_HOME$/.meteor/packages/mongo-dev-server/1.1.0/web.browser/server.js" />
       <root url="file://$USER_HOME$/.meteor/packages/mongo-id/1.0.6/web.browser/id.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/nicolaslopezj_roles/2.6.4/web.browser/helpers.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/nicolaslopezj_roles/2.6.4/web.browser/keys.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/nicolaslopezj_roles/2.6.4/web.browser/roles.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/nicolaslopezj_roles/2.6.4/web.browser/roles_client.js" />
+      <root url="file://$USER_HOME$/.meteor/packages/nicolaslopezj_roles/2.6.4/web.browser/roles_server.js" />
       <root url="file://$USER_HOME$/.meteor/packages/observe-sequence/1.0.16/web.browser/observe_sequence.js" />
       <root url="file://$USER_HOME$/.meteor/packages/ordered-dict/1.1.0/web.browser/ordered_dict.js" />
       <root url="file://$USER_HOME$/.meteor/packages/promise/0.10.1/web.browser/client.js" />

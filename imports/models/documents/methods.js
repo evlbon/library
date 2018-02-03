@@ -1,10 +1,8 @@
 import {Books} from "./book";
 import { Meteor } from 'meteor/meteor';
 
-
 Meteor.methods({
     'documents.addBook' ({ title }) {
-
 
         new SimpleSchema({
             title: { type: String }
@@ -21,13 +19,10 @@ Meteor.methods({
 
         });
     }
-})
-
-
+});
 
 Meteor.methods({
     'documents.delBook' ({ id }) {
-
 
         new SimpleSchema({
             id: { type: String }
@@ -35,4 +30,4 @@ Meteor.methods({
 
         Books.remove(id);
     }
-})
+});

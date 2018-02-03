@@ -6,10 +6,8 @@ const Author = Class.create({
         name: {
             type: String
         },
-
     }
-})
-
+});
 
 export const Books = Class.create({
     name: "Books",
@@ -31,8 +29,4 @@ export const Books = Class.create({
             type: Number,
         },
     },
-
-
-})
-
-
+});

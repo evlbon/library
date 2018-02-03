@@ -32,7 +32,7 @@ class Book extends Component {
 
 
 
-                <span className="text">{this.props.book.title} </span>
+                <span className="text">{this.props.book.title} by {this.props.book.publisher} </span>
             </li>
         );
     }

@@ -23,3 +23,5 @@ react-meteor-data
 accounts-ui
 accounts-password
 nicolaslopezj:roles
+jagi:astronomy
+aldeed:simple-schema

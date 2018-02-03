@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Books } from '../api/books.js';
+import { Books } from '../models/documents/book';
 import { withTracker } from 'meteor/react-meteor-data';
 import {Meteor} from "meteor/meteor";
 
@@ -8,7 +8,8 @@ class Book extends Component {
 
 
     deleteThisBook() {
-        Books.remove(this.props.book._id);
+        Meteor.call('documents.delBook',{id : this.props.book._id})
+
     }
 
     render() {
@@ -31,7 +32,7 @@ class Book extends Component {
 
 
 
-                <span className="text">{this.props.book.text}</span>
+                <span className="text">{this.props.book.title} </span>
             </li>
         );
     }

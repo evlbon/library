@@ -3,7 +3,7 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
 import Book from './Book.js';
 import { withTracker } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
-import { Books } from '../api/books.js';
+import { Books } from '../models/documents/book';
 import { Meteor } from 'meteor/meteor';
 // App component - represents the whole app
 
@@ -15,12 +15,9 @@ class App extends Component {
         event.preventDefault();
 
         // Find the text field via the React ref
-        const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+        const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim().toString();
 
-        Books.insert({
-            text,
-            createdAt: new Date(), // current time
-        });
+        Meteor.call('documents.addBook',{title : text});
 
         // Clear form
         ReactDOM.findDOMNode(this.refs.textInput).value = '';

@@ -18,9 +18,9 @@ const Copy = Class.create({
         checked_out: {
             type: Boolean
         },
-        users: {
-            type: [User]
-        }
+        // users: {
+        //     type: [User]
+        // }
     }
 });
 
@@ -51,7 +51,7 @@ export const Document = Class.create({
         price: {
             type: Number
         }
-    },
+    }
     // helpers: {
     //     addAuthor(author) {
     //

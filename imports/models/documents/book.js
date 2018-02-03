@@ -1,24 +1,10 @@
 import { Class } from 'meteor/jagi:astronomy';
+import {Document} from "./document";
 
-const Author = Class.create({
-    name: "BookAuthor",
-    fields : {
-        name: {
-            type: String
-        },
-    }
-});
-
-export const Books = Class.create({
+export const Books = Document.inherit({
     name: "Books",
     collection: new Meteor.Collection('books'),
     fields: {
-        authors:{
-            type: [Author],
-        },
-        title:{
-            type: String,
-        },
         publisher:{
             type: String,
         },
@@ -27,6 +13,6 @@ export const Books = Class.create({
         },
         year:{
             type: Number,
-        },
+        }
     },
 });

@@ -9,14 +9,19 @@ Meteor.methods({
         }).validate({ title });
 
         Books.insert({
+            title: title,
             authors: [
                 {name: 'Clifford Stein'},
             ],
-            title: title,
             edition: '3rd',
             publisher: 'MIT Press',
             year: 2009,
-
+            price: 3000,
+            copies: [
+                {id: 13, checked_out: false},
+                {id: 49, checked_out: true}
+            ],
+            tags: ['Nigga', 'niGGA']
         });
     }
 });

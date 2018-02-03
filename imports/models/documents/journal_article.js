@@ -7,8 +7,8 @@ const Month = Class.create({
     identifiers: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 });
 
-const Date = Class.create({
-    name: 'date',
+const ReleaseDate = Class.create({
+    name: 'release_date',
     fields: {
         year: {
             type: Number
@@ -19,7 +19,7 @@ const Date = Class.create({
     }
 });
 
-export const JournalArticle = Document.extend({
+export const JournalArticle = Document.inherit({
     name: 'Book',
     collection: new Meteor.Collection('journal_article'),
     fields: {
@@ -29,8 +29,8 @@ export const JournalArticle = Document.extend({
         editor: {
             type: String,
         },
-        date: {
-            type: Date,
+        release_date: {
+            type: ReleaseDate,
         }
     },
     // helpers: {

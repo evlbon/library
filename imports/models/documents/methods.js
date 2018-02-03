@@ -18,8 +18,8 @@ Meteor.methods({
             year: 2009,
             price: 3000,
             copies: [
-                {id: 13, checked_out: false},
-                {id: 49, checked_out: true}
+                {document_id: 13, reference: false, checked_out: false, checked_out_date: new Date(), users: []},
+                {document_id: 49, reference: false, checked_out: true, checked_out_date: new Date(), users: []}
             ],
             tags: ['Nigga', 'niGGA']
         });

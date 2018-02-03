@@ -1,4 +1,5 @@
 import { Class } from 'meteor/jagi:astronomy';
+import { User } from '../users/user'
 
 const Author = Class.create({
     name: 'Author',
@@ -12,15 +13,21 @@ const Author = Class.create({
 const Copy = Class.create({
     name: 'Copy',
     fields: {
-        id: {
+        document_id: {
             type: Number
+        },
+        reference: {
+            type: Boolean
         },
         checked_out: {
             type: Boolean
         },
-        // users: {
-        //     type: [User]
-        // }
+        checked_out_date: {
+            type: Date
+        },
+        users: {
+            type: [User]
+        }
     }
 });
 
@@ -51,10 +58,26 @@ export const Document = Class.create({
         price: {
             type: Number
         }
-    }
-    // helpers: {
-    //     addAuthor(author) {
-    //
-    //     }
-    // },
+    },
+
+    helpers: {
+        addAuthor(author) {
+
+        },
+        addNewCopy(documentID) {
+
+        },
+        switchReference(documentID, boolean) {
+
+        },
+        getOverdueDocuments() {
+
+        },
+        checkOutDocument(documentID, userID) {
+
+        },
+        returnDocument(documentID) {
+
+        }
+    },
 });

@@ -45,7 +45,6 @@ class App extends Component {
 
     render() {
         return (
-
             <div className="container">
 
                 <header>
@@ -56,19 +55,10 @@ class App extends Component {
                         <AccountsUIWrapper />
                     </div>
 
-                    { this.props.currentUser ?
                         <div id={"add"}>
-                            <form onSubmit={this.handleSubmit.bind(this)} >
-                                <input
-                                    type="text"
-                                    ref="textInput"
-                                    placeholder="Type to add new books"
-                                />
-                            </form>
+                            <div id="AddButton"></div>
+                        </div>
 
-                        </div> : ''
-
-                    }
 
 
                 </header>

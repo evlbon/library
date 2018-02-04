@@ -26,6 +26,15 @@ body {
 
 }
 
+.ab {
+    margin: 0;
+    background: white;
+    width:10px;
+    height:auto;
+    position:absolute;
+    left:1150px;
+    top:0px;
+}
 header {
     background: #d2edf4;
     background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
@@ -51,6 +60,8 @@ form {
     margin-bottom: -10px;
     position: relative;
 }
+
+
 
 .new-book input {
     box-sizing: border-box;

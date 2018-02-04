@@ -5,8 +5,11 @@ import { check } from 'meteor/check'
 import { Match } from 'meteor/check'
 import {JournalArticle} from "./journal_article";
 
+
+
+
 Meteor.methods({
-    'documents.addBook' ({ title, authors }) {
+    'documents.addBook' ({ title, authors, publisher,year,edition }) {
 
         check(authors, Match.Maybe([String]));
         if (authors == null) authors = ['Crowd'];
@@ -24,9 +27,9 @@ Meteor.methods({
         Books.insert({
             title: title,
             authorsID: authorsID,
-            edition: '3rd',
-            publisher: 'MIT Press',
-            release_date: new Date(2009, 3),
+            edition: edition,
+            publisher: publisher,
+            release_date: new Date(year, 3),
             price: 3000,
             copies: [
                 {document_id: 13, reference: false, checked_out_date: new Date(), usersID: []}

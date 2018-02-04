@@ -15,11 +15,9 @@
 
 ## Imports
 
-<li> - [Models](imports/models)
+- [Models](imports/models)
 <br> - dsadas
-<li> [Startup](imports/startup)
-<li> [UI](imports/ui)
+- [Startup](imports/startup)
+<br> -[Accounts Configuration](accounts-config.js)
+- [UI](imports/ui)
 
-
-- [Redis](databases/redis.sh)
-- [Redis](databases/redis.sh)

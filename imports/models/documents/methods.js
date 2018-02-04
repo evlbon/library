@@ -28,7 +28,7 @@ Meteor.methods({
             release_date: new Date(2009, 3),
             price: 3000,
             copies: [
-                {document_id: 13, reference: false, checked_out_date: undefined, usersID: []}
+                {document_id: 13, reference: false, checked_out_date: new Date(), usersID: []}
             ],
             tags: ['Math', 'Equations'],
             bestseller: false

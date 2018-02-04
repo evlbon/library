@@ -18,6 +18,6 @@
 - [Models](imports/models)
 <br> - dsadas
 - [Startup](imports/startup)
-<br> [accounts-config.js](imports/staartup/accounts-config.js)
+<br> [Accounts Configuration](imports/startup/accounts-config.js)
 - [UI](imports/ui)
 

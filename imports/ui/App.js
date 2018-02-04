@@ -13,23 +13,26 @@ import { JournalArticle } from "../models/documents/journal_article";
 import { Meteor } from 'meteor/meteor';
 // App component - represents the whole app
 
-
-
 class App extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
 
         // Find the text field via the React ref
-        const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+        const title = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
-        Meteor.call('documents.addBook',{ title : text, authors: ["John Cena", "Johnny Sins"]});
+        Meteor.call('documents.addBook',{
+            title : title,
+            authors: ["John Cena", "Johnny Sins"],
+            publisher: "InfoPlanet",
+            release_date: new Date(1991, 1),
+            tags: ["Math", "Equations"],
+            bestseller: false,
+        });
 
         // Clear form
         ReactDOM.findDOMNode(this.refs.textInput).value = '';
     }
-
-
 
     renderBooks() {
         return this.props.books.map((book) => (
@@ -83,7 +86,6 @@ class App extends Component {
         );
     }
 }
-
 
 export default withTracker(() => {
     return {

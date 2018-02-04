@@ -1,6 +1,6 @@
 import { Class } from 'meteor/jagi:astronomy';
 
-const Copy = Class.create({
+export const Copy = Class.create({
     name: 'Copy',
     fields: {
         reference: {
@@ -36,7 +36,8 @@ export const Document = Class.create({
             type: [Copy]
         },
         price: {
-            type: Number
+            type: Number,
+            optional: true
         }
     },
 

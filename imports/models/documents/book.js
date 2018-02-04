@@ -10,6 +10,7 @@ export const Books = Document.inherit({
         },
         edition:{
             type: String,
+            optional: true
         },
         release_date: {
             type: Date,

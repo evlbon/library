@@ -32,7 +32,13 @@ class Book extends Component {
                 <span className="text">Authors: {Author.find({ _id: { $in: this.props.book.authorsID} }).map(o => o.name).join(', ')} </span><br/>
                 <span className="text">Publisher: {this.props.book.publisher} </span><br/>
                 <span className="text">Year: {this.props.book.release_date.getFullYear()} </span><br/>
-                <span className="text">Edition: {this.props.book.edition} </span><br/>
+                <span className="text">Edition: {this.props.book.edition ? this.props.book.edition : 'undefined'} </span><br/>
+                <span className="text">Price: {this.props.book.price} </span><br/>
+                <span className="text">Tags: {this.props.book.tags.join(', ')} </span><br/>
+                <span className="text">Copies available: {
+                    this.props.book.copies.map(o => o.checked_out_date ? '1' : '').filter(String).length} / { this.props.book.copies.length
+                } </span><br/>
+                <span className="text">Bestseller: {this.props.book.bestseller ? 'yes' : 'no'} </span><br/>
             </li>
         );
     }

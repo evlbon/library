@@ -16,6 +16,7 @@ class Article extends Component {
             <li>
 
 
+
                 <h1>Article</h1><br/>
 
                 <span className="text">Jouranl: {this.props.jarticle.journal} </span><br/>

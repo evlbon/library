@@ -23,6 +23,7 @@ body {
     margin: 0 auto;
     min-height: 100%;
     background: white;
+
 }
 
 header {
@@ -30,6 +31,7 @@ header {
     background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
     padding: 20px 15px 15px 15px;
     position: relative;
+    margin:0;
 }
 
 #login-buttons {
@@ -50,7 +52,7 @@ form {
     position: relative;
 }
 
-.new-task input {
+.new-book input {
     box-sizing: border-box;
     padding: 10px 0;
     background: transparent;
@@ -60,7 +62,7 @@ form {
     font-size: 1em;
 }
 
-.new-task input:focus{
+.new-book input:focus{
     outline: 0;
 }
 
@@ -110,7 +112,20 @@ header .hide-completed {
 .toggle-private {
     margin-left: 5px;
 }
+#add{
+    background:transparent;
+    width:100px;
+    height:100px;
+    position:absolute;
+    left:600px;
+    top:10px;
+}
 
+#lab{
+    background:transparent;
+    width:300px;
+    height:100px;
+}
 @media (max-width: 600px) {
     li {
         padding: 12px 15px;
@@ -121,7 +136,8 @@ header .hide-completed {
         clear: both;
     }
 
-    .new-task input {
+    .new-book input {
         padding-bottom: 5px;
     }
+
 }

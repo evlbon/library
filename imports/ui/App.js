@@ -49,19 +49,25 @@ class App extends Component {
             <div className="container">
 
                 <header>
-                    <h1>InnoLibrary</h1>
 
-                    <AccountsUIWrapper />
+                    <div id={"lab"}>
+                        <h1>InnoLibrary</h1>
 
+                        <AccountsUIWrapper />
+                    </div>
 
                     { this.props.currentUser ?
-                        <form className="new-book" onSubmit={this.handleSubmit.bind(this)} >
-                            <input
-                                type="text"
-                                ref="textInput"
-                                placeholder="Type to add new books"
-                            />
-                        </form> : ''
+                        <div id={"add"}>
+                            <form onSubmit={this.handleSubmit.bind(this)} >
+                                <input
+                                    type="text"
+                                    ref="textInput"
+                                    placeholder="Type to add new books"
+                                />
+                            </form>
+
+                        </div> : ''
+
                     }
 
 

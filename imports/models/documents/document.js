@@ -13,13 +13,7 @@ const Author = Class.create({
 const Copy = Class.create({
     name: 'Copy',
     fields: {
-        document_id: {
-            type: Number
-        },
         reference: {
-            type: Boolean
-        },
-        checked_out: {
             type: Boolean
         },
         checked_out_date: {
@@ -33,7 +27,7 @@ const Copy = Class.create({
 
 export const Document = Class.create({
     name: 'Document',
-    collection: new Meteor.Collection('documents'),
+
     fields: {
         title: {
             type: String,

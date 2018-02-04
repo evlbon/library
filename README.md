@@ -16,14 +16,14 @@
 ## Imports
 
 - [Models](imports/models)
-<br><br> [Documents](imports/models/documents)
-<br> [Users](imports/models/users)
-<br> [Utility](imports/models/utility)
++ [Documents](imports/models/documents)
++ [Users](imports/models/users)
++ [Utility](imports/models/utility)
 
 - [Startup](imports/startup)
-<br> [Accounts Configuration](imports/startup/accounts-config.js)
++ [Accounts Configuration](imports/startup/accounts-config.js)
 - [UI](imports/ui)
-<br>[Login accounts](imports/ui/AccountsUIWrapper.js)
-<br>[Root file](imports/ui/App.js)
-<br>[Article](imports/ui/Article.js)
-<br>[Book](imports/ui/Book.js)
++ [Login accounts](imports/ui/AccountsUIWrapper.js)
++ [Root file](imports/ui/App.js)
++ [Article](imports/ui/Article.js)
++ [Book](imports/ui/Book.js)

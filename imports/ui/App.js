@@ -15,9 +15,9 @@ class App extends Component {
         event.preventDefault();
 
         // Find the text field via the React ref
-        const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim().toString();
+        const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
-        Meteor.call('documents.addBook',{title : text});
+        Meteor.call('documents.addBook',{ title : text });
 
         // Clear form
         ReactDOM.findDOMNode(this.refs.textInput).value = '';
@@ -33,8 +33,14 @@ class App extends Component {
 
     render() {
         return (
+
             <div className="container">
+
                 <header>
+                    <aside>
+                        asd
+
+                    </aside>
                     <h1>InnoLibrary</h1>
 
                     <AccountsUIWrapper />
@@ -52,6 +58,7 @@ class App extends Component {
 
 
                 </header>
+
 
                 <ul>
                     {this.renderBooks()}

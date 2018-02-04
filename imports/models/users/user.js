@@ -5,7 +5,7 @@ export const User = Class.create({
     name: 'User',
     collection: new Meteor.Collection('user'),
     fields: {
-        library_id: {
+        libraryID: {
             type: Number
         },
         name: {
@@ -21,9 +21,6 @@ export const User = Class.create({
 
     helpers: {
         getInfo() {
-
-        },
-        changeLibraryId() {
 
         },
         changeName() {

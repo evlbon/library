@@ -6,7 +6,7 @@
 
 - [Client](client)
 
-- [Imports](#Imports)
+- [Imports](#imports)
 
 - [Server](server)  
 

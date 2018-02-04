@@ -8,6 +8,7 @@ Meteor.methods({
     'documents.addBook' ({ title, authors }) {
 
         check(authors, Match.Maybe([String]));
+        if (authors == null) authors = ['Crowd'];
 
         let authorsID = [];
         authors.forEach(name => {
@@ -27,7 +28,7 @@ Meteor.methods({
             release_date: new Date(2009, 3),
             price: 3000,
             copies: [
-                {document_id: 13, reference: false, usersID: []}
+                {document_id: 13, reference: false, checked_out_date: undefined, usersID: []}
             ],
             tags: ['Math', 'Equations'],
             bestseller: false
@@ -37,7 +38,7 @@ Meteor.methods({
 
 Meteor.methods({
     'documents.delBook' ({ id }) {
-
+        Books.remove(id);
     }
 });
 

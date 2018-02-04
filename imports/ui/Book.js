@@ -30,9 +30,9 @@ class Book extends Component {
                 <h1>Book</h1><br/>
 
                 <span className="text">Title: {this.props.book.title} </span><br/>
-                <span className="text">Authors: {this.props.book.authors.map(o => o.name).join(', ')} </span><br/>
+                {/*<span className="text">Authors: {this.props.book.authors.map(o => o.name).join(', ')} </span><br/>*/}
                 <span className="text">Publisher: {this.props.book.publisher} </span><br/>
-                <span className="text">Year: {this.props.book.year} </span><br/>
+                <span className="text">Year: {this.props.book.release_date.getFullYear()} </span><br/>
                 <span className="text">Edition: {this.props.book.edition} </span><br/>
             </li>
         );

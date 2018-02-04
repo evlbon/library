@@ -81,8 +81,9 @@ C:/.../path>meteor
 
 ## Features
 
-## ADD HERE
-# In progress
++ Implementation of Users–Cards and Documents
+
++ Addition and deletion of documents
 
 ## Screenshots
 

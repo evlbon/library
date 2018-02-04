@@ -15,7 +15,12 @@ class Article extends Component {
         return (
             <li>
 
-
+                { this.props.currentUser ?
+                    <button className="delete" onClick={this.deleteThisArticle.bind(this)}>
+                        &times;
+                    </button>
+                    : ''
+                }
 
                 <h1>Article</h1><br/>
 

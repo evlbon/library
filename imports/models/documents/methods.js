@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Author } from "../utility/author";
 import { check } from 'meteor/check'
 import { Match } from 'meteor/check'
+import {JournalArticle} from "./journal_article";
 
 Meteor.methods({
     'documents.addBook' ({ title, authors }) {
@@ -39,6 +40,13 @@ Meteor.methods({
 Meteor.methods({
     'documents.delBook' ({ id }) {
         Books.remove(id);
+    }
+});
+
+
+Meteor.methods({
+    'documents.delArticle' ({ id }) {
+        JournalArticle.remove(id);
     }
 });
 

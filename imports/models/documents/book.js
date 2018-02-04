@@ -1,7 +1,7 @@
 import { Class } from 'meteor/jagi:astronomy'; // Importing from our extension library "astronomy"
 import {Document} from "./document";           // Importing from our docs
 
-export const Books = Document.inherit({
+export const Books = Document.inherit({        // A book inherits from Document because the relation id "is a"
     name: "Books",
     collection: new Meteor.Collection('book'),  // Link with MongoDB
     fields: {                                   // Our class attributes

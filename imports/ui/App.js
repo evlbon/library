@@ -23,7 +23,7 @@ class App extends Component {
         // Find the text field via the React ref
         const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
 
-        Meteor.call('documents.addBook',{ title : text });
+        Meteor.call('documents.addBook',{ title : text, authors: ["John Cena", "Johnny Sins"]});
 
         // Clear form
         ReactDOM.findDOMNode(this.refs.textInput).value = '';

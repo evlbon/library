@@ -7,7 +7,8 @@ const Copy = Class.create({
             type: Boolean
         },
         checked_out_date: {
-            type: Date
+            type: Date,
+            optional: true
         },
         usersID: {
             type: [String]
@@ -17,7 +18,6 @@ const Copy = Class.create({
 
 export const Document = Class.create({
     name: 'Document',
-
     fields: {
         title: {
             type: String,

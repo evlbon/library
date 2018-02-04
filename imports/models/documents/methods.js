@@ -20,6 +20,8 @@ Meteor.methods({
             );
         });
 
+        console.log("=== " + authorsID);
+
         Books.insert({
             title: title,
             authorsID: authorsID,
@@ -28,7 +30,7 @@ Meteor.methods({
             release_date: new Date(2009, 3),
             price: 3000,
             copies: [
-                {document_id: 13, reference: false, checked_out_date: new Date(), usersID: []}
+                {reference: false, checked_out_date: null, usersID: []}
             ],
             tags: ['Math', 'Equations'],
             bestseller: false
@@ -41,5 +43,3 @@ Meteor.methods({
         Books.remove(id);
     }
 });
-
-

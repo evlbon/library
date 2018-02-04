@@ -20,7 +20,7 @@ const ReleaseDate = Class.create({
 });
 
 export const JournalArticle = Document.inherit({
-    name: 'Book',
+    name: 'JournalArticle',
     collection: new Meteor.Collection('journal_article'),
     fields: {
         journal: {
@@ -37,3 +37,7 @@ export const JournalArticle = Document.inherit({
     //
     // },
 });
+
+
+
+

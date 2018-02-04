@@ -1,5 +1,6 @@
 import {Books} from "./book";
 import { Meteor } from 'meteor/meteor';
+import {JournalArticle} from "./journal_article";
 
 Meteor.methods({
     'documents.addBook' ({ title }) {
@@ -26,5 +27,14 @@ Meteor.methods({
     'documents.delBook' ({ id }) {
 
         Books.remove(id);
+    }
+});
+
+
+
+Meteor.methods({
+    'documents.delArticle' ({ id }) {
+
+        JournalArticle.remove(id);
     }
 });

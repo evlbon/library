@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Books } from '../models/documents/book';
 import { withTracker } from 'meteor/react-meteor-data';
 import {Meteor} from "meteor/meteor";
 
@@ -15,10 +14,9 @@ class Book extends Component {
     render() {
         // Give books a different className when they are checked off,
         // so that we can style them nicely in CSS
-        const bookClassName = this.props.book.checked ? 'checked' : '';
 
         return (
-            <li className={bookClassName}>
+            <li >
 
 
 

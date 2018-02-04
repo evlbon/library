@@ -37,10 +37,6 @@ class App extends Component {
             <div className="container">
 
                 <header>
-                    <aside>
-                        asd
-
-                    </aside>
                     <h1>InnoLibrary</h1>
 
                     <AccountsUIWrapper />

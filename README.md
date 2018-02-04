@@ -8,11 +8,11 @@
  + [Screenshots](meta/README.md)
 
 ## Development
-The backend of the system is developed on **[Meteor](https://www.meteor.com/)** and requires JSX in ECMAScript 6 with the appropriate Astronomy extension.
+The backend of the system is developed on **[Meteor](https://www.meteor.com/)** using JSX in ECMAScript 6 with the appropriate Astronomy extension.
 
 As database we used **[MongoDB](https://www.mongodb.com/)**
 
-The front is on the stage of developement.
+The Web/UI is on the stage of developement.
 
 ## Setup
 
@@ -20,7 +20,7 @@ The front is on the stage of developement.
 
 **At the beginning you will need to install **[Chocolately](https://chocolatey.org/install)** package manager**
 
-Moreover, Meteor extension are required for this project
+Moreover, Meteor extension is required for this project
 
 **Run this command using an Administrator command prompt:**
 ```shell
@@ -33,7 +33,6 @@ choco install meteor
 
 + _Disabling antivirus (Windows Defender, etc.) will improve performance._
 
-+ _iOS development is not supported.In the command line write_
 
 
 **In addition, you will need to download our project and save it on your drive**
@@ -50,7 +49,7 @@ choco install meteor
 C:/.../path>meteor
 ```
 
-**At the end you can view our project on **[localhost](http://localhost:3000/)****
+**At the end you can go to the URL of **[localhost](http://localhost:3000/)**** to see Web interface
 
 
 
@@ -63,8 +62,6 @@ curl https://install.meteor.com/ | sh
 
 + _For compatibility, Linux binaries are built with CentOS 6.4 i386/amd64._
 
-+ _iOS development requires the latest Xcode._
-
 **In addition, you will need to download our project and save it on your drive**
 
 **The next step is download packages to the directory of Inno.lib using cmd**
@@ -79,7 +76,7 @@ curl https://install.meteor.com/ | sh
 C:/.../path>meteor
 ```
 
-**At the end you can view our project on **[localhost](http://localhost:3000/)****
+**At the end you can go to the URL of  **[localhost](http://localhost:3000/)**** to see Web interface
 
 
 ## Features

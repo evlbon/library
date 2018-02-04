@@ -1,5 +1,7 @@
 # Table of Contents
 
+- [Wiki](https://github.com/laser4622/library/wiki)
+
 - [Idea](.idea)
 
 - [Meteor](.meteor)

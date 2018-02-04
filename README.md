@@ -1,4 +1,4 @@
-## Table of Contents
+##### Table of Contents
 
 - [Idea](.idea)
 
@@ -15,10 +15,10 @@
 
 ## Imports
 
-- [Models](imports/models)
+<li> [Models](imports/models)
 <br> - dsadas
-- [Startup](imports/startup)
-- [UI](imports/ui)
+<li> [Startup](imports/startup)
+<li> [UI](imports/ui)
 
 
 - [Redis](databases/redis.sh)

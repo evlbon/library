@@ -16,7 +16,7 @@
 ## Imports
 
 - [Models](imports/models)
-- - dsadas
+-- dsadas
 - [Startup](imports/startup)
 - [UI](imports/ui)
 

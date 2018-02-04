@@ -2,50 +2,17 @@
 
 - [Idea](.idea)
 
-- [Meteor](#backend)
+- [Meteor](.meteor)
 
-- [Client](#frontend)
+- [Client](client)
 
-- [Imports](#databases)
+- [Imports](#Imports)
 
-- [Server](#tools)
-
-
-## Languages
-
-- [Bash](languages/bash.sh)
-
-- [JavaScript](languages/javascript.js)
+- [Server](server)
 
 
-## Backend
-
-- [Django](backend/django.py)
-
-- [Feathers.js](backend/feathers.js)
-
-- [Node.js](backend/node.js)
 
 
-## Frontend
-
-- [Vue.js](frontend/vue.js)
-
-
-## Databases
+## Imports
 
 - [Redis](databases/redis.sh)
-
-
-## Tools
-
-- [Docker](tools/docker.sh)
-
-- [Nanobox Boxfile](tools/nanobox_boxfile.yml)
-
-- [Nanobox CLI](tools/nanobox_cli.sh)
-
-
-## Contributions
-
-Any contribution to the code (via pull request would be nice) or any part of the documentation and any idea and/or suggestion are very welcome.

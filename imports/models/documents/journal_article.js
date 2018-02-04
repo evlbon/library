@@ -1,17 +1,17 @@
 import { Class } from 'meteor/jagi:astronomy';
 import {Document} from "./document";
 
-export const JournalArticle = Document.inherit({
+export const JournalArticle = Document.inherit({            // JournalArticle is a document "inherits from document"
     name: 'Book',
-    collection: new Meteor.Collection('journal_article'),
+    collection: new Meteor.Collection('journal_article'),   // linking with our MongODB
     fields: {
-        journal: {
+        journal: {                                          // the type of the particular journalArticle
             type: String,
         },
-        editor: {
+        editor: {                                           // the full name of the editor
             type: String,
         },
-        release_date: {
+        release_date: {                                      // the release date of the journalArticle
             type: Date,
         }
     },

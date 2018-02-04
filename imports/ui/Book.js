@@ -8,7 +8,7 @@ class Book extends Component {
 
 
     deleteThisBook() {
-        Meteor.call('documents.delBook',{id : this.props.book._id})
+        Meteor.call('documents.delBook',{id : this.props.book._id, name: ["yury", "jojo" ]})
 
     }
 
@@ -25,7 +25,7 @@ class Book extends Component {
                     </button>
                     : ''
                 }
-
+                {/*Filling the fields for Book description*/}
                 <h1>Book</h1><br/>
 
                 <span className="text">Title: {this.props.book.title} </span><br/>

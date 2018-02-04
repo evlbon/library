@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Author } from "../utility/author";
 import { check } from 'meteor/check'
 import { Match } from 'meteor/check'
+import {JournalArticle} from "./journal_article";
 import { Copy } from './document'
 
 Meteor.methods({
@@ -49,3 +50,12 @@ Meteor.methods({
         Books.remove(id);
     }
 });
+
+
+Meteor.methods({
+    'documents.delArticle' ({ id }) {
+        JournalArticle.remove(id);                  // JournalArticle deletion methods
+    }
+});
+
+

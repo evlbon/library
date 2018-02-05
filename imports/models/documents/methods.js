@@ -50,7 +50,7 @@ Meteor.methods({
 Meteor.methods({
     'documents.delBook' ({ id }) {
         Books.remove(id);
-    }
+    },
 });
 
 
@@ -59,5 +59,24 @@ Meteor.methods({
         JournalArticle.remove(id);
     }
 });
+
+/*
+* TODO: METHOD INTERFACES:
+*
+* addArticle
+* addAV
+* delAV
+* changeTags
+* changePrice
+* addNewCopy
+* removeCopy
+* switchBestseller
+* changeNumberOfReferences
+* checkOut(user, document)
+* return(document)
+* getUsersOverdueDocuments
+* calculateFine(document)
+*
+* */
 
 

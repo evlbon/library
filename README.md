@@ -2,6 +2,9 @@
 
 > An automated system to manage Innopolis University library. Admin panel for librarians to control and manage the system easily through an interactive interface.  
 
+***
+> If you have some troubles with installing project by yourself you can visit [Online version](https://library-hqewfznqqc.now.sh/)
+
 # Table of Contents
 
 - [Wiki](https://github.com/laser4622/library/wiki)

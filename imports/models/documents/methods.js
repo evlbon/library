@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Author } from "../utility/author";
 import { check } from 'meteor/check'
 import { Match } from 'meteor/check'
+import { Copy } from "./document"
 import {JournalArticle} from "./journal_article";
 
 Meteor.methods({
@@ -10,6 +11,7 @@ Meteor.methods({
                              title, authors=['Crowd'], edition, publisher, release_date,
                              price, copies=[], tags=[], bestseller=false
     }) {
+        console.log(price);
         check(title, String);
         check(authors, [String]);
         check(edition, Match.Maybe(String));
@@ -21,14 +23,16 @@ Meteor.methods({
         check(bestseller, Boolean);
 
         let authorsID = [];
+        console.log(authors);
         authors.forEach(name => {
             let exist = Author.find({ name: name }).count();
             authorsID.push(
                 exist ?
                     Author.findOne({ name: name })._id:
-                    Author.insert({ name: name })._id
+                    Author.insert({ name: name })
             );
         });
+
 
         Books.insert({
             title: title,

@@ -17,11 +17,22 @@ export class AddButton extends Component {
         const Publisher = ReactDOM.findDOMNode(this.refs.Publisher).value.trim();
         const Edition = ReactDOM.findDOMNode(this.refs.Edition).value.trim();
         const PDate = ReactDOM.findDOMNode(this.refs.ReleaseDate).value.trim();
+        const Tags = ReactDOM.findDOMNode(this.refs.Tags).value.trim();
         const Price = ReactDOM.findDOMNode(this.refs.Price).value.trim();
         const Copies = ReactDOM.findDOMNode(this.refs.Copies).value.trim();
         const Reference = ReactDOM.findDOMNode(this.refs.Reference).value.trim();
 
-        Meteor.call('documents.addBook',{ title : Title, publisher: Publisher,year:PDate,edition:Edition});
+
+        console.log(Reference)
+        Meteor.call('documents.addBook',{
+            title:Title,
+            authors:Author.split(','),
+            edition:Edition,
+            publisher:Publisher,
+            release_date:new Date(PDate,1),
+            price: Number(Price),
+            tags:Tags.split(','),
+            bestseller:Boolean(Reference)});
 
 
 
@@ -33,6 +44,7 @@ export class AddButton extends Component {
         ReactDOM.findDOMNode(this.refs.ReleaseDate).value = '';
         ReactDOM.findDOMNode(this.refs.Copies).value = '';
         ReactDOM.findDOMNode(this.refs.Reference).value = '';
+        ReactDOM.findDOMNode(this.refs.Tags).value = '';
 
 
         this.setState({
@@ -87,6 +99,12 @@ export class AddButton extends Component {
                                 type="text"
                                 ref="ReleaseDate"
                                 placeholder="ReleaseDate"
+                            /><br/>
+
+                            <input
+                                type="text"
+                                ref="Tags"
+                                placeholder="Tags"
                             /><br/>
                             <input
                                 type="number"

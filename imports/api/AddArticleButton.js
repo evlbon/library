@@ -37,7 +37,7 @@ export class AddButton extends Component {
             price: Number(Price),
             tags: Tags.split(','),
             copies: copies,
-            bestseller: Bestseller});
+            bestseller: !(Boolean(Bestseller))});
 
         ReactDOM.findDOMNode(this.refs.Title).value = '';
         ReactDOM.findDOMNode(this.refs.Author).value = '';
@@ -127,6 +127,7 @@ export class AddButton extends Component {
                             <input
                                 type="checkbox"
                                 ref="Bestseller"
+
                             />
 
 

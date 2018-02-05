@@ -4,17 +4,18 @@ import {Meteor} from "meteor/meteor";
 import ReactDOM from 'react-dom';
 import {Copy} from "../models/documents/document";
 
-export class AddButton extends Component {
+export class AddArticleButton extends Component {
+
     state = { visible: false }
     showModal = () => {
         this.setState({
             visible: true,
         });
     }
+
     handleOk = (e) => {
 
         const Title = ReactDOM.findDOMNode(this.refs.Title).value.trim();
-        const Author = ReactDOM.findDOMNode(this.refs.Author).value.trim();
         const Publisher = ReactDOM.findDOMNode(this.refs.Publisher).value.trim();
         const Edition = ReactDOM.findDOMNode(this.refs.Edition).value.trim();
         const PDate = ReactDOM.findDOMNode(this.refs.ReleaseDate).value.trim();
@@ -40,7 +41,6 @@ export class AddButton extends Component {
             bestseller: !(Boolean(Bestseller))});
 
         ReactDOM.findDOMNode(this.refs.Title).value = '';
-        ReactDOM.findDOMNode(this.refs.Author).value = '';
         ReactDOM.findDOMNode(this.refs.Publisher).value = '';
         ReactDOM.findDOMNode(this.refs.Edition).value = '';
         ReactDOM.findDOMNode(this.refs.ReleaseDate).value = '';
@@ -65,70 +65,69 @@ export class AddButton extends Component {
 
 
             <div >
-                <Button type="primary" onClick={this.showModal}>Add Book</Button>
+                <Button className={"myButton"} type="primary" onClick={this.showModal}>Add Article</Button>
 
 
                 <Modal
-                    title="Add Book"
+                    title="Add Article"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
-                    className="ab"
+                    className="AddBlock"
+                    closable={false}
                 >
 
-                    <div >
-                        <form >
+                    <div  align="right" >
+                        <form style={{fontSize: "15px",fontFamily:"Arial"}}>
+
+                            Title
                             <input
+                                className={"inputForAdd"}
                                 type="text"
                                 ref="Title"
-                                placeholder="Title"
                             /><br/>
+                            Journal
                             <input
+                                className={"inputForAdd"}
                                 type="text"
-                                ref="Author"
-                                placeholder="Author"
+                                ref="Journal"
                             /><br/>
+                            Edition
                             <input
-                                type="text"
-                                ref="Publisher"
-                                placeholder="Publisher"
-                            /><br/>
-                            <input
+                                className={"inputForAdd"}
                                 type="text"
                                 ref="Edition"
-                                placeholder="Edition"
                             /><br/>
+                            ReleaseDate
                             <input
+                                className={"inputForAdd"}
                                 type="text"
                                 ref="ReleaseDate"
-                                placeholder="ReleaseDate"
                             /><br/>
+                            Tags
                             <input
+                                className={"inputForAdd"}
                                 type="text"
                                 ref="Tags"
-                                placeholder="Tags"
                             /><br/>
+                            Price
                             <input
+                                className={"inputForAdd"}
                                 type="number"
                                 ref="Price"
-                                placeholder="Price"
                             /><br/>
+                            Number of copies
                             <input
+                                className={"inputForAdd"}
                                 type="number"
                                 ref="Copies"
-                                placeholder="Number of copies"
                             /><br/>
+                            Number of references
                             <input
+                                className={"inputForAdd"}
                                 type="number"
                                 ref="References"
-                                placeholder="Number of references"
                             /><br/>
-                            Bestseller?
-                            <input
-                                type="checkbox"
-                                ref="Bestseller"
-
-                            />
 
 
                         </form>

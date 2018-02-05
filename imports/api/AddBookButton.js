@@ -4,7 +4,7 @@ import {Meteor} from "meteor/meteor";
 import ReactDOM from 'react-dom';
 import {Copy} from "../models/documents/document";
 
-export class AddButton extends Component {
+export class AddBookButton extends Component {
 
     state = { visible: false }
     showModal = () => {

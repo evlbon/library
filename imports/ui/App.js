@@ -58,8 +58,9 @@ class App extends Component {
                         <AccountsUIWrapper />
                     </div>
 
-                        <div id={"add"}>
-                            <div id="AddButton"></div>
+                        <div id={"add"} align="center">
+                            <div id="AddBookButton"></div>
+                            <div id="AddArticleButton"></div>
                         </div>
 
 

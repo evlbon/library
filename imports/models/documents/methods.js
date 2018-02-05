@@ -23,7 +23,6 @@ Meteor.methods({
         check(bestseller, Boolean);
 
         let authorsID = [];
-        console.log(authors);
         authors.forEach(name => {
             let exist = Author.find({ name: name }).count();
             authorsID.push(

@@ -18,6 +18,7 @@ export const Copy = Class.create({
 
 export const Document = Class.create({
     name: 'Document',
+
     fields: {
         title: {
             type: String,
@@ -36,8 +37,7 @@ export const Document = Class.create({
             type: [Copy]
         },
         price: {
-            type: Number,
-            optional: true
+            type: Number
         }
     },
 

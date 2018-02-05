@@ -1,3 +1,7 @@
+# Inno.lib
+
+> An automated system to manage Innopolis University library. Admin panel for librarians to control and manage the system easily through an interactive interface.  
+
 # Table of Contents
 
 - [Wiki](https://github.com/laser4622/library/wiki)

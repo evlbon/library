@@ -4,7 +4,11 @@ import {Meteor} from "meteor/meteor";
 import ReactDOM from 'react-dom';
 import {Copy} from "../models/documents/document";
 
-export class AddArticleButton extends Component {
+
+import { withTracker } from 'meteor/react-meteor-data';
+import {Librarian} from "../models/users/librarian";
+
+class AddArticleButton extends Component {
 
     state = { visible: false }
     showModal = () => {
@@ -65,6 +69,9 @@ export class AddArticleButton extends Component {
 
 
             <div >
+                { this.props.currentUser ?
+                    Librarian.findOne({libraryID:this.props.currentUser._id})instanceof Librarian ?
+                        <div>
                 <Button className={"myButton"} type="primary" onClick={this.showModal}>Add Article</Button>
 
 
@@ -136,8 +143,19 @@ export class AddArticleButton extends Component {
 
 
                 </Modal>
+                        </div>
+
+                        : <h1>LOL</h1>
+                    : ''
+                }
             </div>
 
         );
     }
 }
+
+export default withTracker(() => {
+    return {
+        currentUser: Meteor.user(),
+    };
+})(AddArticleButton);

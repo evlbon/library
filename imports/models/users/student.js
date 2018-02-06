@@ -11,10 +11,13 @@ export const Student = Patron.inherit({             // Declaring the student cla
     name: 'Student',
     fields: {
         degree: {
-            type: Degree
+            type: Degree,
+            optional: true,
+
         },
         dateOfStudyBeginning: {
-            type: Date
+            type: Date,
+            optional: true,
         }
     }
 });

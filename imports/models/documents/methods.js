@@ -1,5 +1,7 @@
 import { Books } from "./book";
 import { Meteor } from 'meteor/meteor';
+import { User} from "../users/user";
+import { Librarian} from "../users/librarian";
 import { Author } from "../utility/author";
 import { check } from 'meteor/check'
 import { Match } from 'meteor/check'
@@ -57,8 +59,16 @@ Meteor.methods({
 Meteor.methods({
     'documents.delArticle' ({ id }) {
         JournalArticle.remove(id);
-    }
+    },
+
+    'addLibrarian' ({ id }) {
+        Librarian.insert({
+            libraryID: id
+        })
+    },
 });
+
+
 
 /*
 * TODO: METHOD INTERFACES:

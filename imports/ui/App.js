@@ -3,7 +3,8 @@ import AccountsUIWrapper from './AccountsUIWrapper.js';
 
 import Book from './Book.js';
 import Article from './Article';
-
+import {Librarian} from "../models/users/librarian"
+import {User} from "../models/users/user"
 import { withTracker } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
 
@@ -15,24 +16,6 @@ import { Meteor } from 'meteor/meteor';
 
 class App extends Component {
 
-    handleSubmit(event) {
-        event.preventDefault();
-
-        // Find the text field via the React ref
-        const title = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
-
-        Meteor.call('documents.addBook',{
-            title : title,
-            authors: ["John Cena", "Johnny Sins"],
-            publisher: "InfoPlanet",
-            release_date: new Date(1991, 1),
-            tags: ["Math", "Equations"],
-            bestseller: false,
-        });
-
-        // Clear form
-        ReactDOM.findDOMNode(this.refs.textInput).value = '';
-    }
 
     renderBooks() {
         return this.props.books.map((book) => (
@@ -47,6 +30,9 @@ class App extends Component {
     }
 
     render() {
+
+
+
         return (
             <div className="container">
 
@@ -58,11 +44,10 @@ class App extends Component {
                         <AccountsUIWrapper />
                     </div>
 
-                        <div id={"add"} align="center">
-                            <div id="AddBookButton"></div>
-                            <div id="AddArticleButton"></div>
-                        </div>
-
+                    <div id={"add"} align="center">
+                        <div id="AddBookButton"/>
+                        <div id="AddArticleButton"/>
+                    </div>
 
 
                 </header>

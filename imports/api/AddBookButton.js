@@ -6,12 +6,12 @@ import {Copy} from "../models/documents/document";
 
 export class AddBookButton extends Component {
 
-    state = { visible: false }
+    state = { visible: false };
     showModal = () => {
         this.setState({
             visible: true,
         });
-    }
+    };
 
     handleOk = (e) => {
 
@@ -56,12 +56,12 @@ export class AddBookButton extends Component {
         this.setState({
             visible: false,
         });
-    }
+    };
     handleCancel = (e) => {
         this.setState({
             visible: false,
         });
-    }
+    };
     render() {
         return (
 

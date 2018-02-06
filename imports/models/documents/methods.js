@@ -3,15 +3,18 @@ import { Meteor } from 'meteor/meteor';
 import { Author } from "../utility/author";
 import { check } from 'meteor/check'
 import { Match } from 'meteor/check'
-import { Copy } from "./document"
-import {JournalArticle} from "./journal_article";
+import { Copy, Document } from "./document"
+import { JournalArticle } from "./journal_article";
+import { User } from "../users/user";
 
+/**
+ * Methods for adding / deletion docs
+ */
 Meteor.methods({
     'documents.addBook' ({
                              title, authors=['Crowd'], edition, publisher, release_date,
                              price, copies=[], tags=[], bestseller=false
     }) {
-        console.log(price);
         check(title, String);
         check(authors, [String]);
         check(edition, Match.Maybe(String));
@@ -44,20 +47,36 @@ Meteor.methods({
             tags: tags,
             bestseller: bestseller
         });
-    }
-});
 
-Meteor.methods({
+        console.log(Books.findOne({title: title})._type);
+        console.log(Document.find({copies: {}}))
+    },
+
     'documents.delBook' ({ id }) {
         Books.remove(id);
     },
-});
 
-
-Meteor.methods({
     'documents.delArticle' ({ id }) {
         JournalArticle.remove(id);
     }
+});
+
+/**
+ * Methods for checking out / returning / calculating fees
+ */
+Meteor.methods({
+    //
+    // /**
+    //  *
+    //  * @param user
+    //  * @param document
+    //  */
+    // 'documents.checkout' ({ user, document }) {
+    //     check(user, User);
+    //     check(document, Document);
+    //
+    //     let avaliable = false
+    // }
 });
 
 /*

@@ -35,9 +35,7 @@ class Book extends Component {
                 <span className="text">Edition: {this.props.book.edition ? this.props.book.edition : 'undefined'} </span><br/>
                 <span className="text">Price: {this.props.book.price} </span><br/>
                 <span className="text">Tags: {this.props.book.tags.join(', ')} </span><br/>
-                <span className="text">Copies available: {
-                    this.props.book.copies.map(o => (o.checked_out_date || o.reference) ? '1' : '').filter(String).length} / { this.props.book.copies.length
-                } </span><br/>
+                <span className="text">Copies available: {this.props.book.available()} / { this.props.book.numberOfCopies()} </span><br/>
                 <span className="text">Bestseller: {this.props.book.bestseller ? 'yes' : 'no'} </span><br/>
             </li>
         );

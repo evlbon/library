@@ -70,9 +70,6 @@ class AddBookButton extends Component {
         });
     }
     render() {
-        this.props.currentUser ?
-            console.log(Librarian.findOne({libraryID:this.props.currentUser._id})instanceof Librarian ):"";
-
 
         return (
 

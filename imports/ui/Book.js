@@ -3,6 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from "meteor/meteor";
 import { Author } from "../models/utility/author";
 import {Librarian} from "../models/users/librarian";
+import * as functions from "../models/documents/functions"
 
 // Book component - represents a single todo item
 class Book extends Component {
@@ -13,11 +14,16 @@ class Book extends Component {
 
     }
 
+    rentBook(id){
+        Meteor.call("checkOut",{userID:this.props.currentUser._id,documentID:id});
+    }
+
     render() {
         // Give books a different className when they are checked off,
         // so that we can style them nicely in CSS
 
         return (
+            <div>
             <li >
 
                 { this.props.currentUser ?
@@ -30,7 +36,15 @@ class Book extends Component {
                     :""
                     :""
                 }
+
+                <br/>
+                <button className="delete" onClick={this.rentBook.bind(this,this.props.book._id)}
+                        disabled={!(functions.canCheckOut(this.props.currentUser._id,this.props.book._id))}>
+                    Rent
+                </button>
+
                 {/*Filling the fields for Book description*/}
+                <div>
                 <h1>Book</h1><br/>
 
                 <span className="text">Title: {this.props.book.title} </span><br/>
@@ -42,7 +56,9 @@ class Book extends Component {
                 <span className="text">Tags: {this.props.book.tags.join(', ')} </span><br/>
                 <span className="text">Copies available: {this.props.book.available()} / { this.props.book.numberOfCopies()} </span><br/>
                 <span className="text">Bestseller: {this.props.book.bestseller ? 'yes' : 'no'} </span><br/>
+                </div>
             </li>
+            </div>
         );
     }
 }

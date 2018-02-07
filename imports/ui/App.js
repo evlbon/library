@@ -74,6 +74,9 @@ class App extends Component {
 
     render() {
 
+            this.props.currentUser ? console.log( this.props.currentUser._id) : "";
+
+
         return <div className="container">
 
             <header>

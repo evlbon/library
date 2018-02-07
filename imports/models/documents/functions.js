@@ -19,3 +19,21 @@ export function getUsersBooks(userID) {
     console.log(books);
     return books;
 }
+
+
+export function getRenters(documentID) {
+    let document = Books.findOne({_id: documentID});
+
+    if (!(document)) throw Error('Incorrect id of user or document');
+
+    return document.renters();
+}
+
+export function canCheckOut(userID, documentID) {
+    let user = User.findOne({libraryID: userID});
+    let document = Books.findOne({_id: documentID});
+
+    if (!(user && document)) throw Error('Incorrect id of user or document');
+
+    return document.canCheckOut(userID);
+}

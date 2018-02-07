@@ -164,7 +164,7 @@ class AddBookButton extends Component {
                         </Modal>
                     </div>
 
-                    : <h1>LOL</h1>
+                    : ""
                 : ''
     }
 

@@ -151,7 +151,7 @@ class AddArticleButton extends Component {
                 </Modal>
                         </div>
 
-                        : <h1>LOL</h1>
+                        : ""
                     : ''
                 }
             </div>

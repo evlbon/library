@@ -164,3 +164,41 @@ input:valid:not(:placeholder-shown) {
 input:invalid:not(:placeholder-shown) {
     border-color: red;
 }
+
+
+
+.BOOKBOX1 {
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 30%;
+    padding: -5px;
+    overflow: hidden;
+    border: none;
+    font: normal 16px/1 "Times New Roman", Times, serif;
+    color: rgba(0,0,0,1);
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    background: #ffffff;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+}
+
+.BOOKBOX2 {
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 30%;
+    position: absolute;
+    left: 40%;
+    padding: -5px;
+    overflow: hidden;
+    border: none;
+    font: normal 16px/1 "Times New Roman", Times, serif;
+    color: rgba(0,0,0,1);
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    background: #ffffff;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+}

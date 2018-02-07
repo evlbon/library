@@ -4,7 +4,14 @@ import {Meteor} from "meteor/meteor";
 import ReactDOM from 'react-dom';
 import {Copy} from "../models/documents/document";
 
-export class AddBookButton extends Component {
+
+import { withTracker } from 'meteor/react-meteor-data';
+import {Librarian} from "../models/users/librarian";
+
+
+
+
+class AddBookButton extends Component {
 
     state = { visible: false };
     showModal = () => {
@@ -63,95 +70,111 @@ export class AddBookButton extends Component {
         });
     };
     render() {
+
         return (
 
-
             <div >
-                <Button className={"myButton"} type="primary" onClick={this.showModal}>Add Book</Button>
+
+            { this.props.currentUser ?
+                Librarian.findOne({libraryID:this.props.currentUser._id})instanceof Librarian ?
+                    <div>
+
+                        <Button className={"myButton"} type="primary" onClick={this.showModal}>Add Book</Button>
 
 
-                <Modal
-                    title="Add Book"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                    className="AddBlock"
-                    closable={false}
-                >
+                        <Modal
+                            title="Add Book"
+                            visible={this.state.visible}
+                            onOk={this.handleOk}
+                            onCancel={this.handleCancel}
+                            className="AddBlock"
+                            closable={false}
+                        >
 
-                    <div  align="right" >
-                        <form style={{fontSize: "15px",fontFamily:"Arial"}}>
+                            <div  align="right" >
+                                <form style={{fontSize: "15px",fontFamily:"Arial"}}>
 
-                            Title
-                            <input
-                                className={"inputForAdd"}
-                                type="text"
-                                ref="Title"
-                            /><br/>
-                            Author
-                            <input
-                                className={"inputForAdd"}
-                                type="text"
-                                ref="Author"
-                            /><br/>
-                            Publisher
-                            <input
-                                className={"inputForAdd"}
-                                type="text"
-                                ref="Publisher"
-                            /><br/>
-                            Edition
-                            <input
-                                className={"inputForAdd"}
-                                type="text"
-                                ref="Edition"
-                            /><br/>
-                            ReleaseDate
-                            <input
-                                className={"inputForAdd"}
-                                type="text"
-                                ref="ReleaseDate"
-                            /><br/>
-                            Tags
-                            <input
-                                className={"inputForAdd"}
-                                type="text"
-                                ref="Tags"
-                            /><br/>
-                            Price
-                            <input
-                                className={"inputForAdd"}
-                                type="number"
-                                ref="Price"
-                            /><br/>
-                            Number of copies
-                            <input
-                                className={"inputForAdd"}
-                                type="number"
-                                ref="Copies"
-                            /><br/>
-                            Number of references
-                            <input
-                                className={"inputForAdd"}
-                                type="number"
-                                ref="References"
-                            /><br/>
-                            Bestseller?
-                            <input
-                                type="checkbox"
-                                ref="Bestseller"
-                                style={{margin:"5px 45% 5px 5px"}}
-                            />
+                                    Title
+                                    <input
+                                        className={"inputForAdd"}
+                                        type="text"
+                                        ref="Title"
+                                    /><br/>
+                                    Author
+                                    <input
+                                        className={"inputForAdd"}
+                                        type="text"
+                                        ref="Author"
+                                    /><br/>
+                                    Publisher
+                                    <input
+                                        className={"inputForAdd"}
+                                        type="text"
+                                        ref="Publisher"
+                                    /><br/>
+                                    Edition
+                                    <input
+                                        className={"inputForAdd"}
+                                        type="text"
+                                        ref="Edition"
+                                    /><br/>
+                                    ReleaseDate
+                                    <input
+                                        className={"inputForAdd"}
+                                        type="text"
+                                        ref="ReleaseDate"
+                                    /><br/>
+                                    Tags
+                                    <input
+                                        className={"inputForAdd"}
+                                        type="text"
+                                        ref="Tags"
+                                    /><br/>
+                                    Price
+                                    <input
+                                        className={"inputForAdd"}
+                                        type="number"
+                                        ref="Price"
+                                    /><br/>
+                                    Number of copies
+                                    <input
+                                        className={"inputForAdd"}
+                                        type="number"
+                                        ref="Copies"
+                                    /><br/>
+                                    Number of references
+                                    <input
+                                        className={"inputForAdd"}
+                                        type="number"
+                                        ref="References"
+                                    /><br/>
+                                    Bestseller?
+                                    <input
+                                        type="checkbox"
+                                        ref="Bestseller"
+                                        style={{margin:"5px 45% 5px 5px"}}
+                                    />
 
 
-                        </form>
-                        <br/>
+                                </form>
+                                <br/>
+                            </div>
+
+
+                        </Modal>
                     </div>
 
+                    : <h1>LOL</h1>
+                : ''
+    }
 
-                </Modal>
             </div>
-
         );
     }
 }
+
+export default withTracker(() => {
+    return {
+        currentUser: Meteor.user(),
+    };
+})(AddBookButton);

@@ -11,7 +11,8 @@ export const Faculty = Patron.inherit({                 // Declaring faculty cla
     name: 'Faculty',
     fields: {
         position: {
-            type: WorkPosition
+            type: WorkPosition,
+            optional: true,
         }
     }
 });

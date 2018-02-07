@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from "meteor/meteor";
 import { Author } from "../models/utility/author";
+import {Librarian} from "../models/users/librarian";
 
 // Book component - represents a single todo item
 class Book extends Component {
@@ -20,10 +21,12 @@ class Book extends Component {
             <li >
 
                 { this.props.currentUser ?
+                    Librarian.findOne({libraryID:this.props.currentUser._id})instanceof Librarian ?
                     <button className="delete" onClick={this.deleteThisBook.bind(this)}>
                         &times;
                     </button>
-                    : ''
+                        : ''
+                    :""
                 }
                 {/*Filling the fields for Book description*/}
                 <h1>Book</h1><br/>

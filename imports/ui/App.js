@@ -86,11 +86,16 @@ class App extends Component {
 
                     <AccountsUIWrapper/>
                 </div>
+                { this.props.currentUser ?
+                    Librarian.findOne({libraryID:this.props.currentUser._id}).group==="Librarian" ?
+                        <div id={"add"} align="center">
+                            <AddBookButton/>
+                            <AddArticleButton/>
+                        </div>
+                        : ''
+                    :""
+                }
 
-                <div id={"add"} align="center">
-                    <AddBookButton/>
-                    <AddArticleButton/>
-                </div>
 
 
             </header>
@@ -98,7 +103,15 @@ class App extends Component {
                 <div className="linebar">
                     <button onClick={this.reanderCase.bind(this,1)}>Books</button>
                     <button onClick={this.reanderCase.bind(this,2)}>Articles</button>
-                    <button onClick={this.reanderCase.bind(this,3)}>Users</button>
+
+
+                    { this.props.currentUser ?
+                        Librarian.findOne({libraryID:this.props.currentUser._id}).group==="Librarian" ?
+                            <button onClick={this.reanderCase.bind(this,3)}>Users</button>
+                            : ''
+                        :""
+                    }
+
                 </div>
 
             <ul id="books" style={{display:""}}>

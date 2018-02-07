@@ -76,8 +76,6 @@ class AddBookButton extends Component {
 
             <div >
 
-            { this.props.currentUser ?
-                Librarian.findOne({libraryID:this.props.currentUser._id})instanceof Librarian ?
                     <div>
 
                         <Button className={"myButton"} type="primary" onClick={this.showModal}>Add Book</Button>
@@ -171,10 +169,6 @@ class AddBookButton extends Component {
 
                         </Modal>
                     </div>
-
-                    : ""
-                : ''
-    }
 
             </div>
         );

@@ -18,9 +18,18 @@ class Book extends Component {
         Meteor.call("checkOut",{userID:this.props.currentUser._id,documentID:id});
     }
 
+    renderRents(o) {
+        return (
+            <p>"{o.name}" | {o.tillDeadline} days left.</p>
+        );
+    }
+
     render() {
         // Give books a different className when they are checked off,
         // so that we can style them nicely in CSS
+        let rents = functions.getRenters(this.props.book._id);
+
+        rents ? rents = rents.map(o => (o.name + '" | '+o.tillDeadline+' days left.')):"";
 
         return (
             <div>
@@ -44,7 +53,7 @@ class Book extends Component {
                 </button>
 
                 {/*Filling the fields for Book description*/}
-                <div>
+                <div className="BOOKBOX1">
                 <h1>Book</h1><br/>
 
                 <span className="text">Title: {this.props.book.title} </span><br/>
@@ -57,6 +66,22 @@ class Book extends Component {
                 <span className="text">Copies available: {this.props.book.available()} / { this.props.book.numberOfCopies()} </span><br/>
                 <span className="text">Bestseller: {this.props.book.bestseller ? 'yes' : 'no'} </span><br/>
                 </div>
+
+
+
+                { this.props.currentUser ?
+                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
+                            <div className="BOOKBOX2">
+                                <h1>Rents</h1><br/>
+                                {rents ? <pre>{rents.join("\n")}</pre>
+                                    :<p>Nothing</p>}
+                            </div>
+                            : ''
+                        :""
+                    :""
+                }
+
             </li>
             </div>
         );

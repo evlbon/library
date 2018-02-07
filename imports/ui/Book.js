@@ -21,11 +21,13 @@ class Book extends Component {
             <li >
 
                 { this.props.currentUser ?
-                    Librarian.findOne({libraryID:this.props.currentUser._id}).group==="Librarian" ?
+                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
                         <button className="delete" onClick={this.deleteThisBook.bind(this)}>
                             &times;
                         </button>
                         : ''
+                    :""
                     :""
                 }
                 {/*Filling the fields for Book description*/}

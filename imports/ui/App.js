@@ -75,22 +75,22 @@ class App extends Component {
         }
 
     }
+
+
     reanderCase2(number){
-
-
 
         switch (number) {
 
             case 1:
-                Meteor.call('addLibrarian',{id : Meteor.userId()});
+                Meteor.call('addLibrarian',{id : this.props.currentUser._id, name : this.props.currentUser.username,});
 
                 break;
             case 2:
-                Meteor.call('addStudent',{id : Meteor.userId()});
+                Meteor.call('addStudent',{id : this.props.currentUser._id, name : this.props.currentUser.username,});
 
                 break;
             case 3:
-                Meteor.call('addFaculty',{id : Meteor.userId()});
+                Meteor.call('addFaculty',{id : this.props.currentUser._id, name : this.props.currentUser.username,});
 
                 break;
             default:
@@ -138,13 +138,15 @@ class App extends Component {
                 }
 
                 { this.props.currentUser ?
-                    Librarian.findOne({libraryID:this.props.currentUser._id}).group==="Librarian" ?
+                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
                         <div id={"add"} align="center">
                             <AddBookButton/>
                             <AddArticleButton/>
                         </div>
                         : ''
-                    :""
+                      :""
+                    : ""
                 }
 
 
@@ -157,13 +159,17 @@ class App extends Component {
 
 
                     { this.props.currentUser ?
-                        Librarian.findOne({libraryID:this.props.currentUser._id}).group==="Librarian" ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
                             <button onClick={this.reanderCase.bind(this,3)}>Users</button>
                             : ''
+                        :""
                         :""
                     }
 
                 </div>
+
+
 
             <ul id="books" style={{display:""}}>
                 {this.renderBooks()}

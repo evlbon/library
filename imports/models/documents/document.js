@@ -46,6 +46,9 @@ export const Document = Class.create({
     },
 
     helpers: {
+        numberOfReferences: function () {
+            return this.copies.filter(o => (o.reference)).length;
+        },
         available: function () {
             return this.copies.filter(o => !(o.checked_out_date || o.reference)).length;
         },

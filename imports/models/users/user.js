@@ -1,5 +1,5 @@
 import { Class } from 'meteor/jagi:astronomy';      // Importing extension library astronomy
-
+import { Enum } from 'meteor/jagi:astronomy';
 
 export const User = Class.create({                  // Main class of users
     name: 'User',
@@ -20,7 +20,7 @@ export const User = Class.create({                  // Main class of users
         phone: {
             type: Number,
             optional: true,
-        }
+        },
     },
 
     helpers: {                                      // Commands that can be performed on a user class

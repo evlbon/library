@@ -22,8 +22,8 @@ Meteor.methods({
         check(title, String);
         check(authors, [String]);
         check(edition, Match.Maybe(String));
-        check(publisher, String);
-        check(release_date, Date);
+        check(publisher, Match.Maybe(String));
+        check(release_date, Match.Maybe(Date));
         check(price, Match.Maybe(Number));
         check(copies, Match.Maybe([Copy]));
         check(tags, [String]);
@@ -39,7 +39,7 @@ Meteor.methods({
             );
         });
 
-        Books.insert({
+        return Books.insert({
             title: title,
             authorsID: authorsID,
             edition: edition,
@@ -67,7 +67,7 @@ Meteor.methods({
             );
         });
 
-        JournalArticle.insert({
+        return JournalArticle.insert({
             title: title,
             authorsID: authorsID,
             journal: journal,
@@ -97,19 +97,22 @@ Meteor.methods({
     'addLibrarian' ({ id }) {
         Librarian.insert({
             libraryID: id
-        })
+        });
+        return id;
     },
 
     'addStudent' ({ id }) {
         Student.insert({
             libraryID: id
-        })
+        });
+        return id;
     },
 
     'addFaculty' ({ id }) {
         Faculty.insert({
             libraryID: id
-        })
+        });
+        return id;
     },
 
     'test' () {
@@ -133,6 +136,16 @@ Meteor.methods({
  * Checking out system
  */
 Meteor.methods({
+
+    'canCheckOut' ({ userID, documentID }) {
+        let user = User.findOne({libraryID: userID});
+        let document = Books.findOne({_id: documentID});
+
+        if (!(user && document)) throw Error('Incorrect id of user or document');
+
+        return document.canCheckOut(userID);
+    },
+
     'checkOut' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
@@ -163,6 +176,14 @@ Meteor.methods({
             if (o.userHas(userID)) books.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
         });
         return books;
+    },
+
+    'numberOfReferences' ({ documentID }) {
+        let document = Books.findOne({_id: documentID});
+
+        if (!(document)) throw Error('Incorrect id of user or document');
+
+        return document.numberOfReferences();
     }
 });
 

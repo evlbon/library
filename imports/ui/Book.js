@@ -36,7 +36,7 @@ class Book extends Component {
                 <span className="text">Title: {this.props.book.title} </span><br/>
                 <span className="text">Authors: {Author.find({ _id: { $in: this.props.book.authorsID} }).map(o => o.name).join(', ')} </span><br/>
                 <span className="text">Publisher: {this.props.book.publisher} </span><br/>
-                <span className="text">Year: {this.props.book.release_date.getFullYear()} </span><br/>
+                <span className="text">Year: {this.props.book.release_date ? this.props.book.release_date.getFullYear() : 'undefined'} </span><br/>
                 <span className="text">Edition: {this.props.book.edition ? this.props.book.edition : 'undefined'} </span><br/>
                 <span className="text">Price: {this.props.book.price} </span><br/>
                 <span className="text">Tags: {this.props.book.tags.join(', ')} </span><br/>

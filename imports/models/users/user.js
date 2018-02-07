@@ -6,7 +6,10 @@ export const User = Class.create({                  // Main class of users
     collection: new Meteor.Collection('user'),      // Creating the collection of users in database
     fields: {                                       // fields that users will have and the type of this field
         libraryID: {
-            type: String
+            type: String,
+        },
+        group: {
+            type: String,
         },
         name: {
             type: String,

@@ -94,23 +94,29 @@ Meteor.methods({
  * Manage users
  */
 Meteor.methods({
-    'addLibrarian' ({ id }) {
+    'addLibrarian' ({ id,name }) {
         Librarian.insert({
-            libraryID: id
+            libraryID: id,
+            name: name,
+            group:"Librarian",
         });
         return id;
     },
 
-    'addStudent' ({ id }) {
+    'addStudent' ({ id,name  }) {
         Student.insert({
-            libraryID: id
+            libraryID: id,
+            name: name,
+            group:"Student"
         });
         return id;
     },
 
-    'addFaculty' ({ id }) {
+    'addFaculty' ({ id,name  }) {
         Faculty.insert({
-            libraryID: id
+            libraryID: id,
+            name: name,
+            group:"Faculty"
         });
         return id;
     },

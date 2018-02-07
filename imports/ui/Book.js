@@ -47,10 +47,15 @@ class Book extends Component {
                 }
 
                 <br/>
+                { this.props.currentUser ?
+                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
                 <button className="delete" onClick={this.rentBook.bind(this,this.props.book._id)}
                         disabled={!(functions.canCheckOut(this.props.currentUser._id,this.props.book._id))}>
                     Rent
                 </button>
+                        :""
+                    :""
+                }
 
                 {/*Filling the fields for Book description*/}
                 <div className="BOOKBOX1">

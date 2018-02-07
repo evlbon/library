@@ -1,6 +1,8 @@
 import { Class } from 'meteor/jagi:astronomy';
 import { Faculty } from "../users/faculty";
 import { Student } from "../users/student";
+import { Books } from "./book";
+import { User } from "../users/user";
 
 export const Copy = Class.create({
     name: 'Copy',
@@ -64,7 +66,7 @@ export const Document = Class.create({
                 duration = this.bestseller ? 2*7 : 3*7;
             }
 
-            return (Date() - copy.checked_out_date + duration).getDay();
+            return Math.floor((new Date() - copy.checked_out_date) / 864e5) + duration;
         },
         renters: function () {
             let renters = [];
@@ -72,14 +74,16 @@ export const Document = Class.create({
                 if (o.checked_out_date) {
 
                     let renterID = o.usersID[o.usersID.length - 1];
+                    console.log(renterID);
                     let renter;
 
-                    if (renter = Faculty.findOne({_id: renterID})) {
+                    if (renter = Faculty.findOne({libraryID: renterID})) {  //TODO: make this checkers correctly
                     } else {
-                        renter = Student.findOne({_id: renterID});
+                        renter = Student.findOne({libraryID: renterID});
                     }
+                    console.log((User.findOne({libraryID: renterID}) instanceof Faculty) + " " + (User.findOne({libraryID: renterID}) instanceof Student));
 
-                    renters.push({name: renter.name, tillDeadline: this.tillDeadline(userId)})
+                    renters.push({name: renter.name, tillDeadline: this.tillDeadline(renterID)})
                 }
             });
             return renters;
@@ -92,14 +96,10 @@ export const Document = Class.create({
         },
         checkOut(userID) {
             let copy;
-            console.log(this.copies);
             if (copy = this.copies.find(o => !(o.checked_out_date || o.reference)) ) {
-                console.log(copy);
                 copy.checked_out_date = new Date();
                 copy.usersID.push(userID);
-                console.log(copy);
-                console.log(this.copies); //TODO: странно, в консоли выводится, что массив копий обновился и человек взял книгу,
-                // но в бд ничего не меняется
+                this.save();
                 return true;
             } else
                 return false;

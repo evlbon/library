@@ -111,6 +111,21 @@ Meteor.methods({
             libraryID: id
         })
     },
+
+    'test' () {
+        let id_s = 's1';
+        let id_l = 'l1';
+
+        Student.insert({libraryID: id_s});
+        Librarian.insert({libraryID: id_l});
+
+        //TODO: User имеет коллекцию, другие классы наследуются от него не имея своей коллекции, т.е все хранится в коллекции 'user'
+        //как тогда имея id узнать к какой группе относится юзер и вернуть объект с соответсвующими его группе полями?
+        console.log(User.findOne({libraryID: id_s}) instanceof Student); //false //но по логике должно быть true
+        console.log(Student.findOne({libraryID: id_s}) instanceof Student); //true
+        console.log(Student.findOne({libraryID: id_l}) instanceof Student); //true   //??? он даже не должен находить ничего по логике, тк
+                                            //ищет среди студентов ид библиотекаря. я понимаю что они в одной коллекции, но это как то тупо
+    },
 });
 
 
@@ -120,16 +135,6 @@ Meteor.methods({
 Meteor.methods({
     'checkOut' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});
-        //TODO: искать во всех доках а не только в книге, при Documents.findOne "TypeError: Document.findOne is not a function"
-        //документ не имеет своей коллекции, но является родительским классом для других доков
-        //чекаут и привязка юзера к группе пока только через браузерную консоль:
-        //зарегаться на сайте
-        //Method.call('addLibrarian', {id: '<_id добавленного юзера>'})
-        //добавить книгу за библиотекаря
-        //Method.call('addStudent', {id: 's1'})
-        //Method.call('checkOut', {userID: 's1', <_id книги>})
-        //
-        //PS да я знаю, много говнокода, но без этого никак)
         let document = Books.findOne({_id: documentID});
 
         if (!(user && document)) throw Error('Incorrect id of user or document');
@@ -145,7 +150,7 @@ Meteor.methods({
     },
 
     'getRenters' ({ documentID }) {
-        let document = Document.findOne({_id: documentID});
+        let document = Books.findOne({_id: documentID});
 
         if (!(document)) throw Error('Incorrect id of user or document');
 
@@ -153,15 +158,16 @@ Meteor.methods({
     },
 
     'getUsersBooks' ({ userID }) {
-        let users = [];
-        Document.all().forEach( o => {
-            if (o.userHas(userID)) users.push({title: o.name, tillDeadline: o.tillDeadline(userID)});
+        let books = [];
+        Books.find().forEach( o => {
+            if (o.userHas(userID)) books.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
         });
+        return books;
     }
 });
 
 /*
-* TODO: METHOD INTERFACES:
+* METHOD INTERFACES:
 *
 * addArticle
 * addAV

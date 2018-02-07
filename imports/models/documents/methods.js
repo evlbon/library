@@ -94,21 +94,27 @@ Meteor.methods({
  * Manage users
  */
 Meteor.methods({
-    'addLibrarian' ({ id }) {
+    'addLibrarian' ({ id,name }) {
         Librarian.insert({
-            libraryID: id
+            libraryID: id,
+            name: name,
+            group:"Librarian",
         })
     },
 
-    'addStudent' ({ id }) {
+    'addStudent' ({ id,name  }) {
         Student.insert({
-            libraryID: id
+            libraryID: id,
+            name: name,
+            group:"Student"
         })
     },
 
-    'addFaculty' ({ id }) {
+    'addFaculty' ({ id,name  }) {
         Faculty.insert({
-            libraryID: id
+            libraryID: id,
+            name: name,
+            group:"Faculty"
         })
     },
 
@@ -162,6 +168,7 @@ Meteor.methods({
         Books.find().forEach( o => {
             if (o.userHas(userID)) books.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
         });
+        console.log(books);
         return books;
     }
 });

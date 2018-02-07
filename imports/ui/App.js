@@ -25,7 +25,6 @@ class App extends Component {
        // Meteor.call('addLibrarian',{id : 'YKPFAF9gaMJWWNHFY'});
         super();
         this.case = null;
-
     }
 
 
@@ -59,7 +58,6 @@ class App extends Component {
         this.case ? this.case.style.display="none" : document.getElementById("books").style.display="none";
 
         switch (number) {
-
             case 1:
                 document.getElementById("books").style.display="";
                 this.case=document.getElementById("books");
@@ -115,6 +113,9 @@ class App extends Component {
     }
     render() {
 
+            this.props.currentUser ? console.log( this.props.currentUser._id) : "";
+
+
         return <div className="container">
 
             <header>
@@ -136,11 +137,15 @@ class App extends Component {
                         </div>:''
                 }
 
-               <div id={"add"} align="center">
-                        <AddBookButton/>
-                        <AddArticleButton/>
-                    </div>
-
+                { this.props.currentUser ?
+                    Librarian.findOne({libraryID:this.props.currentUser._id}).group==="Librarian" ?
+                        <div id={"add"} align="center">
+                            <AddBookButton/>
+                            <AddArticleButton/>
+                        </div>
+                        : ''
+                    :""
+                }
 
 
 
@@ -149,7 +154,15 @@ class App extends Component {
                 <div className="linebar">
                     <button onClick={this.reanderCase.bind(this,1)}>Books</button>
                     <button onClick={this.reanderCase.bind(this,2)}>Articles</button>
-                    <button onClick={this.reanderCase.bind(this,3)}>Users</button>
+
+
+                    { this.props.currentUser ?
+                        Librarian.findOne({libraryID:this.props.currentUser._id}).group==="Librarian" ?
+                            <button onClick={this.reanderCase.bind(this,3)}>Users</button>
+                            : ''
+                        :""
+                    }
+
                 </div>
 
             <ul id="books" style={{display:""}}>

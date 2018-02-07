@@ -8,6 +8,7 @@ import { Match } from 'meteor/check'
 import { Copy } from "./document"
 import {JournalArticle} from "./journal_article";
 import Article from "../../ui/Article";
+import {Student} from "../users/student";
 
 Meteor.methods({
     'documents.addBook' ({
@@ -91,6 +92,11 @@ Meteor.methods({
 
     'addLibrarian' ({ id }) {
         Librarian.insert({
+            libraryID: id
+        })
+    },
+    'addStudent' ({ id }) {
+        Student.insert({
             libraryID: id
         })
     },

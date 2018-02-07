@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import {Meteor} from "meteor/meteor";
 import {Author} from "../models/utility/author";
+import {Librarian} from "../models/users/librarian";
 
 class Article extends Component {
 
@@ -17,10 +18,12 @@ class Article extends Component {
             <li>
 
                 { this.props.currentUser ?
-                    <button className="delete" onClick={this.deleteThisArticle.bind(this)}>
-                        &times;
-                    </button>
-                    : ''
+                    Librarian.findOne({libraryID:this.props.currentUser._id})instanceof Librarian ?
+                        <button className="delete" onClick={this.deleteThisArticle.bind(this)}>
+                            &times;
+                        </button>
+                        : ''
+                    :""
                 }
 
                 <h1>Article</h1><br/>

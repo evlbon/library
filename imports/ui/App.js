@@ -21,14 +21,16 @@ import AddArticleButton from "../api/AddArticleButton";
 class App extends Component {
 
     constructor() {
+      //  "YKPFAF9gaMJWWNHFY"
+       // Meteor.call('addLibrarian',{id : 'YKPFAF9gaMJWWNHFY'});
         super();
         this.case = null;
+
     }
 
 
     renderBooks() {
         if(Meteor.userId()) {
-
 
             return this.props.books.map((book) => (
                 <Book key={book._id} book={book}/>
@@ -75,12 +77,42 @@ class App extends Component {
         }
 
     }
+    reanderCase2(number){
 
 
 
+        switch (number) {
 
+            case 1:
+                Meteor.call('addLibrarian',{id : Meteor.userId()});
 
+                break;
+            case 2:
+                Meteor.call('addStudent',{id : Meteor.userId()});
 
+                break;
+            case 3:
+                Meteor.call('addFaculty',{id : Meteor.userId()});
+
+                break;
+            default:
+                break;
+
+                render();
+        }
+
+    }
+    check()
+    {
+       // return true;
+        if(this.props.currentUser)
+        {
+            if (Librarian.findOne({libraryID: this.props.currentUser._id}) )
+                return false;
+            return true;
+        }
+        return false;
+    }
     render() {
 
         return <div className="container">
@@ -92,11 +124,24 @@ class App extends Component {
 
                     <AccountsUIWrapper/>
                 </div>
+                {
+                    this.check() ?
+                        <div className="linebar">
 
-                <div id={"add"} align="center">
-                    <AddBookButton/>
-                    <AddArticleButton/>
-                </div>
+
+                            <button onClick={this.reanderCase2.bind(this,1)}>I am Librarian</button>
+                            <button onClick={this.reanderCase2.bind(this, 2)}>I am faculty</button>
+                            <button onClick={this.reanderCase2.bind(this,3)}>I am just a humble user</button>
+
+                        </div>:''
+                }
+
+               <div id={"add"} align="center">
+                        <AddBookButton/>
+                        <AddArticleButton/>
+                    </div>
+
+
 
 
             </header>

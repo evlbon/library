@@ -24,8 +24,8 @@ Meteor.methods({
     'test1' () {
         Meteor.call('clr_bd');
 
-        let librarian1 = Meteor.call('addLibrarian', {id: 'l1', name: 'librarian 1'});
-        let student1 = Meteor.call('addStudent', {id: 's1', name: 'student 1'});
+        let librarian1 = Meteor.call('addLibrarian', {id: 'l1', name: 'l'});
+        let student1 = Meteor.call('addStudent', {id: 's1', name: 'p'});
 
         let book1 = Meteor.call('documents.addBook', {title: 'Touch of Class', price: 999999, bestseller: false, copies:
                 [
@@ -35,12 +35,66 @@ Meteor.methods({
         });
 
         Meteor.call('checkOut', {userID: student1, documentID: book1});
-
-        console.log('Users who have the document: ');
-        console.log(Meteor.call('getRenters', {documentID: book1}));
-        console.log('Amount of references of the document: ');
-        console.log(Meteor.call('numberOfReferences', {documentID: book1}));
     },
 
+    'test3' () {
+        Meteor.call('clr_bd');
+
+        let faculty1 = Meteor.call('addFaculty', {id: 'f1', name: 'f'});
+        let student1 = Meteor.call('addStudent', {id: 's1', name: 's'});
+
+        let book1 = Meteor.call('documents.addBook', {title: 'Touch of Class', price: 999999, bestseller: false, copies:
+                [
+                    new Copy ({reference: false, usersID: []}),
+                ]
+        });
+
+        Meteor.call('checkOut', {userID: faculty1, documentID: book1});
+    },
+
+    'test4' () {
+        Meteor.call('clr_bd');
+
+        let faculty1 = Meteor.call('addFaculty', {id: 'f1', name: 'f'});
+        let student1 = Meteor.call('addStudent', {id: 's1', name: 's'});
+
+        let book1 = Meteor.call('documents.addBook', {title: 'Touch of Class', price: 999999, bestseller: true, copies:
+                [
+                    new Copy ({reference: false, usersID: []}),
+                ]
+        });
+
+        Meteor.call('checkOut', {userID: faculty1, documentID: book1});
+    },
+
+    'test8' () {
+        Meteor.call('clr_bd');
+
+        let faculty1 = Meteor.call('addFaculty', {id: 'f1', name: 'f'});
+        let student1 = Meteor.call('addStudent', {id: 's1', name: 's'});
+
+        let book1 = Meteor.call('documents.addBook', {title: 'Touch of Class', price: 999999, bestseller: false, copies:
+                [
+                    new Copy ({reference: false, usersID: []}),
+                ]
+        });
+
+        Meteor.call('checkOut', {userID: student1, documentID: book1});
+    },
+
+    'test9' () {
+        Meteor.call('clr_bd');
+
+        let faculty1 = Meteor.call('addFaculty', {id: 'f1', name: 'f'});
+        let student1 = Meteor.call('addStudent', {id: 's1', name: 's'});
+
+        let book1 = Meteor.call('documents.addBook', {title: 'Touch of Class', price: 999999, bestseller: true, copies:
+                [
+                    new Copy ({reference: false, usersID: []}),
+                ]
+        });
+
+        Meteor.call('checkOut', {userID: student1, documentID: book1});
+    },
 });
 

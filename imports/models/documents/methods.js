@@ -120,21 +120,6 @@ Meteor.methods({
         });
         return id;
     },
-
-    'test' () {
-        let id_s = 's1';
-        let id_l = 'l1';
-
-        Student.insert({libraryID: id_s});
-        Librarian.insert({libraryID: id_l});
-
-        //TODO: User имеет коллекцию, другие классы наследуются от него не имея своей коллекции, т.е все хранится в коллекции 'user'
-        //как тогда имея id узнать к какой группе относится юзер и вернуть объект с соответсвующими его группе полями?
-        console.log(User.findOne({libraryID: id_s}) instanceof Student); //false //но по логике должно быть true
-        console.log(Student.findOne({libraryID: id_s}) instanceof Student); //true
-        console.log(Student.findOne({libraryID: id_l}) instanceof Student); //true   //??? он даже не должен находить ничего по логике, тк
-                                            //ищет среди студентов ид библиотекаря. я понимаю что они в одной коллекции, но это как то тупо
-    },
 });
 
 
@@ -142,6 +127,8 @@ Meteor.methods({
  * Checking out system
  */
 Meteor.methods({
+
+
 
     'canCheckOut' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});
@@ -190,6 +177,14 @@ Meteor.methods({
         if (!(document)) throw Error('Incorrect id of user or document');
 
         return document.numberOfReferences();
+    },
+
+    'leftInLibrary' ({ documentID }) {
+        let document = Books.findOne({_id: documentID});
+
+        if (!(document)) throw Error('Incorrect id of user or document');
+
+        return document.leftInLibrary();
     }
 });
 

@@ -49,6 +49,9 @@ export const Document = Class.create({
         numberOfReferences: function () {
             return this.copies.filter(o => (o.reference)).length;
         },
+        leftInLibrary: function () {
+            return this.copies.filter(o => !(o.checked_out_date)).length;
+        },
         available: function () {
             return this.copies.filter(o => !(o.checked_out_date || o.reference)).length;
         },
@@ -63,7 +66,7 @@ export const Document = Class.create({
             let renterID = copy.usersID[copy.usersID.length - 1];
             let duration;
 
-            if (Faculty.findOne({_id: renterID})) {
+            if (User.findOne({libraryID: renterID}).group === 'Faculty') {
                 duration = 4*7;
             } else {
                 duration = this.bestseller ? 2*7 : 3*7;
@@ -77,14 +80,9 @@ export const Document = Class.create({
                 if (o.checked_out_date) {
 
                     let renterID = o.usersID[o.usersID.length - 1];
-                    console.log(renterID);
                     let renter;
 
-                    if (renter = Faculty.findOne({libraryID: renterID})) {  //TODO: make this checkers correctly
-                    } else {
-                        renter = Student.findOne({libraryID: renterID});
-                    }
-                    console.log((User.findOne({libraryID: renterID}) instanceof Faculty) + " " + (User.findOne({libraryID: renterID}) instanceof Student));
+                    renter = User.findOne({libraryID: renterID});
 
                     renters.push({name: renter.name, tillDeadline: this.tillDeadline(renterID)})
                 }

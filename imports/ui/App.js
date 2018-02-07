@@ -21,27 +21,36 @@ import AddArticleButton from "../api/AddArticleButton";
 class App extends Component {
 
     constructor() {
+      //  "YKPFAF9gaMJWWNHFY"
+       // Meteor.call('addLibrarian',{id : 'YKPFAF9gaMJWWNHFY'});
         super();
         this.case = null;
     }
 
 
     renderBooks() {
-        return this.props.books.map((book) => (
-            <Book key={book._id} book={book} />
-        ));
+        if(Meteor.userId()) {
+
+            return this.props.books.map((book) => (
+                <Book key={book._id} book={book}/>
+            ));
+        }
     }
 
     renderArticles(){
-        return this.props.articles.map((jarticle) => (
-            <Article key={jarticle._id} jarticle={jarticle} />
-        ));
+        if(Meteor.userId()) {
+            return this.props.articles.map((jarticle) => (
+                <Article key={jarticle._id} jarticle={jarticle}/>
+            ));
+        }
     }
 
     renderUsers(){
-        return this.props.users.map((user) => (
-            <Users key={user._id} user={user} />
-        ));
+        if(Meteor.userId()) {
+            return this.props.users.map((user) => (
+                <Users key={user._id} user={user}/>
+            ));
+        }
     }
 
     reanderCase(number){
@@ -66,12 +75,42 @@ class App extends Component {
         }
 
     }
+    reanderCase2(number){
 
 
 
+        switch (number) {
 
+            case 1:
+                Meteor.call('addLibrarian',{id : Meteor.userId()});
 
+                break;
+            case 2:
+                Meteor.call('addStudent',{id : Meteor.userId()});
 
+                break;
+            case 3:
+                Meteor.call('addFaculty',{id : Meteor.userId()});
+
+                break;
+            default:
+                break;
+
+                render();
+        }
+
+    }
+    check()
+    {
+       // return true;
+        if(this.props.currentUser)
+        {
+            if (Librarian.findOne({libraryID: this.props.currentUser._id}) )
+                return false;
+            return true;
+        }
+        return false;
+    }
     render() {
 
             this.props.currentUser ? console.log( this.props.currentUser._id) : "";
@@ -86,6 +125,18 @@ class App extends Component {
 
                     <AccountsUIWrapper/>
                 </div>
+                {
+                    this.check() ?
+                        <div className="linebar">
+
+
+                            <button onClick={this.reanderCase2.bind(this,1)}>I am Librarian</button>
+                            <button onClick={this.reanderCase2.bind(this, 2)}>I am faculty</button>
+                            <button onClick={this.reanderCase2.bind(this,3)}>I am just a humble user</button>
+
+                        </div>:''
+                }
+
                 { this.props.currentUser ?
                     Librarian.findOne({libraryID:this.props.currentUser._id}).group==="Librarian" ?
                         <div id={"add"} align="center">

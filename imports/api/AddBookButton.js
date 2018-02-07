@@ -33,6 +33,7 @@ class AddBookButton extends Component {
         const References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
         const Bestseller = Boolean(ReactDOM.findDOMNode(this.refs.Bestseller).value.trim());
 
+
         let copies = [];
         for (let i=0; i<Math.min(Copies, References); i++) copies.push(new Copy({reference: true, usersID: []}));
         for (let i=Math.min(Copies, References); i<Copies; i++) copies.push(new Copy({reference: false, usersID: []}));
@@ -45,7 +46,7 @@ class AddBookButton extends Component {
             release_date: new Date(PDate,1),
             price: Number(Price),
             tags: Tags.split(','),
-            copies: copies,
+            copies: copies  ,
             bestseller: !(Boolean(Bestseller))});
 
         ReactDOM.findDOMNode(this.refs.Title).value = '';
@@ -98,6 +99,7 @@ class AddBookButton extends Component {
                                     <input
                                         className={"inputForAdd"}
                                         type="text"
+                                        required
                                         ref="Title"
                                     /><br/>
                                     Author
@@ -134,18 +136,22 @@ class AddBookButton extends Component {
                                     <input
                                         className={"inputForAdd"}
                                         type="number"
+                                        min="0"
                                         ref="Price"
+                                        required
                                     /><br/>
                                     Number of copies
                                     <input
                                         className={"inputForAdd"}
                                         type="number"
+                                        min="0"
                                         ref="Copies"
                                     /><br/>
                                     Number of references
                                     <input
                                         className={"inputForAdd"}
                                         type="number"
+                                        min="0"
                                         ref="References"
                                     /><br/>
                                     Bestseller?
@@ -157,8 +163,10 @@ class AddBookButton extends Component {
 
 
                                 </form>
+
                                 <br/>
                             </div>
+
 
 
                         </Modal>

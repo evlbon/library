@@ -17,8 +17,9 @@ class Article extends Component {
         return (
             <li>
 
+
                 { this.props.currentUser ?
-                    Librarian.findOne({libraryID:this.props.currentUser._id})instanceof Librarian ?
+                    Librarian.findOne({libraryID:this.props.currentUser._id}).group==="Librarian" ?
                         <button className="delete" onClick={this.deleteThisArticle.bind(this)}>
                             &times;
                         </button>

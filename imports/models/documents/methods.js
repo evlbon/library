@@ -1,15 +1,19 @@
 import { Books } from "./book";
 import { Meteor } from 'meteor/meteor';
-import { User} from "../users/user";
+import { User } from "../users/user";
 import { Librarian} from "../users/librarian";
 import { Author } from "../utility/author";
 import { check } from 'meteor/check'
 import { Match } from 'meteor/check'
-import { Copy } from "./document"
-import {JournalArticle} from "./journal_article";
+import { Copy, Document } from "./document"
+import { JournalArticle } from "./journal_article";
 import Article from "../../ui/Article";
-import {Student} from "../users/student";
+import { Student } from "../users/student";
+import { Faculty } from "../users/faculty";
 
+/**
+ * Methods for adding / deletion docs
+ */
 Meteor.methods({
     'documents.addBook' ({
                              title, authors=['Crowd'], edition, publisher, release_date,
@@ -34,7 +38,6 @@ Meteor.methods({
                     Author.insert({ name: name })
             );
         });
-
 
         Books.insert({
             title: title,
@@ -76,36 +79,95 @@ Meteor.methods({
         });
 
     },
-});
 
-Meteor.methods({
     'documents.delBook' ({ id }) {
         Books.remove(id);
     },
-});
 
-
-Meteor.methods({
     'documents.delArticle' ({ id }) {
         JournalArticle.remove(id);
     },
+});
 
+
+/**
+ * Manage users
+ */
+Meteor.methods({
     'addLibrarian' ({ id }) {
         Librarian.insert({
             libraryID: id
         })
     },
+
     'addStudent' ({ id }) {
         Student.insert({
             libraryID: id
         })
     },
+
+    'addFaculty' ({ id }) {
+        Faculty.insert({
+            libraryID: id
+        })
+    },
+
+    'test' () {
+        let id_s = 's1';
+        let id_l = 'l1';
+
+        Student.insert({libraryID: id_s});
+        Librarian.insert({libraryID: id_l});
+
+        //TODO: User имеет коллекцию, другие классы наследуются от него не имея своей коллекции, т.е все хранится в коллекции 'user'
+        //как тогда имея id узнать к какой группе относится юзер и вернуть объект с соответсвующими его группе полями?
+        console.log(User.findOne({libraryID: id_s}) instanceof Student); //false //но по логике должно быть true
+        console.log(Student.findOne({libraryID: id_s}) instanceof Student); //true
+        console.log(Student.findOne({libraryID: id_l}) instanceof Student); //true   //??? он даже не должен находить ничего по логике, тк
+                                            //ищет среди студентов ид библиотекаря. я понимаю что они в одной коллекции, но это как то тупо
+    },
 });
 
 
+/**
+ * Checking out system
+ */
+Meteor.methods({
+    'checkOut' ({ userID, documentID }) {
+        let user = User.findOne({libraryID: userID});
+        let document = Books.findOne({_id: documentID});
+
+        if (!(user && document)) throw Error('Incorrect id of user or document');
+
+        if (document.canCheckOut(userID)) {
+            document.checkOut(userID);
+        } else {
+            if (document.userHas(userID))
+                throw Error('Can\'t check out more than one same book');
+            else
+                throw Error('No book available');
+        }
+    },
+
+    'getRenters' ({ documentID }) {
+        let document = Books.findOne({_id: documentID});
+
+        if (!(document)) throw Error('Incorrect id of user or document');
+
+        return document.renters();
+    },
+
+    'getUsersBooks' ({ userID }) {
+        let books = [];
+        Books.find().forEach( o => {
+            if (o.userHas(userID)) books.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
+        });
+        return books;
+    }
+});
 
 /*
-* TODO: METHOD INTERFACES:
+* METHOD INTERFACES:
 *
 * addArticle
 * addAV

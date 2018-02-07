@@ -27,21 +27,29 @@ class App extends Component {
 
 
     renderBooks() {
-        return this.props.books.map((book) => (
-            <Book key={book._id} book={book} />
-        ));
+        if(Meteor.userId()) {
+
+
+            return this.props.books.map((book) => (
+                <Book key={book._id} book={book}/>
+            ));
+        }
     }
 
     renderArticles(){
-        return this.props.articles.map((jarticle) => (
-            <Article key={jarticle._id} jarticle={jarticle} />
-        ));
+        if(Meteor.userId()) {
+            return this.props.articles.map((jarticle) => (
+                <Article key={jarticle._id} jarticle={jarticle}/>
+            ));
+        }
     }
 
     renderUsers(){
-        return this.props.users.map((user) => (
-            <Users key={user._id} user={user} />
-        ));
+        if(Meteor.userId()) {
+            return this.props.users.map((user) => (
+                <Users key={user._id} user={user}/>
+            ));
+        }
     }
 
     reanderCase(number){
@@ -49,6 +57,7 @@ class App extends Component {
         this.case ? this.case.style.display="none" : document.getElementById("books").style.display="none";
 
         switch (number) {
+
             case 1:
                 document.getElementById("books").style.display="";
                 this.case=document.getElementById("books");

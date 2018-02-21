@@ -124,12 +124,52 @@ Meteor.methods({
 
 
 /**
+ * Manage documents
+ */
+Meteor.methods({
+    'editBook' ({
+                    title, authors=['Crowd'], edition, publisher, release_date,
+                    price, copies=[], tags=[], bestseller=false
+                }) {
+        check(title, String);
+        check(authors, [String]);
+        check(edition, Match.Maybe(String));
+        check(publisher, Match.Maybe(String));
+        check(release_date, Match.Maybe(Date));
+        check(price, Match.Maybe(Number));
+        check(copies, Match.Maybe([Copy]));
+        check(tags, [String]);
+        check(bestseller, Boolean);
+
+        let authorsID = [];
+        authors.forEach(name => {
+            let exist = Author.find({name: name}).count();
+            authorsID.push(
+                exist ?
+                    Author.findOne({name: name})._id :
+                    Author.insert({name: name})
+            );
+        });
+
+        return Books.insert({
+            title: title,
+            authorsID: authorsID,
+            edition: edition,
+            publisher: publisher,
+            release_date: release_date,
+            price: price,
+            copies: copies,
+            tags: tags,
+            bestseller: bestseller
+        });
+    }
+});
+
+
+/**
  * Checking out system
  */
 Meteor.methods({
-
-
-
     'canCheckOut' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
@@ -186,6 +226,34 @@ Meteor.methods({
 
         return document.leftInLibrary();
     }
+});
+
+
+/**
+ * Return system
+ */
+Meteor.methods({
+    'hasDocument' ({ userID, documentID }) {
+        let user = User.findOne({libraryID: userID});
+        let document = Books.findOne({_id: documentID});
+
+        if (!(user && document)) throw Error('Incorrect id of user or document');
+
+        return document.userHas(userID);
+    },
+
+    'returnDocument' ({ userID, documentID }) {
+        let user = User.findOne({libraryID: userID});
+        let document = Books.findOne({_id: documentID});
+
+        if (!(user && document)) throw Error('Incorrect id of user or document');
+
+        if (document.userHas(userID)) {
+            document.user(userID);
+        } else {
+            throw Error('User can\'t return a book, because he doesn\'t have it');
+        }
+    },
 });
 
 /*

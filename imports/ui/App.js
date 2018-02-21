@@ -30,7 +30,6 @@ class App extends Component {
 
     renderBooks() {
         if(Meteor.userId()) {
-
             return this.props.books.map((book) => (
                 <Book key={book._id} book={book}/>
             ));
@@ -91,7 +90,6 @@ class App extends Component {
                 break;
             case 3:
                 Meteor.call('addFaculty',{id : this.props.currentUser._id, name : this.props.currentUser.username,});
-
                 break;
             default:
                 break;
@@ -131,13 +129,15 @@ class App extends Component {
 
 
                             <button onClick={this.reanderCase2.bind(this,1)}>I am Librarian</button>
-                            <button onClick={this.reanderCase2.bind(this, 2)}>I am faculty</button>
-                            <button onClick={this.reanderCase2.bind(this,3)}>I am just a humble user</button>
+                            <button onClick={this.reanderCase2.bind(this, 3)}>I am faculty</button>
+                            <button onClick={this.reanderCase2.bind(this, 2)}>I am a student</button>
+                            <button onClick={this.reanderCase2.bind(this,4)}>I am just a humble user</button>
 
                         </div>:''
                 }
 
-                { this.props.currentUser ?
+                {
+                    this.props.currentUser ?
                     Librarian.findOne({libraryID : this.props.currentUser._id}) ?
                         Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
                         <div id={"add"} align="center">
@@ -158,7 +158,8 @@ class App extends Component {
                     <button onClick={this.reanderCase.bind(this,2)}>Articles</button>
 
 
-                    { this.props.currentUser ?
+                    {
+                        this.props.currentUser ?
                         Librarian.findOne({libraryID : this.props.currentUser._id}) ?
                             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
                             <button onClick={this.reanderCase.bind(this,3)}>Users</button>

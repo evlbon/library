@@ -16,21 +16,22 @@ import { Faculty } from "../users/faculty";
  */
 Meteor.methods({
 
-    'clr_bd' () {
+    'clr_bd'() {
         User.remove({});
         Books.remove({});
     },
 
-    'test1' () {
+    'test1'() {
         Meteor.call('clr_bd');
 
         let librarian1 = Meteor.call('addLibrarian', {id: 'l1', name: 'librarian 1'});
         let student1 = Meteor.call('addStudent', {id: 's1', name: 'student 1'});
 
-        let book1 = Meteor.call('documents.addBook', {title: 'Touch of Class', price: 999999, bestseller: false, copies:
+        let book1 = Meteor.call('documents.addBook', {
+            title: 'Touch of Class', price: 999999, bestseller: false, copies:
                 [
-                    new Copy ({reference: false, usersID: []}),
-                    new Copy ({reference: false, usersID: []}),
+                    new Copy({reference: false, usersID: []}),
+                    new Copy({reference: false, usersID: []}),
                 ]
         });
 
@@ -41,6 +42,8 @@ Meteor.methods({
         console.log('Amount of references of the document: ');
         console.log(Meteor.call('numberOfReferences', {documentID: book1}));
     },
+
+
 
     'test2' (){
         Meteor.call('clr_bd');

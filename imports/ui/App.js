@@ -47,10 +47,14 @@ class App extends Component {
 
     renderUsers(){
         if(Meteor.userId()) {
-            return this.props.users.map((user) => (
+            return this.props.wholeUsers.map((user) => (
                 <Users key={user._id} user={user}/>
             ));
         }
+    }
+
+    addUser(){
+
     }
 
     reanderCase(number){
@@ -77,41 +81,18 @@ class App extends Component {
     }
 
 
-    reanderCase2(number){
 
-        switch (number) {
 
-            case 1:
-                Meteor.call('addLibrarian',{id : this.props.currentUser._id, name : this.props.currentUser.username,});
-
-                break;
-            case 2:
-                Meteor.call('addStudent',{id : this.props.currentUser._id, name : this.props.currentUser.username,});
-
-                break;
-            case 3:
-                Meteor.call('addFaculty',{id : this.props.currentUser._id, name : this.props.currentUser.username,});
-
-                break;
-            default:
-                break;
-
-                render();
-        }
-
-    }
-    check()
-    {
-       // return true;
-        if(this.props.currentUser)
-        {
-            if (Librarian.findOne({libraryID: this.props.currentUser._id}) )
-                return false;
-            return true;
-        }
-        return false;
-    }
     render() {
+        var isLibrarian = false;
+
+        if ( this.props.currentUser &&
+            User.findOne({libraryID : this.props.currentUser._id})&&
+            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian")
+            isLibrarian = true;
+
+
+
 
             this.props.currentUser ? console.log( this.props.currentUser._id) : "";
 
@@ -125,32 +106,18 @@ class App extends Component {
 
                     <AccountsUIWrapper/>
                 </div>
-                {
-                    this.check() ?
-                        <div className="linebar">
 
 
-                            <button onClick={this.reanderCase2.bind(this,1)}>I am Librarian</button>
-                            <button onClick={this.reanderCase2.bind(this, 2)}>I am faculty</button>
-                            <button onClick={this.reanderCase2.bind(this,3)}>I am just a humble user</button>
-
-                        </div>:''
-                }
-
-                { this.props.currentUser ?
-                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
+                { isLibrarian ?
+                                                                    //Add buttons only for Librarian
                         <div id={"add"} align="center">
                             <AddBookButton/>
                             <AddArticleButton/>
                         </div>
-                        : ''
-                      :""
-                    : ""
+                        :""
                 }
 
-
-
+                                                                    {/*document types buttons and Users(only for Librarian)*/}
             </header>
 
                 <div className="linebar">
@@ -158,19 +125,16 @@ class App extends Component {
                     <button onClick={this.reanderCase.bind(this,2)}>Articles</button>
 
 
-                    { this.props.currentUser ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
+                    { isLibrarian ?
                             <button onClick={this.reanderCase.bind(this,3)}>Users</button>
-                            : ''
-                        :""
-                        :""
+                            :""
                     }
+
 
                 </div>
 
 
-
+                                                                        {/*render main body of each type*/}
             <ul id="books" style={{display:""}}>
                 {this.renderBooks()}
             </ul>
@@ -179,9 +143,12 @@ class App extends Component {
                 {this.renderArticles()}
             </ul>
 
-            <ul id="users" style={{display:"none"}}>
-                {this.renderUsers()}
-            </ul>
+            {isLibrarian?
+                <ul id="users" style={{display:"none"}}>
+                    {this.renderUsers()}
+                </ul>:""
+            }
+
 
 
 
@@ -195,7 +162,8 @@ export default withTracker(() => {
     return {
         books: Books.find({}).fetch(),
         articles : JournalArticle.find({}).fetch(),
-        users : Librarian.find({}).fetch(),
+        users : User.find({}).fetch(),
         currentUser: Meteor.user(),
+        wholeUsers: Meteor.users.find({}).fetch(),
     };
 })(App);

@@ -202,3 +202,17 @@ input:invalid:not(:placeholder-shown) {
     background: #ffffff;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
 }
+
+.USERBOX{
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    overflow: hidden;
+    border: none;
+    font: normal 16px/1 "Times New Roman", Times, serif;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    background: rgba(1, 153, 217, 0);
+
+
+}

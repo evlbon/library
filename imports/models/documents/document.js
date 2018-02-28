@@ -113,8 +113,8 @@ export const Document = Class.create({
             return !this.userHas(userID) && this.available()
         },
         checkOut(userID) {
-            let copy;
-            if (copy = this.copies.find(o => !(o.checked_out_date || o.reference)) ) {
+            let copy = this.copies.find(o => !(o.checked_out_date || o.reference));
+            if (copy) {
                 copy.checked_out_date = new Date();
                 copy.usersID.push(userID);
                 this.save();
@@ -122,7 +122,7 @@ export const Document = Class.create({
             } else
                 return false;
         },
-        returnDocument(userID) {
+        return(userID) {
             // let copy;
             // if (copy = this.userHas(userID)) {
             //     copy.checked_out_date = null;

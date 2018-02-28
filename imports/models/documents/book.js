@@ -1,5 +1,6 @@
 import { Class } from 'meteor/jagi:astronomy'; // Importing from our extension library "astronomy"
-import {Document} from "./document";           // Importing from our docs
+import {Document} from "./document";
+import {User} from "../users/user";           // Importing from our docs
 
 export const Books = Document.inherit({        // A book inherits from Document because the relation id "is a"
     name: "Books",
@@ -21,4 +22,12 @@ export const Books = Document.inherit({        // A book inherits from Document 
             type: Boolean                       // Indicates whether the book was a bestseller or not
         }
     },
+
+    helpers: {
+        edit: function () {
+            this.title = "nigga"
+        },
+    },
 });
+
+

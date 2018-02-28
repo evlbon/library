@@ -3,6 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from "meteor/meteor";
 import { Author } from "../models/utility/author";
 import {Librarian} from "../models/users/librarian";
+import {User} from "../models/users/user";
 import * as functions from "../models/documents/functions"
 
 // Book component - represents a single todo item
@@ -49,8 +50,9 @@ class Book extends Component {
                 }
 
                 <br/>
+
                 { this.props.currentUser ?
-                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                    User.findOne({libraryID : this.props.currentUser._id}) ?
                 <button className="delete" onClick={this.rentBook.bind(this,this.props.book._id)}
                         disabled={!(functions.canCheckOut(this.props.currentUser._id,this.props.book._id))}>
                     Rent

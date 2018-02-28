@@ -17,6 +17,7 @@ import { Meteor } from 'meteor/meteor';
 import AddBookButton from "../api/AddBookButton";
 import AddArticleButton from "../api/AddArticleButton";
 // App component - represents the whole app
+import { Card, Col, Row } from 'antd';
 
 class App extends Component {
 
@@ -112,8 +113,6 @@ class App extends Component {
     render() {
 
             this.props.currentUser ? console.log( this.props.currentUser._id) : "";
-
-
         return <div className="container">
 
             <header>
@@ -175,7 +174,6 @@ class App extends Component {
             <ul id="books" style={{display:""}}>
                 {this.renderBooks()}
             </ul>
-
             <ul id="articles" style={{display:"none"}}>
                 {this.renderArticles()}
             </ul>
@@ -184,14 +182,9 @@ class App extends Component {
                 {this.renderUsers()}
             </ul>
 
-
-
-
-
         </div>;
     }
 }
-
 export default withTracker(() => {
     return {
         books: Books.find({}).fetch(),

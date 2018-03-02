@@ -5,7 +5,8 @@ export const User = Class.create({                  // Main class of users
     name: 'User',
     collection: new Meteor.Collection('user'),    // Creating the collection of users in database
 
-    fields: {                                       // fields that users will have and the type of this field
+    fields: {// fields that users will have and the type of this field
+
         libraryID: {
             type: String,
         },
@@ -28,6 +29,14 @@ export const User = Class.create({                  // Main class of users
     },
 
     helpers: {                                      // Commands that can be performed on a user class
+        changeGroup(num)
+        {
+            if(num === 1)
+                this.group = "Student";
+            else if ( num === 2)
+                this.group = "Librarian";
+            else this.group = "Faculty";
+        },
         getInfo() {
 
         },

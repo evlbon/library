@@ -14,21 +14,7 @@ import { Faculty } from "../users/faculty";
 /**
  * Methods for adding / deletion docs
  */
-Meteor.methods({
-    Delete(ID) {
-        if (!Meteor.isServer) return;
-        try {
-            console.log(ID);
-            Meteor.users.remove("8vxAs3udADpb52cyo");
 
-
-        } catch (e) {
-            // handle this however you want
-
-            throw new Meteor.Error('self-delete', 'Failed to remove yourself');
-        }
-    },
-});
 Meteor.methods({
     'documents.addBook' ({
                              title, authors=['Crowd'], edition, publisher, release_date,
@@ -115,19 +101,16 @@ Meteor.methods({
             name: name,
             group:"Librarian",
         });
+
         return id;
     },
 
     'addStudent' ({ id,name  }) {
         Student.insert({
-            libraryID: id,
+            libraryID:id,
             name: name,
             group:"Student"
         });
-        return id;
-    },
-    'DeleteUser' ({ id}) {
-      db.removeUser({_id:id});
         return id;
     },
 
@@ -139,8 +122,29 @@ Meteor.methods({
         });
         return id;
     },
+    'Delete'({ID, ID2}) {
+        if (!Meteor.isServer) return;
+        try {
+
+            Meteor.users.remove(ID);
+            User.remove({libraryID:ID2});
+
+        } catch (e) {
+            // handle this however you want
+
+            throw new Meteor.Error('self-delete', 'Failed to remove yourself');
+        }
+    },
 });
 
+/**Modify users*/
+Meteor.methods({
+    'ModifyUser' ({ id,S}) {
+       let str = S===1? "Librarian":S===2?"Student":"Faculty";
+        User.update({libraryID:id},{$set:{group:str}});
+        return id;
+    },
+});
 
 /**
  * Manage documents

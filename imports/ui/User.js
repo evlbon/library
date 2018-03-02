@@ -14,27 +14,19 @@ class Users extends Component {
         switch (number) {
 
             case 1:
-                Meteor.call('addLibrarian',{id : this.props.user._id, name : this.props.user.name,});
-
-                break;
             case 2:
-                Meteor.call('addStudent',{id : this.props.user._id, name : this.props.user.name,});
-
-                break;
             case 3:
-                Meteor.call('addFaculty',{id : this.props.user._id, name : this.props.user.name,});
-
+                Meteor.call('ModifyUser',{id:this.props.user.libraryID,S:number});
+               // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
                 break;
             case 4:
                 console.log(this.props.user._id);
                 console.log( this.props.user.name);
-                //Meteor.users.allow({remove:function() { return true }});
-
+                Meteor.call('Delete',{ID:this.props.user._id, ID2:this.props.user.libraryID});
                 break;
             default:
                 break;
         }
-       this.render();
     }
 
 
@@ -64,8 +56,10 @@ class Users extends Component {
             <li >
                 <div className="USERBOX">
                 <h1>User - {this.props.user.name}</h1>
+                    Current Type {this.props.user.group}
                     {console.log(this.props.user.name)}
-                    {console.log("DEBUGJEFF")}
+                    {console.log(this.props.user._id)}
+                    {console.log(this.props.user.libraryID)}
                 <div className="delete">
 
                     <button onClick={this.renderCase.bind(this,1)}>Make Librarian</button><br/>
@@ -81,14 +75,18 @@ class Users extends Component {
     }
 
 
-
+    AmILibrarian(){
+        return this.props.currentUser ?
+            Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" :false:false;
+    }
     render() {
         // Give books a different className when they are checked off,
         // so that we can style them nicely in CSS
-        const user = User.findOne({libraryID : this.props.user._id});
+        if(!this.AmILibrarian())
+            return "";
+        var user = User.findOne({libraryID : this.props.user._id});
         console.log(this.props.user);
-
-
         return (
             <div>
                 {user?

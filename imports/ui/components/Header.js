@@ -24,6 +24,8 @@ export class Header extends React.Component{
                 Meteor.call('addFaculty',{id : this.props.currentUser._id, name : this.props.currentUser.username,});
                 break;
             default:
+                Meteor.call('addHumbleUser',{id : this.props.currentUser._id, name : this.props.currentUser.username,});
+
                 break;
 
                 render();;

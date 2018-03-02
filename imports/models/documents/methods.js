@@ -104,6 +104,15 @@ Meteor.methods({
 
         return id;
     },
+    'addHumbleUser' ({ id,name }) {
+        Librarian.insert({
+            libraryID: id,
+            name: name,
+            group:"HumbleUser",
+        });
+
+        return id;
+    },
 
     'addStudent' ({ id,name  }) {
         Student.insert({

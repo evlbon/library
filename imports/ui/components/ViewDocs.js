@@ -1,29 +1,14 @@
 import React from 'react';
-import AccountsUIWrapper from '../AccountsUIWrapper.js';
-
 import Book from '../Book.js';
 import Article from '../Article';
 import {Librarian} from "../../models/users/librarian"
-
 import Users from "../User"
-import {User} from "../../models/users/user";
-
 import { withTracker } from 'meteor/react-meteor-data';
-import ReactDOM from 'react-dom';
-import { Books } from '../../models/documents/book';
-import { JournalArticle } from "../../models/documents/journal_article";
-
 import { Meteor } from 'meteor/meteor';
-import {Header} from "./Header";
-
-
-
 
 export class ViewDocs extends React.Component {
 
     constructor() {
-        //  "YKPFAF9gaMJWWNHFY"
-        // Meteor.call('addLibrarian',{id : 'YKPFAF9gaMJWWNHFY'});
         super();
         this.case = null;
     }

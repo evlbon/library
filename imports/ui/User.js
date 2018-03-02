@@ -14,22 +14,27 @@ class Users extends Component {
         switch (number) {
 
             case 1:
-                Meteor.call('addLibrarian',{id : this.props.user._id, name : this.props.user.username,});
+                Meteor.call('addLibrarian',{id : this.props.user._id, name : this.props.user.name,});
 
                 break;
             case 2:
-                Meteor.call('addStudent',{id : this.props.user._id, name : this.props.user.username,});
+                Meteor.call('addStudent',{id : this.props.user._id, name : this.props.user.name,});
 
                 break;
             case 3:
-                Meteor.call('addFaculty',{id : this.props.user._id, name : this.props.user.username,});
+                Meteor.call('addFaculty',{id : this.props.user._id, name : this.props.user.name,});
+
+                break;
+            case 4:
+                console.log(this.props.user._id);
+                console.log( this.props.user.name);
+                //Meteor.users.allow({remove:function() { return true }});
 
                 break;
             default:
                 break;
-
         }
-
+       this.render();
     }
 
 
@@ -58,14 +63,15 @@ class Users extends Component {
 
             <li >
                 <div className="USERBOX">
-                <h1>User - {this.props.user.username}</h1>
-
+                <h1>User - {this.props.user.name}</h1>
+                    {console.log(this.props.user.name)}
+                    {console.log("DEBUGJEFF")}
                 <div className="delete">
 
                     <button onClick={this.renderCase.bind(this,1)}>Make Librarian</button><br/>
-                    <button onClick={this.renderCase.bind(this, 2)}>Make student</button><br/>
+                    <button onClick={this.renderCase.bind(this,2)}>Make student</button><br/>
                     <button onClick={this.renderCase.bind(this,3)}>Make faculty</button><br/>
-
+                    <button onClick={this.renderCase.bind(this,4)}>Delete User</button><br/>
                 </div>
                 </div>
 

@@ -15,6 +15,21 @@ import { Faculty } from "../users/faculty";
  * Methods for adding / deletion docs
  */
 Meteor.methods({
+    Delete(ID) {
+        if (!Meteor.isServer) return;
+        try {
+            console.log(ID);
+            Meteor.users.remove("8vxAs3udADpb52cyo");
+
+
+        } catch (e) {
+            // handle this however you want
+
+            throw new Meteor.Error('self-delete', 'Failed to remove yourself');
+        }
+    },
+});
+Meteor.methods({
     'documents.addBook' ({
                              title, authors=['Crowd'], edition, publisher, release_date,
                              price, copies=[], tags=[], bestseller=false
@@ -109,6 +124,10 @@ Meteor.methods({
             name: name,
             group:"Student"
         });
+        return id;
+    },
+    'DeleteUser' ({ id}) {
+      db.removeUser({_id:id});
         return id;
     },
 

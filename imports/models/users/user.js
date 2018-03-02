@@ -3,7 +3,8 @@ import { Enum } from 'meteor/jagi:astronomy';
 
 export const User = Class.create({                  // Main class of users
     name: 'User',
-    collection: new Meteor.Collection('user'),      // Creating the collection of users in database
+    collection: new Meteor.Collection('user'),    // Creating the collection of users in database
+
     fields: {                                       // fields that users will have and the type of this field
         libraryID: {
             type: String,

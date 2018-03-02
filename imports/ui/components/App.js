@@ -33,8 +33,9 @@ class App extends Component {
 
         return <div className="container">
 
-            <Header/>
-            <ViewDocs books={this.props.books} articles={this.props.articles}users={this.props.users}currentUser={this.props.currentUser}>
+            <Header books={this.props.books} articles={this.props.articles} users={this.props.users} currentUser={this.props.currentUser}>
+            </Header>
+            <ViewDocs books={this.props.books} articles={this.props.articles} users={this.props.users} currentUser={this.props.currentUser}>
             </ViewDocs>
         </div>;
     }

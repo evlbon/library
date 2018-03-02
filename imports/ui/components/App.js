@@ -15,68 +15,18 @@ import { JournalArticle } from "../../models/documents/journal_article";
 
 import { Meteor } from 'meteor/meteor';
 import {Header} from "./Header";
-
+import {ViewDocs} from "./ViewDocs"
 
 
 
 class App extends Component {
 
     constructor() {
-      //  "YKPFAF9gaMJWWNHFY"
-       // Meteor.call('addLibrarian',{id : 'YKPFAF9gaMJWWNHFY'});
+        //  "YKPFAF9gaMJWWNHFY"
+        // Meteor.call('addLibrarian',{id : 'YKPFAF9gaMJWWNHFY'});
         super();
         this.case = null;
     }
-
-
-    renderBooks() {
-        if(Meteor.userId()) {
-            return this.props.books.map((book) => (
-                <Book key={book._id} book={book}/>
-            ));
-        }
-    }
-
-    renderArticles(){
-        if(Meteor.userId()) {
-            return this.props.articles.map((jarticle) => (
-                <Article key={jarticle._id} jarticle={jarticle}/>
-            ));
-        }
-    }
-
-    renderUsers(){
-        if(Meteor.userId()) {
-            return this.props.users.map((user) => (
-                <Users key={user._id} user={user}/>
-            ));
-        }
-    }
-
-    reanderCase(number){
-
-        this.case ? this.case.style.display="none" : document.getElementById("books").style.display="none";
-
-        switch (number) {
-            case 1:
-                document.getElementById("books").style.display="";
-                this.case=document.getElementById("books");
-                break;
-            case 2:
-                document.getElementById('articles').style.display="";
-                this.case=document.getElementById("articles");
-                break;
-            case 3:
-                document.getElementById('users').style.display="";
-                this.case=document.getElementById("users");
-                break;
-            default:
-                return("");
-        }
-
-    }
-
-
     render() {
 
             this.props.currentUser ? console.log( this.props.currentUser._id) : "";
@@ -84,36 +34,8 @@ class App extends Component {
         return <div className="container">
 
             <Header/>
-                <div className="linebar">
-                    <button onClick={this.reanderCase.bind(this,1)}>Books</button>
-                    <button onClick={this.reanderCase.bind(this,2)}>Articles</button>
-
-
-                    {
-                        this.props.currentUser ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                            <button onClick={this.reanderCase.bind(this,3)}>Users</button>
-                            : ''
-                        :""
-                        :""
-                    }
-
-                </div>
-
-
-
-            <ul id="books" style={{display:""}}>
-                {this.renderBooks()}
-            </ul>
-            <ul id="articles" style={{display:"none"}}>
-                {this.renderArticles()}
-            </ul>
-
-            <ul id="users" style={{display:"none"}}>
-                {this.renderUsers()}
-            </ul>
-
+            <ViewDocs books={this.props.books} articles={this.props.articles}users={this.props.users}currentUser={this.props.currentUser}>
+            </ViewDocs>
         </div>;
     }
 }

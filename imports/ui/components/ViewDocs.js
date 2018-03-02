@@ -1,16 +1,35 @@
+import React from 'react';
+import AccountsUIWrapper from '../AccountsUIWrapper.js';
 
+import Book from '../Book.js';
+import Article from '../Article';
 import {Librarian} from "../../models/users/librarian"
 
+import Users from "../User"
+import {User} from "../../models/users/user";
+
 import { withTracker } from 'meteor/react-meteor-data';
+import ReactDOM from 'react-dom';
+import { Books } from '../../models/documents/book';
+import { JournalArticle } from "../../models/documents/journal_article";
 
-import  React from 'react';
-import {Meteor} from "meteor/meteor";
-import {JournalArticle} from "../../../models/documents/journal_article";
-import {Books} from "../../../models/documents/book";
-export class ViewDocs extends React.Component{
+import { Meteor } from 'meteor/meteor';
+import {Header} from "./Header";
 
+
+
+
+export class ViewDocs extends React.Component {
+
+    constructor() {
+        //  "YKPFAF9gaMJWWNHFY"
+        // Meteor.call('addLibrarian',{id : 'YKPFAF9gaMJWWNHFY'});
+        super();
+        this.case = null;
+    }
     renderBooks() {
         if(Meteor.userId()) {
+
             return this.props.books.map((book) => (
                 <Book key={book._id} book={book}/>
             ));
@@ -56,47 +75,34 @@ export class ViewDocs extends React.Component{
 
     }
 
-    render(){
-        return (
-            <div className="linebar">
-                <button onClick={this.reanderCase.bind(this,1)}>Books</button>
-                <button onClick={this.reanderCase.bind(this,2)}>Articles</button>
+    render() {
+
+        this.props.currentUser ? console.log( this.props.currentUser._id) : "";
+
+        return  <div>
+            <button onClick={this.reanderCase.bind(this,1)}>Books</button>
+            <button onClick={this.reanderCase.bind(this,2)}>Articles</button>
 
 
-                {
-                    this.props.currentUser ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                                <button onClick={this.reanderCase.bind(this,3)}>Users</button>
-                                : ''
-                            :""
+            {
+                this.props.currentUser ?
+                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
+                            <button onClick={this.reanderCase.bind(this,3)}>Users</button>
+                            : ''
                         :""
-                }
-
-
-
-
-
+                    :""
+            }
             <ul id="books" style={{display:""}}>
-        {this.renderBooks()}
-    </ul>
-        <ul id="articles" style={{display:"none"}}>
-            {this.renderArticles()}
-        </ul>
+                {this.renderBooks()}
+            </ul>
+            <ul id="articles" style={{display:"none"}}>
+                {this.renderArticles()}
+            </ul>
 
-        <ul id="users" style={{display:"none"}}>
-            {this.renderUsers()}
-        </ul>
-            </div>
-        );
+            <ul id="users" style={{display:"none"}}>
+                {this.renderUsers()}
+            </ul>
+            </div>;
     }
 }
-/*
-export default withTracker(() => {
-    return {
-        books: Books.find({}).fetch(),
-        articles : JournalArticle.find({}).fetch(),
-        users : Librarian.find({}).fetch(),
-        currentUser: Meteor.user(),
-    };
-})(ViewDocs);*/

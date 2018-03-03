@@ -253,6 +253,9 @@ Meteor.methods({
     },
 
     'checkOut' ({ userID, documentID }) {
+
+        console.log(userID + " " + documentID);
+
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
 
@@ -316,6 +319,9 @@ Meteor.methods({
     },
 
     'returnDocument' ({ userID, documentID }) {
+
+        console.log(userID + " " + documentID);
+
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
 

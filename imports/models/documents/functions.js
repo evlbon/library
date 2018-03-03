@@ -16,7 +16,7 @@ export function getUsersBooks(userID) {
     Books.find().forEach( o => {
         if (o.userHas(userID)) books.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
     });
-    console.log(books);
+    // console.log(books);
     return books;
 }
 
@@ -29,7 +29,7 @@ export function getRenters(documentID) {
 }
 export function getRentsViaId(documentID,cuzer){
     let document = Books.findOne({_id: documentID});
-    console.log(cuzer);
+    // console.log(cuzer);
     return document.rentingViaId(cuzer);
 }
 

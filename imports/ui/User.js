@@ -21,8 +21,8 @@ class Users extends Component {
                // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
                 break;
             case 4:
-                console.log(this.props.user._id);
-                console.log( this.props.user.name);
+                // console.log(this.props.user._id);
+                // console.log( this.props.user.name);
                 Meteor.call('Delete',{ID:this.props.user._id, ID2:this.props.user.libraryID});
                 break;
             default:
@@ -58,9 +58,9 @@ class Users extends Component {
                 <div className="USERBOX">
                 <h1>User - {this.props.user.name}</h1>
                      Current Type {this.props.user.group}
-                    {console.log(this.props.user.name)}
-                    {console.log(this.props.user._id)}
-                    {console.log(this.props.user.libraryID)}
+                    {/*{console.log(this.props.user.name)}*/}
+                    {/*{console.log(this.props.user._id)}*/}
+                    {/*{console.log(this.props.user.libraryID)}*/}
 
 
 
@@ -91,7 +91,7 @@ class Users extends Component {
         if(!this.AmILibrarian())
             return "";
         const  user = User.findOne({libraryID : this.props.user._id});
-        console.log(this.props.user);
+        // console.log(this.props.user);
         return (
             <div>
 

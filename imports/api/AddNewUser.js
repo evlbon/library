@@ -74,6 +74,7 @@ export class AddNewUser extends Component {
                         Name
                         <input
                             className={"inputForAdd"}
+                            required
                             type="text"
                             ref="name"
                         /><br/>
@@ -92,13 +93,16 @@ export class AddNewUser extends Component {
                         Phone number
                         <input
                             className={"inputForAdd"}
-                            type="text"
+                            type="tel"
                             ref="phone"
                         /><br/>
                         Password:
                         <input
                             className={"inputForAdd"}
+                            required
+                            placeholder="at least 6 symbols"
                             type="text"
+                            minLength="6"
                             ref="pass"
                         /><br/>
                     </form>

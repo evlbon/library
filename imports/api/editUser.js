@@ -75,6 +75,7 @@ export class EditUser extends Component {
                                 Name
                                 <input
                                     className={"inputForAdd"}
+                                    required
                                     type="text"
                                     ref="name"
                                 /><br/>

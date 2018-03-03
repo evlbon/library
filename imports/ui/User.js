@@ -5,6 +5,7 @@ import * as functions from "../models/documents/functions"
 import {User} from "../models/users/user";
 import { Author } from "../models/utility/author";
 import {Librarian} from "../models/users/librarian";
+import {EditUser} from "../api/editUser";
 
 // Book component - represents a single todo item
 class Users extends Component {
@@ -60,12 +61,14 @@ class Users extends Component {
                     {console.log(this.props.user.name)}
                     {console.log(this.props.user._id)}
                     {console.log(this.props.user.libraryID)}
+
                 <div className="delete">
 
                     <button onClick={this.renderCase.bind(this,1)}>Make Librarian</button><br/>
                     <button onClick={this.renderCase.bind(this,2)}>Make student</button><br/>
                     <button onClick={this.renderCase.bind(this,3)}>Make faculty</button><br/>
                     <button onClick={this.renderCase.bind(this,4)}>Delete User</button><br/>
+                    <EditUser/>
                 </div>
                 </div>
 
@@ -85,12 +88,13 @@ class Users extends Component {
         // so that we can style them nicely in CSS
         if(!this.AmILibrarian())
             return "";
-        var user = User.findOne({libraryID : this.props.user._id});
+        const  user = User.findOne({libraryID : this.props.user._id});
         console.log(this.props.user);
         return (
             <div>
                 {user?
                 this.renderUsers(user):this.renderNewUser()
+
                 }
             </div>
         );

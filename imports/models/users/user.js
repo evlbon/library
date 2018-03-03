@@ -13,6 +13,9 @@ export const User = Class.create({                  // Main class of users
         group: {
             type: String,
         },
+        login:{
+          type: String,
+        },
         name: {
             type: String,
             optional: true,

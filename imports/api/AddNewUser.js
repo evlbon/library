@@ -16,31 +16,26 @@ export class AddNewUser extends Component {
     handleOk = (e) => {
 
         const Name = ReactDOM.findDOMNode(this.refs.name).value.trim();
-        const Group = ReactDOM.findDOMNode(this.refs.group).value.trim();
-        const Address = ReactDOM.findDOMNode(this.refs.address).value.trim();
-        const Phone = ReactDOM.findDOMNode(this.refs.phone).value.trim();
+        const Group = "HumbleUser";
+
         const pass = ReactDOM.findDOMNode(this.refs.pass).value.trim();
         console.log("OKAAAAAAAAAY");
         console.log(Name);
-        console.log(Address);
         console.log(Group);
         console.log(pass);
-        console.log(Phone);
        console.log(
 
         Meteor.call('addUser',{
             name:Name,
-            group:Group,
             password:pass,
+            phone:0,
+            address:"None",
         }));
         console.log("Done Didding");
 
 
         ReactDOM.findDOMNode(this.refs.name).value= "";
-        ReactDOM.findDOMNode(this.refs.group).value="";/// see if we can view initial data here
-        ReactDOM.findDOMNode(this.refs.address).value="";
         ReactDOM.findDOMNode(this.refs.pass).value = "";
-        ReactDOM.findDOMNode(this.refs.phone).value="";
 
         this.setState({
             visible: false,
@@ -71,30 +66,13 @@ export class AddNewUser extends Component {
                 <div  align="right" >
                     <form style={{fontSize: "15px",fontFamily:"Arial"}}>
 
-                        Name
+                       Login
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="name"
                         /><br/>
-                        group
-                        <input
-                            className={"inputForAdd"}
-                            type="text"
-                            ref="group"
-                        /><br/>
-                        Address
-                        <input
-                            className={"inputForAdd"}
-                            type="text"
-                            ref="address"
-                        /><br/>
-                        Phone number
-                        <input
-                            className={"inputForAdd"}
-                            type="text"
-                            ref="phone"
-                        /><br/>
+
                         Password:
                         <input
                             className={"inputForAdd"}

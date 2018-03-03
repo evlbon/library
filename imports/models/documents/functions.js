@@ -26,7 +26,12 @@ export function getRenters(documentID) {
 
     if (!(document)) throw Error('Incorrect id of user or document');
 
-    return document.renters();
+    return document.renters();;
+}
+export function getRentsViaId(documentID,cuzer){
+    let document = Books.findOne({_id: documentID});
+    console.log(cuzer);
+    return document.rentingViaId(cuzer);
 }
 
 export function canCheckOut(userID, documentID) {

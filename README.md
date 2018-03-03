@@ -44,7 +44,7 @@
   + [Accounts Configuration](imports/startup/accounts-config.js)  
 - [UI](imports/ui)
   + [Login accounts](imports/ui/AccountsUIWrapper.js)
-  + [Root file](imports/ui/App.js)
+  + [Root file](imports/ui/components/App.js)
   + [Article](imports/ui/Article.js)
   + [Book](imports/ui/Book.js)
   

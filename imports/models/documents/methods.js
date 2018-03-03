@@ -13,6 +13,7 @@ import { Faculty } from "../users/faculty";
 /**
  * Methods for adding / deletion docs
  */
+
 Meteor.methods({
     'documents.addBook' ({
                              title, authors=['Crowd'], edition, publisher, release_date,
@@ -106,12 +107,22 @@ Meteor.methods({
             name: name,
             group:"Librarian",
         });
+
+        return id;
+    },
+    'addHumbleUser' ({ id,name }) {
+        Librarian.insert({
+            libraryID: id,
+            name: name,
+            group:"HumbleUser",
+        });
+
         return id;
     },
 
     'addStudent' ({ id,name  }) {
         Student.insert({
-            libraryID: id,
+            libraryID:id,
             name: name,
             group:"Student"
         });
@@ -126,8 +137,29 @@ Meteor.methods({
         });
         return id;
     },
+    'Delete'({ID, ID2}) {
+        if (!Meteor.isServer) return;
+        try {
+
+            Meteor.users.remove(ID);
+            User.remove({libraryID:ID2});
+
+        } catch (e) {
+            // handle this however you want
+
+            throw new Meteor.Error('self-delete', 'Failed to remove yourself');
+        }
+    },
 });
 
+/**Modify users*/
+Meteor.methods({
+    'ModifyUser' ({ id,S}) {
+       let str = S===1? "Librarian":S===2?"Student":"Faculty";
+        User.update({libraryID:id},{$set:{group:str}});
+        return id;
+    },
+});
 
 /**
  * Manage documents

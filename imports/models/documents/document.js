@@ -89,6 +89,23 @@ export const Document = Class.create({
             });
             return renters;
         },
+        rentingViaId : function(cuser){
+            let renters = [];
+            this.copies.forEach(o => {
+                if (o.checked_out_date) {
+
+                    let renterID = o.usersID[o.usersID.length - 1];
+                    console.log(renterID);
+                    console.log(cuser);
+                    if ( cuser === renterID) {
+
+                        renters.push({tillDeadline: this.tillDeadline(renterID)})
+                    }
+                }
+            });
+            return renters;
+        }
+        ,
         userHas(userID) {
             return this.copies.find(o => !o.reference && o.checked_out_date && (o.usersID[o.usersID.length - 1] === userID));
         },

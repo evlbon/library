@@ -90,6 +90,7 @@ ul {
     font-size: 1em;
     border: none;
     position: relative;
+    margin: 0;
 }
 
 li {

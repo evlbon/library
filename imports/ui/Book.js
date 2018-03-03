@@ -3,6 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from "meteor/meteor";
 import { Author } from "../models/utility/author";
 import {Librarian} from "../models/users/librarian";
+import {User} from "../models/users/user";
 import * as functions from "../models/documents/functions"
 
 // Book component - represents a single todo item
@@ -30,7 +31,9 @@ class Book extends Component {
         let rents = functions.getRenters(this.props.book._id);
 
         rents ? rents = rents.map(o => (o.name + '" | '+o.tillDeadline+' days left.')):"";
+        let rents2 = functions.getRentsViaId(this.props.book._id,this.props.currentUser._id);
 
+        rents2 ? rents2 = rents2.map(o =>(o.tillDeadline + ' days left.')):"";
         return (
             <div>
             <li >
@@ -47,8 +50,9 @@ class Book extends Component {
                 }
 
                 <br/>
+
                 { this.props.currentUser ?
-                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                    User.findOne({libraryID : this.props.currentUser._id}) ?
                 <button className="delete" onClick={this.rentBook.bind(this,this.props.book._id)}
                         disabled={!(functions.canCheckOut(this.props.currentUser._id,this.props.book._id))}>
                     Rent
@@ -74,7 +78,8 @@ class Book extends Component {
 
 
 
-                { this.props.currentUser ?
+                {
+                    this.props.currentUser ?
                     Librarian.findOne({libraryID : this.props.currentUser._id}) ?
                         Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
                             <div className="BOOKBOX2">
@@ -85,6 +90,20 @@ class Book extends Component {
                             : ''
                         :""
                     :""
+
+                }
+                {
+                    this.props.currentUser ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Student" ?
+                                <div className="BOOKBOX2">
+                                    <h1>RENTS</h1><br/>
+                                    {rents2 ? <pre>{rents2.join("\n")}</pre>
+                                        :<p>Nothing</p>}
+                                </div>
+                                : ''
+                            :""
+                        :""
                 }
 
             </li>

@@ -24,7 +24,7 @@ export class EditUser extends Component {
     handleOk = (e) => {
 
         const Name = ReactDOM.findDOMNode(this.refs.name).value.trim();
-        const Group = "HumbleUser";
+        const Group = "";
         const Address = ReactDOM.findDOMNode(this.refs.address).value.trim();
         const Phone = ReactDOM.findDOMNode(this.refs.phone).value.trim();
         console.log(Address);

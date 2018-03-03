@@ -134,7 +134,7 @@ Meteor.methods({
         });
         return id;
     },
-    'addUser'({name,password,group,phone,address}){
+    'addUser'({name,password,group}){
 
 
         let newUserId =

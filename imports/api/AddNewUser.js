@@ -29,8 +29,8 @@ export class AddNewUser extends Component {
         Meteor.call('addUser',{
             name:Name,
             group:Group,
-            address:Address,
-            phone:Phone,
+
+
             password:pass,
         });
 

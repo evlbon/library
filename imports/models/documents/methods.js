@@ -106,6 +106,8 @@ Meteor.methods({
             libraryID: id,
             name: name,
             group:"Librarian",
+            address:"None",
+            phone:-1,
         });
 
         return id;
@@ -115,6 +117,8 @@ Meteor.methods({
             libraryID: id,
             name: name,
             group:"HumbleUser",
+            address:"None",
+            phone:-1,
         });
 
         return id;
@@ -124,7 +128,9 @@ Meteor.methods({
         Student.insert({
             libraryID:id,
             name: name,
-            group:"Student"
+            group:"Student",
+            address:"None",
+            phone:-1,
         });
         return id;
     },
@@ -133,7 +139,9 @@ Meteor.methods({
         Faculty.insert({
             libraryID: id,
             name: name,
-            group:"Faculty"
+            group:"Faculty",
+            address:"None",
+            phone:-1,
         });
         return id;
     },

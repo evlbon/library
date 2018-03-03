@@ -46,17 +46,17 @@ class Users extends Component {
                     <p>Group: {this.props.user.group}.</p>
                     <p>Address:{this.props.user.address}.</p>
                         <p>Phone Number: {this.props.user.phone}.</p>
-                    I want to :
+                    I want this User to be :
 
 
                     {console.log(this.props.user.name)}
                     {console.log(this.props.user._id)}
                     {console.log(this.props.user.libraryID)}
 
-                    <button onClick={this.renderCase.bind(this,1)}>Make Librarian</button>
-                    <button onClick={this.renderCase.bind(this,2)}>Make student</button>
-                    <button onClick={this.renderCase.bind(this,3)}>Make faculty</button>
-                    <button onClick={this.renderCase.bind(this,4)}>Delete User</button>
+                    <button onClick={this.renderCase.bind(this,1)}>Librarian,</button>
+                    <button onClick={this.renderCase.bind(this,2)}>Student,</button>
+                    <button onClick={this.renderCase.bind(this,3)}>Faculty,</button>
+                    <button onClick={this.renderCase.bind(this,4)}>Deleted</button>
                     <EditUser ID = {this.props.user.libraryID}/>
 
 

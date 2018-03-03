@@ -54,7 +54,10 @@ export class EditUser extends Component {
     render() {
         console.log(this.props.ID);
 
-        return   <div><Button className={"myButton"} type="primary" onClick={this.showModal}>Edit this User</Button>
+        return   <div>
+
+            I want to :
+            <Button className={"myButton"} type="primary" onClick={this.showModal}>Edit this User</Button>
 
 
                     <Modal

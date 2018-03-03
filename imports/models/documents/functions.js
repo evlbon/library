@@ -42,3 +42,12 @@ export function canCheckOut(userID, documentID) {
 
     return document.canCheckOut(userID);
 }
+
+export function hasDocument(userID, documentID){
+    let user = User.findOne({libraryID: userID});
+    let document = Books.findOne({_id: documentID});
+
+    if (!(user && document)) throw Error('Incorrect id of user or document');
+
+    return document.userHas(userID);
+}

@@ -31,33 +31,20 @@ class Users extends Component {
     }
 
 
-    renderUsers(){
 
-
-        let books = functions.getUsersBooks(this.props.user.libraryID);
-
-        books ? books = books.map(o => ('Book - "' + o.title + '" | '+o.tillDeadline+' days left.')):"";
-
-        return books;
-        return(
-            <li >
-
-                {books.length ? <pre>{books.join("\n")}</pre>
-                    :<p>Nothing</p>}
-            </li>
-
-        )
-
-    }
 
     renderNewUser(){
-        let books = this.renderUsers();
+
         return(
 
             <li >
                 <div className="USERBOX">
-                <h1>User - {this.props.user.name}</h1>
-                     Current Type {this.props.user.group}
+                <h1>User Name: {this.props.user.name}</h1>
+                    ,Group: {this.props.user.group},
+                    Address:{this.props.user.address},
+                     Phone Number: {this.props.user.phone}
+
+
                     {console.log(this.props.user.name)}
                     {console.log(this.props.user._id)}
                     {console.log(this.props.user.libraryID)}
@@ -70,10 +57,10 @@ class Users extends Component {
                     <button onClick={this.renderCase.bind(this,2)}>Make student</button><br/>
                     <button onClick={this.renderCase.bind(this,3)}>Make faculty</button><br/>
                     <button onClick={this.renderCase.bind(this,4)}>Delete User</button><br/>
-                    <EditUser/>
-                </div>
+                    <EditUser ID = {this.props.user.libraryID}/>
                 </div>
 
+            </div>
             </li>
         )
 
@@ -90,13 +77,10 @@ class Users extends Component {
         // so that we can style them nicely in CSS
         if(!this.AmILibrarian())
             return "";
-        const  user = User.findOne({libraryID : this.props.user._id});
         console.log(this.props.user);
         return (
             <div>
-
                 {this.renderNewUser()}
-
             </div>
         );
     }

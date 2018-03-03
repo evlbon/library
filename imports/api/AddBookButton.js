@@ -15,7 +15,9 @@ class AddBookButton extends Component {
 
     state = { visible: false };
     showModal = () => {
-        this.setState({
+        this.setSt
+
+        ate({
             visible: true,
         });
     };

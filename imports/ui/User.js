@@ -31,22 +31,22 @@ class Users extends Component {
     }
 
 
-    renderUsers(user){
+    renderUsers(){
 
 
-        let books = functions.getUsersBooks(user.libraryID);
+        let books = functions.getUsersBooks(this.props.user.libraryID);
 
         books ? books = books.map(o => ('Book - "' + o.title + '" | '+o.tillDeadline+' days left.')):"";
 
 
         return(
             <li >
-                <h1>User - {user.name}</h1>
+                <h1>User - {this.props.user.name}</h1>
                 {books.length ? <pre>{books.join("\n")}</pre>
                     :<p>Nothing</p>}
             </li>
 
-    )
+        )
 
     }
 
@@ -92,10 +92,10 @@ class Users extends Component {
         console.log(this.props.user);
         return (
             <div>
-                {user?
-                this.renderUsers(user):this.renderNewUser()
-
+                {
+                this.renderUsers(user)
                 }
+                {this.renderNewUser()}
             </div>
         );
     }

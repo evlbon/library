@@ -92,6 +92,9 @@ class Book extends Component {
                     :""
 
                 }
+
+
+                
                 {
                     this.props.currentUser ?
                         Librarian.findOne({libraryID : this.props.currentUser._id}) ?

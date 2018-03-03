@@ -134,33 +134,34 @@ Meteor.methods({
         });
         return id;
     },
-    'addUser'({name,password,group}){
+    'addUser'({name,password,group,phone,address}){
 
 
-        let newUserId =
-            Meteor.users.insert({
-                emails: [name],
-                profile  : { fullname : name },
-                name:name
-            });
-        Accounts.setPassword(newUserId, password);
-        console.log(newUserId.name);
+        Accounts.createUser({
+            username:name,
+            email : "",
+            password : password,
+            profile  : {
+                //publicly visible fields like firstname goes here
+            }
+        });
+        let LID  =Meteor.users.findOne({username:name})._id;
         let S = 2;
         if(group==="HumbleUser") {
-            Meteor.call('addHumblerUser', {id: newUserId._id, name: name});
+            Meteor.call('addHumblerUser', {id: LID, name: name});
             S = 0;
         }
         if(group==="Librarian") {
-            Meteor.call('addLibrarian', {id: newUserId._id, name: name});
+            Meteor.call('addLibrarian', {id: LID, name: name});
             S = 1;
         }
         if(group==="Faculty") {
-            Meteor.call('addFaculty', {id: newUserId._id, name: name});
+            Meteor.call('addFaculty', {id: LID, name: name});
             S = 3;
         }
         if(group==="Student")
-            Meteor.call('addStudent',{id:newUserId._id,name:name});
-        Meteor.call('ModifyUser',{id:newUserId,S:S});
+            Meteor.call('addStudent',{id:LID,name:name});
+        Meteor.call('ModifyUser',{id:LID,S:S});
 
     },
 

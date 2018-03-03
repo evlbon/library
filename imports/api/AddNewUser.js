@@ -26,13 +26,14 @@ export class AddNewUser extends Component {
         console.log(Group);
         console.log(pass);
         console.log(Phone);
+       console.log(
+
         Meteor.call('addUser',{
             name:Name,
             group:Group,
-
-
             password:pass,
-        });
+        }));
+        console.log("Done Didding");
 
 
         ReactDOM.findDOMNode(this.refs.name).value= "";

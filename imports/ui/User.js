@@ -21,8 +21,8 @@ class Users extends Component {
                // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
                 break;
             case 4:
-                // console.log(this.props.user._id);
-                // console.log( this.props.user.name);
+                console.log(this.props.user._id);
+                console.log(this.props.user.libraryID);
                 Meteor.call('Delete',{ID:this.props.user._id, ID2:this.props.user.libraryID});
                 break;
             default:

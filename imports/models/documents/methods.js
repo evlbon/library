@@ -155,7 +155,7 @@ Meteor.methods({
         if (!Meteor.isServer) return;
         try {
 
-            Meteor.users.remove(ID);
+            Meteor.users.remove(ID2);
             User.remove({libraryID:ID2});
 
         } catch (e) {

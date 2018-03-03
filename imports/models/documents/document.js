@@ -106,11 +106,12 @@ export const Document = Class.create({
                 return false;
         },
         return(userID) {
-            // let copy;
-            // if (copy = this.userHas(userID)) {
-            //     copy.checked_out_date = null;
-            // } else
-            //     throw new Error( 'user '+ userID +' didnt have this book' );
+            let copy = this.userHas(userID);
+            if (copy) {
+                copy.checked_out_date = null;
+                this.save();
+            } else
+                throw new Error( 'user '+ userID +' didnt have this book' );
         },
         addAuthor(author) {
 

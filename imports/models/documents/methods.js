@@ -7,7 +7,6 @@ import { check } from 'meteor/check'
 import { Match } from 'meteor/check'
 import { Copy, Document } from "./document"
 import { JournalArticle } from "./journal_article";
-import Article from "../../ui/Article";
 import { Student } from "../users/student";
 import { Faculty } from "../users/faculty";
 
@@ -17,7 +16,7 @@ import { Faculty } from "../users/faculty";
 Meteor.methods({
     'documents.addBook' ({
                              title, authors=['Crowd'], edition, publisher, release_date,
-                             price, copies=[], tags=[], bestseller=false
+                             price, number_of_copies, number_of_references, tags=[], bestseller=false
     }) {
         check(title, String);
         check(authors, [String]);
@@ -25,9 +24,16 @@ Meteor.methods({
         check(publisher, Match.Maybe(String));
         check(release_date, Match.Maybe(Date));
         check(price, Match.Maybe(Number));
-        check(copies, Match.Maybe([Copy]));
+        check(number_of_copies, Number);
+        check(number_of_references, Number);
         check(tags, [String]);
         check(bestseller, Boolean);
+
+        let copies = [];
+        for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
+            copies.push(new Copy({reference: true, usersID: []}));
+        for (let i=Math.min(number_of_copies, number_of_references); i<number_of_copies; i++)
+            copies.push(new Copy({reference: false, usersID: []}));
 
         let authorsID = [];
         authors.forEach(name => {
@@ -127,9 +133,9 @@ Meteor.methods({
  * Manage documents
  */
 Meteor.methods({
-    'editBook' ({
+    'editBook' (documentID, {
                     title, authors=['Crowd'], edition, publisher, release_date,
-                    price, copies=[], tags=[], bestseller=false
+                    price, number_of_copies, number_of_references, tags=[], bestseller=false
                 }) {
         check(title, String);
         check(authors, [String]);
@@ -137,31 +143,53 @@ Meteor.methods({
         check(publisher, Match.Maybe(String));
         check(release_date, Match.Maybe(Date));
         check(price, Match.Maybe(Number));
-        check(copies, Match.Maybe([Copy]));
+        check(number_of_copies, Number);
+        check(number_of_references, Number);
         check(tags, [String]);
         check(bestseller, Boolean);
 
+        let document = Books.findOne({_id: documentID});
+        if (!document) throw Error('Incorrect id of a document');
+
+        let copies = document.copies;
+
+        if (document.numberOfCopies() - document.leftInLibrary() > number_of_copies - number_of_references)
+            throw Error('Number of already checked out books can\'t be more than available books after the change');
+
+        // for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
+        //     copies.push(new Copy({reference: true, usersID: []}));
+        // for (let i=Math.min(number_of_copies, number_of_references); i<number_of_copies; i++)
+        //     copies.push(new Copy({reference: false, usersID: []}));
+
+        let m_reference = document.copies.filter(o => o.reference);
+        let m_checked = document.copies.filter(o => o.checked_out_date);
+        let m_avaliable = document.copies.filter(o => o.checked_out_date);
+
+            copies.push(new Copy({reference: true, usersID: []}));
+        for (let i=Math.min(number_of_copies, number_of_references); i<number_of_copies; i++)
+            copies.push(new Copy({reference: false, usersID: []}));
+
         let authorsID = [];
         authors.forEach(name => {
-            let exist = Author.find({name: name}).count();
+            let exist = Author.find({ name: name }).count();
             authorsID.push(
                 exist ?
-                    Author.findOne({name: name})._id :
-                    Author.insert({name: name})
+                    Author.findOne({ name: name })._id:
+                    Author.insert({ name: name })
             );
         });
 
-        return Books.insert({
-            title: title,
-            authorsID: authorsID,
-            edition: edition,
-            publisher: publisher,
-            release_date: release_date,
-            price: price,
-            copies: copies,
-            tags: tags,
-            bestseller: bestseller
-        });
+        document.title = title;
+        document.authorsID = authorsID;
+        document.edition = edition;
+        document.publisher = publisher;
+        document.release_date = release_date;
+        document.price = price;
+        document.copies = copies;
+        document.tags = tags;
+        document.bestseller = bestseller;
+
+        document.save();
     }
 });
 
@@ -249,7 +277,7 @@ Meteor.methods({
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.userHas(userID)) {
-            document.user(userID);
+            document.return(userID);
         } else {
             throw Error('User can\'t return a book, because he doesn\'t have it');
         }
@@ -274,5 +302,3 @@ Meteor.methods({
 * calculateFine(document)
 *
 * */
-
-

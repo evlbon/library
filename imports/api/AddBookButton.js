@@ -33,11 +33,6 @@ class AddBookButton extends Component {
         const References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
         const Bestseller = Boolean(ReactDOM.findDOMNode(this.refs.Bestseller).value.trim());
 
-
-        let copies = [];
-        for (let i=0; i<Math.min(Copies, References); i++) copies.push(new Copy({reference: true, usersID: []}));
-        for (let i=Math.min(Copies, References); i<Copies; i++) copies.push(new Copy({reference: false, usersID: []}));
-
         Meteor.call('documents.addBook',{
             title: Title,
             authors: Author.split(','),
@@ -46,7 +41,9 @@ class AddBookButton extends Component {
             release_date: new Date(PDate,1),
             price: Number(Price),
             tags: Tags.split(','),
-            copies: copies  ,
+            copies: copies,
+            number_of_copies: Copies,
+            number_of_references: References,
             bestseller: !(Boolean(Bestseller))});
 
         ReactDOM.findDOMNode(this.refs.Title).value = '';

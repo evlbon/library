@@ -4,7 +4,7 @@ import AccountsUIWrapper from '../AccountsUIWrapper.js';
 import {Meteor} from "meteor/meteor";
 import AddBookButton from "../../api/AddBookButton";
 import AddArticleButton from "../../api/AddArticleButton";
-
+import AddNewUser from "../../api/AddNewUser"
 export class Header extends React.Component{
 
 
@@ -73,6 +73,7 @@ export class Header extends React.Component{
                                 <div id={"add"} align="center">
                                     <AddBookButton/>
                                     <AddArticleButton/>
+                                    <AddNewUser/>
                                 </div>
                                 : ''
                             :""

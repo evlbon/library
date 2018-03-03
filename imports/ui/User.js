@@ -42,10 +42,10 @@ class Users extends Component {
 
             <li >
                 <div className="USERBOX">
-                <h1>User Name: {this.props.user.name}.</h1>
-                    <p>Group: {this.props.user.group}.</p>
-                    <p>Address:{this.props.user.address}.</p>
-                        <p>Phone Number: {this.props.user.phone}.</p>
+                    <h1>User Name: {this.props.user.name}.</h1>
+                    <p>Group: <strong>{this.props.user.group}</strong>.</p>
+                    <p>Address:<strong>{this.props.user.address}</strong>.</p>
+                    <p>Phone Number: <strong>{this.props.user.phone}</strong>.</p>
                     I want this User to be :
 
 
@@ -57,6 +57,7 @@ class Users extends Component {
                     <button onClick={this.renderCase.bind(this,2)}>Student,</button>
                     <button onClick={this.renderCase.bind(this,3)}>Faculty,</button>
                     <button onClick={this.renderCase.bind(this,4)}>Deleted</button>
+                    <p></p>
                     <EditUser ID = {this.props.user.libraryID}/>
 
 

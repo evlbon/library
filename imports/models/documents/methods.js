@@ -134,6 +134,35 @@ Meteor.methods({
         });
         return id;
     },
+    'addUser'({name,password,group,phone,address}){
+
+
+        let newUserId =
+            Meteor.users.insert({
+                emails: [name],
+                profile  : { fullname : name },
+                name:name
+            });
+        Accounts.setPassword(newUserId, password);
+        console.log(newUserId.name);
+        let S = 2;
+        if(group==="HumbleUser") {
+            Meteor.call('addHumblerUser', {id: newUserId._id, name: name});
+            S = 0;
+        }
+        if(group==="Librarian") {
+            Meteor.call('addLibrarian', {id: newUserId._id, name: name});
+            S = 1;
+        }
+        if(group==="Faculty") {
+            Meteor.call('addFaculty', {id: newUserId._id, name: name});
+            S = 3;
+        }
+        if(group==="Student")
+            Meteor.call('addStudent',{id:newUserId._id,name:name});
+        Meteor.call('ModifyUser',{id:newUserId,S:S});
+
+    },
 
     'addFaculty' ({ id,name  }) {
         Faculty.insert({

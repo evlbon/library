@@ -62,7 +62,6 @@ export class AddNewUser extends Component {
                 className="AddBlock"
                 closable={false}
             >
-                <h5>Leave empty means do not need modification </h5>
                 <div  align="right" >
                     <form style={{fontSize: "15px",fontFamily:"Arial"}}>
 
@@ -70,6 +69,7 @@ export class AddNewUser extends Component {
                         <input
                             className={"inputForAdd"}
                             type="text"
+                            required
                             ref="name"
                         /><br/>
 
@@ -77,6 +77,7 @@ export class AddNewUser extends Component {
                         <input
                             className={"inputForAdd"}
                             type="text"
+                            required
                             ref="pass"
                         /><br/>
                     </form>

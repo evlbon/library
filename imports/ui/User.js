@@ -6,8 +6,10 @@ import {User} from "../models/users/user";
 import { Author } from "../models/utility/author";
 import {Librarian} from "../models/users/librarian";
 import {EditUser} from "../api/editUser";
+import { Icon } from 'antd';
 
-// Book component - represents a single todo item
+
+
 class Users extends Component {
 
     renderCase(number){
@@ -33,32 +35,30 @@ class Users extends Component {
 
 
 
+
     renderNewUser(){
 
         return(
 
             <li >
                 <div className="USERBOX">
-                <h1>User Name: {this.props.user.name}</h1>
-                    ,Group: {this.props.user.group},
-                    Address:{this.props.user.address},
-                     Phone Number: {this.props.user.phone}
+                <h1>User Name: {this.props.user.name}.</h1>
+                    <p>Group: {this.props.user.group}.</p>
+                    <p>Address:{this.props.user.address}.</p>
+                        <p>Phone Number: {this.props.user.phone}.</p>
+                    I want to :
 
 
                     {console.log(this.props.user.name)}
                     {console.log(this.props.user._id)}
                     {console.log(this.props.user.libraryID)}
 
-
-
-                <div className="delete">
-
-                    <button onClick={this.renderCase.bind(this,1)}>Make Librarian</button><br/>
-                    <button onClick={this.renderCase.bind(this,2)}>Make student</button><br/>
-                    <button onClick={this.renderCase.bind(this,3)}>Make faculty</button><br/>
-                    <button onClick={this.renderCase.bind(this,4)}>Delete User</button><br/>
+                    <button onClick={this.renderCase.bind(this,1)}>Make Librarian</button>
+                    <button onClick={this.renderCase.bind(this,2)}>Make student</button>
+                    <button onClick={this.renderCase.bind(this,3)}>Make faculty</button>
+                    <button onClick={this.renderCase.bind(this,4)}>Delete User</button>
                     <EditUser ID = {this.props.user.libraryID}/>
-                </div>
+
 
             </div>
             </li>

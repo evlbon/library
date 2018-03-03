@@ -54,13 +54,7 @@ export class EditUser extends Component {
     render() {
         console.log(this.props.ID);
 
-        return (
-
-            <div >
-
-                <div>
-
-                    <Button className={"myButton"} type="primary" onClick={this.showModal}>Edit this User</Button>
+        return   <div><Button className={"myButton"} type="primary" onClick={this.showModal}>Edit this User</Button>
 
 
                     <Modal
@@ -108,10 +102,8 @@ export class EditUser extends Component {
 
 
                     </Modal>
-                </div>
+        </div>
 
-            </div>
-        );
     }
 }
 

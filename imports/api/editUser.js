@@ -23,41 +23,24 @@ export class EditUser extends Component {
 
     handleOk = (e) => {
 
-        const Title = ReactDOM.findDOMNode(this.refs.Title).value.trim();
-        const Author = ReactDOM.findDOMNode(this.refs.Author).value.trim();
-        const Publisher = ReactDOM.findDOMNode(this.refs.Publisher).value.trim();
-        const Edition = ReactDOM.findDOMNode(this.refs.Edition).value.trim();
-        const PDate = ReactDOM.findDOMNode(this.refs.ReleaseDate).value.trim();
-        const Tags = ReactDOM.findDOMNode(this.refs.Tags).value.trim();
-        const Price = Number(ReactDOM.findDOMNode(this.refs.Price).value.trim());
-        const Copies = Number(ReactDOM.findDOMNode(this.refs.Copies).value.trim());
-        const References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
-        const Bestseller = Boolean(ReactDOM.findDOMNode(this.refs.Bestseller).value.trim());
+        const Name = ReactDOM.findDOMNode(this.refs.name).value.trim();
+        const Group = ReactDOM.findDOMNode(this.refs.group).value.trim();
+        const Address = ReactDOM.findDOMNode(this.refs.address).value.trim();
+        const Phone = ReactDOM.findDOMNode(this.refs.phone).value.trim();
+        console.log(Address);
+        Meteor.call('ModifyUserProperties',{
+            name:Name,
+            group:Group,
+            address:Address,
+            phone:Phone,
+            id:this.props.ID,
+        });
 
-        Meteor.call('documents.addBook',{
-            title: Title,
-            authors: Author.split(','),
-            edition: Edition,
-            publisher: Publisher,
-            release_date: new Date(PDate,1),
-            price: Number(Price),
-            tags: Tags.split(','),
 
-            number_of_copies: Copies,
-            number_of_references: References,
-            bestseller: !(Boolean(Bestseller))});
-
-        ReactDOM.findDOMNode(this.refs.Title).value = '';
-        ReactDOM.findDOMNode(this.refs.Author).value = '';
-        ReactDOM.findDOMNode(this.refs.Publisher).value = '';
-        ReactDOM.findDOMNode(this.refs.Edition).value = '';
-        ReactDOM.findDOMNode(this.refs.ReleaseDate).value = '';
-        ReactDOM.findDOMNode(this.refs.Copies).value = '';
-        ReactDOM.findDOMNode(this.refs.References).value = '';
-        ReactDOM.findDOMNode(this.refs.Tags).value = '';
-        ReactDOM.findDOMNode(this.refs.Price).value = '';
-        ReactDOM.findDOMNode(this.refs.Bestseller).value = '';
-
+        ReactDOM.findDOMNode(this.refs.name).value= "";
+        ReactDOM.findDOMNode(this.refs.group).value="";/// see if we can view initial data here
+        ReactDOM.findDOMNode(this.refs.address).value="";
+        ReactDOM.findDOMNode(this.refs.phone).value="";
 
         this.setState({
             visible: false,
@@ -69,25 +52,23 @@ export class EditUser extends Component {
         });
     };
     render() {
+        console.log(this.props.ID);
 
-        return (
+        return   <div>
 
-            <div >
-
-                <div>
-
-                    <Button className={"myButton"} type="primary" onClick={this.showModal}>Edit this User</Button>
+            I want to :
+            <Button className={"myButton"} type="primary" onClick={this.showModal}>Edit this User</Button>
 
 
                     <Modal
-                        title="Add Book"
+                        title="Modify User"
                         visible={this.state.visible}
                         onOk={this.handleOk}
                         onCancel={this.handleCancel}
                         className="AddBlock"
                         closable={false}
                     >
-
+                        <h5>Leave empty means do not need modification </h5>
                         <div  align="right" >
                             <form style={{fontSize: "15px",fontFamily:"Arial"}}>
 
@@ -95,74 +76,26 @@ export class EditUser extends Component {
                                 <input
                                     className={"inputForAdd"}
                                     type="text"
-                                    required
-                                    ref="Title"
+                                    ref="name"
                                 /><br/>
                                 group
-                                <div>
-                                <Select defaultValue="lucy" style={{ width: 120 }} onChange={handleChange}>
-                                    <Option value="jack">Jack</Option>
-                                    <Option value="lucy">Lucy</Option>
-                                    <Option value="disabled" disabled>Disabled</Option>
-                                    <Option value="Yiminghe">yiminghe</Option>
-                                </Select>
-                                <Select defaultValue="lucy" style={{ width: 120 }} allowClear disabled>
-                                    <Option value="lucy">Lucy</Option>
-                                </Select>
-                                </div>
-                                Publisher
                                 <input
                                     className={"inputForAdd"}
                                     type="text"
-                                    ref="Publisher"
+                                    ref="group"
                                 /><br/>
-                                Edition
+                                Address
                                 <input
                                     className={"inputForAdd"}
                                     type="text"
-                                    ref="Edition"
+                                    ref="address"
                                 /><br/>
-                                ReleaseDate
+                               Phone number
                                 <input
                                     className={"inputForAdd"}
                                     type="text"
-                                    ref="ReleaseDate"
+                                    ref="phone"
                                 /><br/>
-                                Tags
-                                <input
-                                    className={"inputForAdd"}
-                                    type="text"
-                                    ref="Tags"
-                                /><br/>
-                                Price
-                                <input
-                                    className={"inputForAdd"}
-                                    type="number"
-                                    min="0"
-                                    ref="Price"
-                                    required
-                                /><br/>
-                                Number of copies
-                                <input
-                                    className={"inputForAdd"}
-                                    type="number"
-                                    min="0"
-                                    ref="Copies"
-                                /><br/>
-                                Number of references
-                                <input
-                                    className={"inputForAdd"}
-                                    type="number"
-                                    min="0"
-                                    ref="References"
-                                /><br/>
-                                Bestseller?
-                                <input
-                                    type="checkbox"
-                                    ref="Bestseller"
-                                    style={{margin:"5px 45% 5px 5px"}}
-                                />
-
 
                             </form>
 
@@ -172,10 +105,8 @@ export class EditUser extends Component {
 
 
                     </Modal>
-                </div>
+        </div>
 
-            </div>
-        );
     }
 }
 

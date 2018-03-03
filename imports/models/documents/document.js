@@ -14,8 +14,9 @@ export const Copy = Class.create({
             type: Date,
             optional: true
         },
-        usersID: {
-            type: [String]
+        userID: {
+            type: String,
+            optional: true
         }
     }
 });
@@ -61,9 +62,9 @@ export const Document = Class.create({
         tillDeadline: function (userID) {
             if (!this.userHas(userID)) throw new Error('user doesn\'t have the document');
 
-            let copy = this.copies.find(o => o.checked_out_date && (o.usersID[o.usersID.length-1] === userID));
+            let copy = this.copies.find(o => o.checked_out_date && (o.userID === userID));
 
-            let renterID = copy.usersID[copy.usersID.length - 1];
+            let renterID = copy.userID;
             let duration;
 
             if (User.findOne({libraryID: renterID}).group === 'Faculty') {
@@ -79,12 +80,9 @@ export const Document = Class.create({
             this.copies.forEach(o => {
                 if (o.checked_out_date) {
 
-                    let renterID = o.usersID[o.usersID.length - 1];
-                    let renter;
+                    let renter = User.findOne({libraryID: o.userID});
 
-                    renter = User.findOne({libraryID: renterID});
-
-                    renters.push({name: renter.name, tillDeadline: this.tillDeadline(renterID)})
+                    renters.push({name: renter.name, tillDeadline: this.tillDeadline(o.userID)})
                 }
             });
             return renters;
@@ -94,20 +92,15 @@ export const Document = Class.create({
             this.copies.forEach(o => {
                 if (o.checked_out_date) {
 
-                    let renterID = o.usersID[o.usersID.length - 1];
-                    console.log(renterID);
-                    console.log(cuser);
-                    if ( cuser === renterID) {
-
-                        renters.push({tillDeadline: this.tillDeadline(renterID)})
+                    if ( cuser === o.userID) {
+                        renters.push({tillDeadline: this.tillDeadline(o.userID)})
                     }
                 }
             });
             return renters;
-        }
-        ,
+        },
         userHas(userID) {
-            return this.copies.find(o => !o.reference && o.checked_out_date && (o.usersID[o.usersID.length - 1] === userID));
+            return this.copies.find(o => !o.reference && o.checked_out_date && (o.userID === userID));
         },
         canCheckOut(userID) {
             return !this.userHas(userID) && this.available()
@@ -116,7 +109,7 @@ export const Document = Class.create({
             let copy = this.copies.find(o => !(o.checked_out_date || o.reference));
             if (copy) {
                 copy.checked_out_date = new Date();
-                copy.usersID.push(userID);
+                copy.userID = userID;
                 this.save();
                 return true;
             } else

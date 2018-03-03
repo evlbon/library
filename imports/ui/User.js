@@ -21,8 +21,8 @@ class Users extends Component {
                // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
                 break;
             case 4:
-                console.log(this.props.user._id);
-                console.log( this.props.user.name);
+                // console.log(this.props.user._id);
+                // console.log( this.props.user.name);
                 Meteor.call('Delete',{ID:this.props.user._id, ID2:this.props.user.libraryID});
                 break;
             default:
@@ -31,49 +31,35 @@ class Users extends Component {
     }
 
 
-    renderUsers(){
 
 
-        let books = functions.getUsersBooks(this.props.user.libraryID);
-
-        books ? books = books.map(o => ('Book - "' + o.title + '" | '+o.tillDeadline+' days left.')):"";
-
-        return books;
-        return(
-            <li >
-
-                {books.length ? <pre>{books.join("\n")}</pre>
-                    :<p>Nothing</p>}
-            </li>
-
-        )
-
-    }
 
     renderNewUser(){
-        let books = this.renderUsers();
+
         return(
 
             <li >
                 <div className="USERBOX">
-                <h1>User - {this.props.user.name}</h1>
-                     Current Type {this.props.user.group}
+                    <h1>User Name: {this.props.user.name}.</h1>
+                    <p>Group: <strong>{this.props.user.group}</strong>.</p>
+                    <p>Address:<strong>{this.props.user.address}</strong>.</p>
+                    <p>Phone Number: <strong>{this.props.user.phone}</strong>.</p>
+                    I want this User to be :
+
+
                     {console.log(this.props.user.name)}
                     {console.log(this.props.user._id)}
                     {console.log(this.props.user.libraryID)}
 
+                    <button onClick={this.renderCase.bind(this,1)}>Librarian,</button>
+                    <button onClick={this.renderCase.bind(this,2)}>Student,</button>
+                    <button onClick={this.renderCase.bind(this,3)}>Faculty,</button>
+                    <button onClick={this.renderCase.bind(this,4)}>Deleted</button>
+                    <p></p>
+                    <EditUser ID = {this.props.user.libraryID}/>
 
 
-                <div className="delete">
-
-                    <button onClick={this.renderCase.bind(this,1)}>Make Librarian</button><br/>
-                    <button onClick={this.renderCase.bind(this,2)}>Make student</button><br/>
-                    <button onClick={this.renderCase.bind(this,3)}>Make faculty</button><br/>
-                    <button onClick={this.renderCase.bind(this,4)}>Delete User</button><br/>
-                    <EditUser/>
-                </div>
-                </div>
-
+            </div>
             </li>
         )
 
@@ -90,13 +76,10 @@ class Users extends Component {
         // so that we can style them nicely in CSS
         if(!this.AmILibrarian())
             return "";
-        const  user = User.findOne({libraryID : this.props.user._id});
         console.log(this.props.user);
         return (
             <div>
-
                 {this.renderNewUser()}
-
             </div>
         );
     }

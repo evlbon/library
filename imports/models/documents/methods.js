@@ -32,9 +32,9 @@ Meteor.methods({
 
         let copies = [];
         for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
-            copies.push(new Copy({reference: true, usersID: []}));
+            copies.push(new Copy({reference: true}));
         for (let i=Math.min(number_of_copies, number_of_references); i<number_of_copies; i++)
-            copies.push(new Copy({reference: false, usersID: []}));
+            copies.push(new Copy({reference: false}));
 
         let authorsID = [];
         authors.forEach(name => {
@@ -106,6 +106,8 @@ Meteor.methods({
             libraryID: id,
             name: name,
             group:"Librarian",
+            address:"None",
+            phone:-1,
         });
 
         return id;
@@ -115,6 +117,8 @@ Meteor.methods({
             libraryID: id,
             name: name,
             group:"HumbleUser",
+            address:"None",
+            phone:-1,
         });
 
         return id;
@@ -124,16 +128,49 @@ Meteor.methods({
         Student.insert({
             libraryID:id,
             name: name,
-            group:"Student"
+            group:"Student",
+            address:"None",
+            phone:-1,
         });
         return id;
+    },
+    'addUser'({name,password,group}){
+
+
+        let newUserId =
+            Meteor.users.insert({
+                emails: [name],
+                profile  : { fullname : name },
+                name:name
+            });
+        Accounts.setPassword(newUserId, password);
+        console.log(newUserId.name);
+        let S = 2;
+        if(group==="HumbleUser") {
+            Meteor.call('addHumblerUser', {id: newUserId._id, name: name});
+            S = 0;
+        }
+        if(group==="Librarian") {
+            Meteor.call('addLibrarian', {id: newUserId._id, name: name});
+            S = 1;
+        }
+        if(group==="Faculty") {
+            Meteor.call('addFaculty', {id: newUserId._id, name: name});
+            S = 3;
+        }
+        if(group==="Student")
+            Meteor.call('addStudent',{id:newUserId._id,name:name});
+        Meteor.call('ModifyUser',{id:newUserId,S:S});
+
     },
 
     'addFaculty' ({ id,name  }) {
         Faculty.insert({
             libraryID: id,
             name: name,
-            group:"Faculty"
+            group:"Faculty",
+            address:"None",
+            phone:-1,
         });
         return id;
     },
@@ -159,12 +196,28 @@ Meteor.methods({
         User.update({libraryID:id},{$set:{group:str}});
         return id;
     },
+    'ModifyUserProperties' ({id,name,group,phone,address}){
+        if(name.length)
+            User.update({libraryID:id},{$set:{name:name}});
+        if(group.length)
+            User.update({libraryID:id},{$set:{group:group}});
+        if(phone.length)
+            User.update({libraryID:id},{$set:{phone:Number(phone)}});
+        if(address.length)
+            User.update({libraryID:id},{$set:{address:address}});
+    },
 });
 
 /**
  * Manage documents
  */
+
+
 Meteor.methods({
+    'canEditDocument' (documentID, number_of_copies, number_of_references) {
+        return (document.numberOfCopies() - document.leftInLibrary() <= number_of_copies - number_of_references)
+    },
+
     'editBook' (documentID, {
                     title, authors=['Crowd'], edition, publisher, release_date,
                     price, number_of_copies, number_of_references, tags=[], bestseller=false
@@ -183,23 +236,30 @@ Meteor.methods({
         let document = Books.findOne({_id: documentID});
         if (!document) throw Error('Incorrect id of a document');
 
-        let copies = document.copies;
-
         if (document.numberOfCopies() - document.leftInLibrary() > number_of_copies - number_of_references)
             throw Error('Number of already checked out books can\'t be more than available books after the change');
 
-        // for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
-        //     copies.push(new Copy({reference: true, usersID: []}));
-        // for (let i=Math.min(number_of_copies, number_of_references); i<number_of_copies; i++)
-        //     copies.push(new Copy({reference: false, usersID: []}));
+        let old_reference = document.copies.filter(o => o.reference);
+        let old_available = document.copies.filter(o => o.checked_out_date);
 
-        let m_reference = document.copies.filter(o => o.reference);
-        let m_checked = document.copies.filter(o => o.checked_out_date);
-        let m_avaliable = document.copies.filter(o => o.checked_out_date);
+        let new_checked = document.copies.filter(o => o.checked_out_date);
 
-            copies.push(new Copy({reference: true, usersID: []}));
-        for (let i=Math.min(number_of_copies, number_of_references); i<number_of_copies; i++)
-            copies.push(new Copy({reference: false, usersID: []}));
+        let number_of_available = number_of_copies - number_of_references - new_checked.length;
+
+        let new_reference = old_reference.splice(0, number_of_references);
+        let new_available = old_available.splice(0, number_of_available);
+
+        old_reference = old_reference.map(o => o.reference = false);
+        old_available = old_available.map(o => o.reference = true);
+
+        new_reference = new_reference.concat(old_available.splice(0, number_of_references - new_reference.length));
+        new_available = new_available.concat(old_reference.splice(0, number_of_available - new_available.length));
+
+        for (let i=number_of_references - new_reference.length; i<number_of_references; i++)
+            new_reference.push(new Copy({reference: true}));
+        for (let i=number_of_available - new_available.length; i<number_of_available; i++)
+            new_available.push(new Copy({reference: true}));
+
 
         let authorsID = [];
         authors.forEach(name => {
@@ -217,7 +277,7 @@ Meteor.methods({
         document.publisher = publisher;
         document.release_date = release_date;
         document.price = price;
-        document.copies = copies;
+        document.copies = new_reference.concat(new_available).concat(new_checked);
         document.tags = tags;
         document.bestseller = bestseller;
 
@@ -240,6 +300,9 @@ Meteor.methods({
     },
 
     'checkOut' ({ userID, documentID }) {
+
+        console.log(userID + " " + documentID);
+
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
 
@@ -303,6 +366,9 @@ Meteor.methods({
     },
 
     'returnDocument' ({ userID, documentID }) {
+
+        console.log(userID + " " + documentID);
+
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
 
@@ -316,6 +382,7 @@ Meteor.methods({
     },
 });
 
+// test test
 /*
 * METHOD INTERFACES:
 *

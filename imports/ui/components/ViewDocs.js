@@ -73,7 +73,7 @@ export class ViewDocs extends React.Component {
 
     render() {
 
-        this.props.currentUser ? console.log( this.props.currentUser._id) : "";
+        // this.props.currentUser ? console.log( this.props.currentUser._id) : "";
 
         return  <div>
             <button onClick={this.reanderCase.bind(this,1)}>Books</button>

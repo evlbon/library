@@ -20,13 +20,12 @@ export function getUsersBooks(userID) {
     return books;
 }
 
-
 export function getRenters(documentID) {
     let document = Books.findOne({_id: documentID});
 
     if (!(document)) throw Error('Incorrect id of user or document');
 
-    return document.renters();;
+    return document.renters();
 }
 export function getRentsViaId(documentID,cuzer){
     let document = Books.findOne({_id: documentID});

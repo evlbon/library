@@ -6,10 +6,8 @@ import {User} from "../models/users/user";
 import { Author } from "../models/utility/author";
 import {Librarian} from "../models/users/librarian";
 import {EditUser} from "../api/editUser";
-import { Icon } from 'antd';
 
-
-
+// Book component - represents a single todo item
 class Users extends Component {
 
     renderCase(number){
@@ -23,8 +21,8 @@ class Users extends Component {
                // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
                 break;
             case 4:
-                console.log(this.props.user._id);
-                console.log( this.props.user.name);
+                // console.log(this.props.user._id);
+                // console.log( this.props.user.name);
                 Meteor.call('Delete',{ID:this.props.user._id, ID2:this.props.user.libraryID});
                 break;
             default:

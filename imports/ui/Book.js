@@ -12,11 +12,14 @@ class Book extends Component {
 
     deleteThisBook() {
         Meteor.call('documents.delBook',{id : this.props.book._id, name: ["yury", "jojo" ]})
-
     }
 
     rentBook(id){
-        Meteor.call("checkOut",{userID:this.props.currentUser._id,documentID:id});
+        Meteor.call("checkOut",{userID:this.props.currentUser._id, documentID:id});
+    }
+
+    returnBook(id){
+        Meteor.call("returnDocument",{userID:this.props.currentUser._id, documentID:id});
     }
 
     renderRents(o) {
@@ -53,10 +56,23 @@ class Book extends Component {
 
                 { this.props.currentUser ?
                     User.findOne({libraryID : this.props.currentUser._id}) ?
-                <button className="delete" onClick={this.rentBook.bind(this,this.props.book._id)}
-                        disabled={!(functions.canCheckOut(this.props.currentUser._id,this.props.book._id))}>
-                    Rent
-                </button>
+                        <button className="delete" onClick={this.rentBook.bind(this,this.props.book._id)}
+                                disabled={!(functions.canCheckOut(this.props.currentUser._id,this.props.book._id))}>
+                            Rent
+                        </button>
+                        :""
+                    :""
+                }
+
+
+                <br/>
+
+                { this.props.currentUser ?
+                    User.findOne({libraryID : this.props.currentUser._id}) ?
+                        <button className="delete" onClick={this.returnBook.bind(this,this.props.book._id)}
+                                disabled={!(functions.hasDocument(this.props.currentUser._id, this.props.book._id))}>
+                            Return
+                        </button>
                         :""
                     :""
                 }
@@ -92,6 +108,9 @@ class Book extends Component {
                     :""
 
                 }
+
+
+
                 {
                     this.props.currentUser ?
                         Librarian.findOne({libraryID : this.props.currentUser._id}) ?

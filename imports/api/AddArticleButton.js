@@ -10,12 +10,12 @@ import {Librarian} from "../models/users/librarian";
 
 class AddArticleButton extends Component {
 
-    state = { visible: false }
+    state = { visible: false };
     showModal = () => {
         this.setState({
             visible: true,
         });
-    }
+    };
 
     handleOk = (e) => {
 
@@ -30,8 +30,8 @@ class AddArticleButton extends Component {
         const References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
 
         let copies = [];
-        for (let i=0; i<Math.min(Copies, References); i++) copies.push(new Copy({reference: true, usersID: []}));
-        for (let i=Math.min(Copies, References); i<Copies; i++) copies.push(new Copy({reference: false, usersID: []}));
+        for (let i=0; i<Math.min(Copies, References); i++) copies.push(new Copy({reference: true}));
+        for (let i=Math.min(Copies, References); i<Copies; i++) copies.push(new Copy({reference: false}));
 
         Meteor.call('documents.addArticle',{
             title: Title,

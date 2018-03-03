@@ -41,7 +41,6 @@ class AddBookButton extends Component {
             release_date: new Date(PDate,1),
             price: Number(Price),
             tags: Tags.split(','),
-
             number_of_copies: Copies,
             number_of_references: References,
             bestseller: !(Boolean(Bestseller))});

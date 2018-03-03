@@ -96,8 +96,8 @@ Meteor.methods({
         });
         Meteor.call('checkOut', {userID: faculty1, documentID: book1});
         Meteor.call('checkOut', {userID: "Kiweim2rdFGQkYcfF", documentID: "RSJRTCzk5BoBXgtGs"});
-        console.log('Student 2 can check out book1:');
-        console.log(Meteor.call('canCheckOut',{userID: student2, documentID: book1}));
+        // console.log('Student 2 can check out book1:');
+        // console.log(Meteor.call('canCheckOut',{userID: student2, documentID: book1}));
         Meteor.call('checkOut', {userID: student2, documentID: book1});
     },
 

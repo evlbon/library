@@ -123,6 +123,7 @@ export const Document = Class.create({
             } else
                 throw new Error( 'user '+ userID +' didnt have this book' );
         },
+
         addAuthor(author) {
 
         },

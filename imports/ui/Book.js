@@ -16,7 +16,14 @@ class Book extends Component {
     }
 
     rentBook(id){
-        Meteor.call("checkOut",{userID:this.props.currentUser._id,documentID:id});
+        alert(this);
+        Meteor.call("checkOut",{userID:this.props.currentUser._id, documentID:id});
+    }
+
+    returnBook(id){
+        alert(this);
+        Meteor.call("returnDocument",{userId:this.props.currentUser._id, documentID:id});
+
     }
 
     renderRents(o) {
@@ -61,6 +68,19 @@ class Book extends Component {
                     :""
                 }
 
+
+                <br/>
+
+                { this.props.currentUser ?
+                    User.findOne({libraryID : this.props.currentUser._id}) ?
+                        <button className="delete" onClick={this.returnBook.bind(this,this.props.book._id)}
+                                disabled={!(functions.hasDocument(this.props.currentUser._id, this.props.book._id))}>
+                            Return
+                        </button>
+                        :""
+                    :""
+                }
+
                 {/*Filling the fields for Book description*/}
                 <div className="BOOKBOX1">
                 <h1>Book</h1><br/>
@@ -92,6 +112,9 @@ class Book extends Component {
                     :""
 
                 }
+
+
+
                 {
                     this.props.currentUser ?
                         Librarian.findOne({libraryID : this.props.currentUser._id}) ?

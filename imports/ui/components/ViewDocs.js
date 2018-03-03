@@ -5,7 +5,7 @@ import {Librarian} from "../../models/users/librarian"
 import Users from "../User"
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
-
+import Users2 from "../User2";
 export class ViewDocs extends React.Component {
 
     constructor() {
@@ -36,7 +36,13 @@ export class ViewDocs extends React.Component {
             ));
         }
     }
-
+    renderUser2s(){
+        if(Meteor.userId()) {
+            return this.props.users.map((user) => (
+                <Users2 key={user._id} user={user}/>
+            ));
+        }
+    }
     reanderCase(number){
 
         this.case ? this.case.style.display="none" : document.getElementById("books").style.display="none";
@@ -53,6 +59,11 @@ export class ViewDocs extends React.Component {
             case 3:
                 document.getElementById('users').style.display="";
                 this.case=document.getElementById("users");
+                break;
+            case 69:
+                console.log("you are here");
+                document.getElementById('users2').style.display="";
+                this.case=document.getElementById("users2");
                 break;
             default:
                 return("");
@@ -78,6 +89,15 @@ export class ViewDocs extends React.Component {
                         :""
                     :""
             }
+            {
+                this.props.currentUser ?
+                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
+                            <button onClick={this.reanderCase.bind(this,69)}>Users Stories</button>
+                            : ''
+                        :""
+                    :""
+            }
             <ul id="books" style={{display:""}}>
                 {this.renderBooks()}
             </ul>
@@ -87,6 +107,9 @@ export class ViewDocs extends React.Component {
 
             <ul id="users" style={{display:"none"}}>
                 {this.renderUsers()}
+            </ul>
+            <ul id="users2" style={{display:"none"}}>
+                {this.renderUser2s()}
             </ul>
             </div>;
     }

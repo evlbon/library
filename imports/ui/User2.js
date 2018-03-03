@@ -5,10 +5,9 @@ import * as functions from "../models/documents/functions"
 import {User} from "../models/users/user";
 import { Author } from "../models/utility/author";
 import {Librarian} from "../models/users/librarian";
-import {EditUser} from "../api/editUser";
 
 // Book component - represents a single todo item
-class Users extends Component {
+class Users2 extends Component {
 
     renderCase(number){
 
@@ -18,7 +17,7 @@ class Users extends Component {
             case 2:
             case 3:
                 Meteor.call('ModifyUser',{id:this.props.user.libraryID,S:number});
-               // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
+                // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
                 break;
             case 4:
                 console.log(this.props.user._id);
@@ -38,10 +37,10 @@ class Users extends Component {
 
         books ? books = books.map(o => ('Book - "' + o.title + '" | '+o.tillDeadline+' days left.')):"";
 
-        return books;
+
         return(
             <li >
-
+                <h1>User - {this.props.user.name}</h1>
                 {books.length ? <pre>{books.join("\n")}</pre>
                     :<p>Nothing</p>}
             </li>
@@ -56,22 +55,22 @@ class Users extends Component {
 
             <li >
                 <div className="USERBOX">
-                <h1>User - {this.props.user.name}</h1>
-                     Current Type {this.props.user.group}
+                    <h1>User - {this.props.user.name}</h1>
+                    Current Type {this.props.user.group}
                     {console.log(this.props.user.name)}
                     {console.log(this.props.user._id)}
                     {console.log(this.props.user.libraryID)}
 
+                    {books.length? books.join("\n"):"Nothing"}
 
+                    <div className="delete">
 
-                <div className="delete">
+                        <button onClick={this.renderCase.bind(this,1)}>Make Librarian</button><br/>
+                        <button onClick={this.renderCase.bind(this,2)}>Make student</button><br/>
+                        <button onClick={this.renderCase.bind(this,3)}>Make faculty</button><br/>
+                        <button onClick={this.renderCase.bind(this,4)}>Delete User</button><br/>
 
-                    <button onClick={this.renderCase.bind(this,1)}>Make Librarian</button><br/>
-                    <button onClick={this.renderCase.bind(this,2)}>Make student</button><br/>
-                    <button onClick={this.renderCase.bind(this,3)}>Make faculty</button><br/>
-                    <button onClick={this.renderCase.bind(this,4)}>Delete User</button><br/>
-                    <EditUser/>
-                </div>
+                    </div>
                 </div>
 
             </li>
@@ -95,7 +94,7 @@ class Users extends Component {
         return (
             <div>
 
-                {this.renderNewUser()}
+                {this.renderUsers()}
 
             </div>
         );
@@ -107,4 +106,4 @@ export default withTracker(() => {
         currentUser: Meteor.user(),
         wholeUsers: Meteor.users.find({}).fetch(),
     };
-})(Users);
+})(Users2);

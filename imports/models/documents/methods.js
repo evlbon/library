@@ -365,7 +365,6 @@ Meteor.methods({
 
         return document.userHas(userID);
     },
-
     'returnDocument' ({ userID, documentID }) {
 
         let user = User.findOne({libraryID: userID});
@@ -378,5 +377,13 @@ Meteor.methods({
         } else {
             throw Error('User can\'t return a book, because he doesn\'t have it');
         }
+    },
+    'calculateFee' ({ userID, documentID }) {
+        let user = User.findOne({libraryID: userID});
+        let document = Books.findOne({_id: documentID});
+
+        if (!(user && document)) throw Error('Incorrect id of user or document');
+
+        return document.calculateFee(userID);
     },
 });

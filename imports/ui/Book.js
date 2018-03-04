@@ -5,6 +5,7 @@ import { Author } from "../models/utility/author";
 import {Librarian} from "../models/users/librarian";
 import {User} from "../models/users/user";
 import * as functions from "../models/documents/functions"
+import {EditBook} from "../api/editBook";
 
 // Book component - represents a single todo item
 class Book extends Component {
@@ -22,11 +23,6 @@ class Book extends Component {
         Meteor.call("returnDocument",{userID:this.props.currentUser._id, documentID:id});
     }
 
-    renderRents(o) {
-        return (
-            <p>"{o.name}" | {o.tillDeadline} days left.</p>
-        );
-    }
 
     render() {
         // Give books a different className when they are checked off,
@@ -38,44 +34,63 @@ class Book extends Component {
 
         rents2 ? rents2 = rents2.map(o =>(o.tillDeadline + ' days left.')):"";
         return (
-            <div>
             <li >
 
-                { this.props.currentUser ?
-                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                        <button className="delete" onClick={this.deleteThisBook.bind(this)}>
-                            &times;
-                        </button>
-                        : ''
-                    :""
-                    :""
-                }
+                <div className='boxButtons'>
+                    { this.props.currentUser ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
+                                <button className="delete" onClick={this.deleteThisBook.bind(this)}>
+                                    Delete
+                                </button>
+                                : ''
+                            :""
+                        :""
+                    }
 
-                <br/>
 
-                { this.props.currentUser ?
-                    User.findOne({libraryID : this.props.currentUser._id}) ?
-                        <button className="delete" onClick={this.rentBook.bind(this,this.props.book._id)}
+                    <br/>
+
+                    { this.props.currentUser ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
+                                <EditBook id={this.props.book._id}/>
+                            : ''
+                        :""
+                    :""}
+                    <br/>
+
+
+
+                    { this.props.currentUser ?
+                        User.findOne({libraryID : this.props.currentUser._id}) ?
+                            <button className="delete" onClick={this.rentBook.bind(this,this.props.book._id)}
                                 disabled={!(functions.canCheckOut(this.props.currentUser._id,this.props.book._id))}>
                             Rent
                         </button>
                         :""
-                    :""
-                }
+                    :""}
 
 
-                <br/>
 
-                { this.props.currentUser ?
-                    User.findOne({libraryID : this.props.currentUser._id}) ?
-                        <button className="delete" onClick={this.returnBook.bind(this,this.props.book._id)}
-                                disabled={!(functions.hasDocument(this.props.currentUser._id, this.props.book._id))}>
-                            Return
-                        </button>
+                    <br/>
+
+                    { this.props.currentUser ?
+                        User.findOne({libraryID : this.props.currentUser._id}) ?
+                            <button className="delete" onClick={this.returnBook.bind(this,this.props.book._id)}
+                                    disabled={!(functions.hasDocument(this.props.currentUser._id, this.props.book._id))}>
+                                Return
+                            </button>
+                            :""
                         :""
-                    :""
-                }
+                    }
+
+
+
+                </div>
+
+
+
 
                 {/*Filling the fields for Book description*/}
                 <div className="BOOKBOX1">
@@ -126,7 +141,6 @@ class Book extends Component {
                 }
 
             </li>
-            </div>
         );
     }
 }

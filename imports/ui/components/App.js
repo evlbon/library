@@ -29,7 +29,16 @@ class App extends Component {
     }
     render() {
 
-            // this.props.currentUser ? console.log( this.props.currentUser._id) : "";
+        if (this.props.currentUser){
+            if (this.props.users.length===0){
+                Meteor.call('addLibrarian', {id: this.props.currentUser._id, name: this.props.currentUser.username})
+            }
+            else if(!User.findOne({libraryID : this.props.currentUser._id})){
+                Meteor.call('addHumbleUser', {id: this.props.currentUser._id, name: this.props.currentUser.username})
+            }
+
+        }
+
 
         return <div className="container">
 
@@ -44,7 +53,7 @@ export default withTracker(() => {
     return {
         books: Books.find({}).fetch(),
         articles : JournalArticle.find({}).fetch(),
-        users : Librarian.find({}).fetch(),
+        users : User.find({}).fetch(),
         currentUser: Meteor.user(),
     };
 })(App);

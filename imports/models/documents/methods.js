@@ -15,6 +15,7 @@ import { Faculty } from "../users/faculty";
  */
 
 Meteor.methods({
+
     'documents.addBook' ({
                              title, authors=['Crowd'], edition, publisher, release_date,
                              price, number_of_copies, number_of_references, tags=[], bestseller=false
@@ -104,8 +105,11 @@ Meteor.methods({
     'addLibrarian' ({ id,name }) {
         Librarian.insert({
             libraryID: id,
+            login:name,
             name: name,
             group:"Librarian",
+            address:"None",
+            phone:-1,
         });
 
         return id;
@@ -113,8 +117,11 @@ Meteor.methods({
     'addHumbleUser' ({ id,name }) {
         Librarian.insert({
             libraryID: id,
+            login:name,
             name: name,
             group:"HumbleUser",
+            address:"None",
+            phone:-1,
         });
 
         return id;
@@ -124,16 +131,23 @@ Meteor.methods({
         Student.insert({
             libraryID:id,
             name: name,
-            group:"Student"
+            login:name,
+            group:"Student",
+            address:"None",
+            phone:-1,
         });
         return id;
     },
+
 
     'addFaculty' ({ id,name  }) {
         Faculty.insert({
             libraryID: id,
             name: name,
-            group:"Faculty"
+            login:name,
+            group:"Faculty",
+            address:"None",
+            phone:-1,
         });
         return id;
     },
@@ -141,7 +155,7 @@ Meteor.methods({
         if (!Meteor.isServer) return;
         try {
 
-            Meteor.users.remove(ID);
+            Meteor.users.remove(ID2);
             User.remove({libraryID:ID2});
 
         } catch (e) {
@@ -154,10 +168,41 @@ Meteor.methods({
 
 /**Modify users*/
 Meteor.methods({
+    'addUser'({name,password,phone,address}){
+
+
+        Accounts.createUser({
+            username:name,
+            email : "",
+            password : password,
+            profile  : {
+                //publicly visible fields like firstname goes here
+            }
+        });
+        let LID  =Meteor.users.findOne({username:name})._id;
+        let S = 2;
+        Meteor.call('addHumbleUser', {id: LID, name: name});
+        S = 0;
+        Meteor.call('ModifyUser',{id:LID,S:S});
+    },
     'ModifyUser' ({ id,S}) {
-       let str = S===1? "Librarian":S===2?"Student":"Faculty";
+        let str = "";
+        if(S===0)
+            str = "HumbleUser";
+        else
+       str = S===1? "Librarian":S===2?"Student":"Faculty";
         User.update({libraryID:id},{$set:{group:str}});
         return id;
+    },
+    'ModifyUserProperties' ({id,name,group,phone,address}){
+        if(name.length)
+            User.update({libraryID:id},{$set:{name:name}});
+        if(group.length)
+            User.update({libraryID:id},{$set:{group:group}});
+        if(phone.length)
+            User.update({libraryID:id},{$set:{phone:Number(phone)}});
+        if(address.length)
+            User.update({libraryID:id},{$set:{address:address}});
     },
 });
 

@@ -4,7 +4,7 @@ import AccountsUIWrapper from '../AccountsUIWrapper.js';
 import {Meteor} from "meteor/meteor";
 import AddBookButton from "../../api/AddBookButton";
 import AddArticleButton from "../../api/AddArticleButton";
-
+import AddNewUser from "../../api/AddNewUser"
 export class Header extends React.Component{
 
 
@@ -53,18 +53,6 @@ export class Header extends React.Component{
 
                     <AccountsUIWrapper/>
                 </div>
-                {
-                    this.check() ?
-                        <div className="linebar">
-
-
-                            <button onClick={this.reanderCase2.bind(this,1)}>I am Librarian</button>
-                            <button onClick={this.reanderCase2.bind(this, 3)}>I am faculty</button>
-                            <button onClick={this.reanderCase2.bind(this, 2)}>I am a student</button>
-                            <button onClick={this.reanderCase2.bind(this,4)}>I am just a humble user</button>
-
-                        </div>:''
-                }
 
                 {
                     this.props.currentUser ?
@@ -73,6 +61,7 @@ export class Header extends React.Component{
                                 <div id={"add"} align="center">
                                     <AddBookButton/>
                                     <AddArticleButton/>
+                                    <AddNewUser/>
                                 </div>
                                 : ''
                             :""

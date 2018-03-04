@@ -11,7 +11,7 @@ import { Student } from "../users/student";
 import { Faculty } from "../users/faculty";
 
 /**
- * Methods for adding / deletion docs
+ * Methods for adding / deletion docs مراجل
  */
 
 Meteor.methods({

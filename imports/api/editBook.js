@@ -57,7 +57,8 @@ export class EditBook extends Component {
 
         let Bestseller = Boolean(ReactDOM.findDOMNode(this.refs.Bestseller).value.trim());
 
-
+        //TODO
+        console.log("Value changes even if i don't switch the checkbox " + Bestseller);
 
         Meteor.call('editBook',this.props.id,{
             title: Title,

@@ -37,11 +37,18 @@ class Users2 extends Component {
 
         books ? books = books.map(o => ('Book - "' + o.title + '" | '+o.tillDeadline+' days left.')):"";
 
+        let jarticles = functions.getUsersArticles(this.props.user.libraryID);
+
+        jarticles ? jarticles = jarticles.map(o => ('Article - "' + o.title + '" | '+o.tillDeadline+' days left.')):"";
+
 
         return(
             <li >
                 <h1>User - {this.props.user.name}</h1>
                 {books.length ? <pre>{books.join("\n")}</pre>
+                    :<p>Nothing</p>}
+
+                {jarticles.length ? <pre>{jarticles.join("\n")}</pre>
                     :<p>Nothing</p>}
             </li>
 

@@ -40,7 +40,7 @@ class Users extends Component {
 
             <li >
                 <div className="USERBOX">
-                    <h1>User login: {user.username}</h1>
+                    <h1>User login: {this.props.user.username}</h1>
                     <p>Name : <strong>{this.props.user.name}.</strong></p>
                     <p>Group: <strong>{this.props.user.group}</strong></p>
                     <p>Address:<strong>{this.props.user.address}</strong></p>

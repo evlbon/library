@@ -306,7 +306,7 @@ Meteor.methods({
 
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
-
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.canCheckOut(userID)) {
@@ -321,13 +321,13 @@ Meteor.methods({
 
     'getRenters' ({ documentID }) {
         let document = Books.findOne({_id: documentID});
-
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
         if (!(document)) throw Error('Incorrect id of user or document');
 
         return document.renters();
     },
 
-    'getUsersBooks' ({ userID }) {
+    'getUsersBooks' ({ userID }) {/// needs editing
         let books = [];
         Books.find().forEach( o => {
             if (o.userHas(userID)) books.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
@@ -369,7 +369,7 @@ Meteor.methods({
 
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
-
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.userHas(userID)) {

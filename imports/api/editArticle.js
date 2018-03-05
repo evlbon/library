@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import {Copy} from "../models/documents/document";
 import * as functions from "../models/documents/functions"
 
-import { withTracker } from 'meteor/react-meteor-data';
+import { withTracker } from 'meteor/react-meteor-data';;
 import {Librarian} from "../models/users/librarian";
 import { Select } from 'antd';
 import {Books} from "../models/documents/book";

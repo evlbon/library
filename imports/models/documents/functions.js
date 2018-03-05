@@ -50,3 +50,17 @@ export function hasDocument(userID, documentID){
 
     return document.userHas(userID);
 }
+
+export function calculateFee(userID, documentID) {
+    let user = User.findOne({libraryID: userID});
+    let document = Books.findOne({_id: documentID});
+
+    if (!(user && document)) throw Error('Incorrect id of user or document');
+
+    return document.calculateFee(userID);
+}
+
+export function canEditDocument(documentID, number_of_copies, number_of_references) {
+    let document = Books.findOne({_id:documentID});
+    return (document.numberOfCopies() - document.leftInLibrary() <= number_of_copies - number_of_references)
+}

@@ -11,13 +11,13 @@ import { Student } from "../users/student";
 import { Faculty } from "../users/faculty";
 
 /**
- * Methods for adding / deletion docs
+ * Methods for adding / deletion docs مراجل
  */
 
 Meteor.methods({
 
     'documents.addBook' ({
-                             title, authors=['Crowd'], edition, publisher, release_date,
+                             title, authors, edition, publisher, release_date,
                              price, number_of_copies, number_of_references, tags=[], bestseller=false
     }) {
         check(title, String);
@@ -30,6 +30,8 @@ Meteor.methods({
         check(number_of_references, Number);
         check(tags, [String]);
         check(bestseller, Boolean);
+
+        if (authors.length === 0 || authors[0] === '') authors = ['Crowd'];
 
         let copies = [];
         for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
@@ -155,7 +157,7 @@ Meteor.methods({
         if (!Meteor.isServer) return;
         try {
 
-            Meteor.users.remove(ID);
+            Meteor.users.remove(ID2);
             User.remove({libraryID:ID2});
 
         } catch (e) {
@@ -220,6 +222,9 @@ Meteor.methods({
                     title, authors=['Crowd'], edition, publisher, release_date,
                     price, number_of_copies, number_of_references, tags=[], bestseller=false
                 }) {
+
+        console.log(bestseller);
+
         check(title, String);
         check(authors, [String]);
         check(edition, Match.Maybe(String));
@@ -238,34 +243,34 @@ Meteor.methods({
             throw Error('Number of already checked out books can\'t be more than available books after the change');
 
         let old_reference = document.copies.filter(o => o.reference);
-        let old_available = document.copies.filter(o => o.checked_out_date);
+        let old_available = document.copies.filter(o => !o.checked_out_date && !o.reference);
 
-        let new_checked = document.copies.filter(o => o.checked_out_date);
+        let new_checked = document.copies.filter(o => o.checked_out_date && !o.reference);
 
         let number_of_available = number_of_copies - number_of_references - new_checked.length;
 
         let new_reference = old_reference.splice(0, number_of_references);
         let new_available = old_available.splice(0, number_of_available);
 
-        old_reference = old_reference.map(o => o.reference = false);
-        old_available = old_available.map(o => o.reference = true);
+        old_reference = old_reference.map(function(o){o.reference=false; return o});
+        old_available = old_available.map(function(o){o.reference=true; return o});
 
         new_reference = new_reference.concat(old_available.splice(0, number_of_references - new_reference.length));
         new_available = new_available.concat(old_reference.splice(0, number_of_available - new_available.length));
 
-        for (let i=number_of_references - new_reference.length; i<number_of_references; i++)
+        for (let i = new_reference.length; i < number_of_references; i++)
             new_reference.push(new Copy({reference: true}));
-        for (let i=number_of_available - new_available.length; i<number_of_available; i++)
-            new_available.push(new Copy({reference: true}));
-
+        for (let i = new_available.length; i < number_of_available; i++)
+            new_available.push(new Copy({reference: false}));
 
         let authorsID = [];
+
         authors.forEach(name => {
-            let exist = Author.find({ name: name }).count();
+            let exist = Author.find({name: name}).count();
             authorsID.push(
                 exist ?
-                    Author.findOne({ name: name })._id:
-                    Author.insert({ name: name })
+                    Author.findOne({name: name})._id :
+                    Author.insert({name: name})
             );
         });
 
@@ -299,11 +304,9 @@ Meteor.methods({
 
     'checkOut' ({ userID, documentID }) {
 
-        console.log(userID + " " + documentID);
-
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
-
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.canCheckOut(userID)) {
@@ -318,13 +321,13 @@ Meteor.methods({
 
     'getRenters' ({ documentID }) {
         let document = Books.findOne({_id: documentID});
-
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
         if (!(document)) throw Error('Incorrect id of user or document');
 
         return document.renters();
     },
 
-    'getUsersBooks' ({ userID }) {
+    'getUsersBooks' ({ userID }) {/// needs editing
         let books = [];
         Books.find().forEach( o => {
             if (o.userHas(userID)) books.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
@@ -362,14 +365,11 @@ Meteor.methods({
 
         return document.userHas(userID);
     },
-
     'returnDocument' ({ userID, documentID }) {
-
-        console.log(userID + " " + documentID);
 
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
-
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.userHas(userID)) {
@@ -378,24 +378,5 @@ Meteor.methods({
             throw Error('User can\'t return a book, because he doesn\'t have it');
         }
     },
-});
 
-// test test
-/*
-* METHOD INTERFACES:
-*
-* addArticle
-* addAV
-* delAV
-* changeTags
-* changePrice
-* addNewCopy
-* removeCopy
-* switchBestseller
-* changeNumberOfReferences
-* checkOut(user, document)
-* return(document)
-* getUsersOverdueDocuments
-* calculateFine(document)
-*
-* */
+});

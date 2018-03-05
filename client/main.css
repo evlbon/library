@@ -83,15 +83,6 @@ ul {
     background: white;
 }
 
-.delete {
-    float: right;
-    font-weight: bold;
-    background: none;
-    font-size: 1em;
-    border: none;
-    position: relative;
-    margin: 0;
-}
 
 li {
     position: relative;

@@ -73,7 +73,11 @@ export const Document = Class.create({
                 duration = this.bestseller ? 2*7 : 3*7;
             }
 
-            return Math.floor((new Date() - copy.checked_out_date) / 864e5) + duration;
+            return Math.floor((copy.checked_out_date - new Date()) / 864e5) + duration;
+        },
+        calculateFee: function (userID) {
+            let fee = this.tillDeadline(userID) * 100;
+            return Math.max(0, Math.min(fee, this.price));
         },
         renters: function () {
             let renters = [];
@@ -82,7 +86,7 @@ export const Document = Class.create({
 
                     let renter = User.findOne({libraryID: o.userID});
 
-                    renters.push({name: renter.name, tillDeadline: this.tillDeadline(o.userID)})
+                    renters.push({name: renter.name, tillDeadline: this.tillDeadline(o.userID),libraryID:o.userID})
                 }
             });
             return renters;

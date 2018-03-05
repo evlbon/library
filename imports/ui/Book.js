@@ -29,7 +29,7 @@ class Book extends Component {
         // so that we can style them nicely in CSS
         let rents = functions.getRenters(this.props.book._id);
 
-        rents ? rents = rents.map(o => (o.name + '" | '+o.tillDeadline+' days left.')):"";
+        rents ? rents = rents.map(o => (o.name + '" | '+o.tillDeadline+' days left. '+functions.calculateFee(o.libraryID,this.props.book._id))):"";
         let rents2 = functions.getRentsViaId(this.props.book._id,this.props.currentUser._id);
 
         rents2 ? rents2 = rents2.map(o =>(o.tillDeadline + ' days left.')):"";

@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 import {Meteor} from "meteor/meteor";
 import ReactDOM from 'react-dom';
 import {Copy} from "../models/documents/document";
-
+import * as functions from "../models/documents/functions"
 
 import { withTracker } from 'meteor/react-meteor-data';
 import {Librarian} from "../models/users/librarian";
 import { Select } from 'antd';
 import {Books} from "../models/documents/book";
+import {Author} from "../models/utility/author";
 function handleChange(value) {
     console.log(`selected ${value}`);
 }
@@ -31,8 +32,8 @@ export class EditBook extends Component {
         let Title = ReactDOM.findDOMNode(this.refs.Title).value.trim();
         (!Title)? Title=book.title:"";
 
-        let Author = ReactDOM.findDOMNode(this.refs.Author).value.trim();
-        (!Author)? Author=book.authors:Author=Author.split(',');
+        let Authors = ReactDOM.findDOMNode(this.refs.Authors).value.trim();
+        (!Authors)? Authors=Author.find({ _id: { $in: book.authorsID} }).map(o => o.name):Authors=Authors.split(',');
 
         let Publisher = ReactDOM.findDOMNode(this.refs.Publisher).value.trim();
         (!Publisher)? Publisher=book.publisher:"";
@@ -55,40 +56,48 @@ export class EditBook extends Component {
         let References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
         (!References)? References=book.numberOfReferences():"";
 
-        let Bestseller = Boolean(ReactDOM.findDOMNode(this.refs.Bestseller).value.trim());
+        let Bestseller = !!ReactDOM.findDOMNode(this.refs.Bestseller).value.trim();
 
         //TODO
         console.log("Value changes even if i don't switch the checkbox " + Bestseller);
-
-        Meteor.call('editBook',this.props.id,{
-            title: Title,
-            authors: Author,
-            edition: Edition,
-            publisher: Publisher,
-            release_date: PDate,
-            price: Number(Price),
-            tags: Tags,
-            number_of_copies: Copies,
-            number_of_references: References,
-            bestseller: !(Boolean(Bestseller))
-        });
+        console.log(ReactDOM.findDOMNode(this.refs.Bestseller).value);
 
 
+        if(functions.canEditDocument(this.props.id,Copies,References)) {
+            Meteor.call('editBook',this.props.id,{
+                title: Title,
+                authors: Authors,
+                edition: Edition,
+                publisher: Publisher,
+                release_date: PDate,
+                price: Number(Price),
+                tags: Tags,
+                number_of_copies: Copies,
+                number_of_references: References,
+                bestseller: Bestseller
+            });
 
-        ReactDOM.findDOMNode(this.refs.Title).value = '';
-        ReactDOM.findDOMNode(this.refs.Author).value = '';
-        ReactDOM.findDOMNode(this.refs.Publisher).value = '';
-        ReactDOM.findDOMNode(this.refs.Edition).value = '';
-        ReactDOM.findDOMNode(this.refs.ReleaseDate).value = '';
-        ReactDOM.findDOMNode(this.refs.Copies).value = '';
-        ReactDOM.findDOMNode(this.refs.References).value = '';
-        ReactDOM.findDOMNode(this.refs.Tags).value = '';
-        ReactDOM.findDOMNode(this.refs.Price).value = '';
-        ReactDOM.findDOMNode(this.refs.Bestseller).value = '';
 
-        this.setState({
-            visible: false,
-        });
+
+            ReactDOM.findDOMNode(this.refs.Title).value = '';
+            ReactDOM.findDOMNode(this.refs.Authors).value = '';
+            ReactDOM.findDOMNode(this.refs.Publisher).value = '';
+            ReactDOM.findDOMNode(this.refs.Edition).value = '';
+            ReactDOM.findDOMNode(this.refs.ReleaseDate).value = '';
+            ReactDOM.findDOMNode(this.refs.Copies).value = '';
+            ReactDOM.findDOMNode(this.refs.References).value = '';
+            ReactDOM.findDOMNode(this.refs.Tags).value = '';
+            ReactDOM.findDOMNode(this.refs.Price).value = '';
+            ReactDOM.findDOMNode(this.refs.Bestseller).value = '';
+
+
+            document.getElementById('editBookError').style.display="none";
+            this.setState({
+                visible: false,
+            });
+        }
+        else
+            document.getElementById('editBookError').style.display="";
     };
 
     handleCancel = (e) => {
@@ -114,6 +123,7 @@ export class EditBook extends Component {
                 closable={false}
             >
                 <h5>Leave empty means do not need modification </h5>
+                <h5 id="editBookError" style={{display:"none",color:"red"}}> Incorrect number of copies or references</h5>
                 <div  align="right" >
                     <form style={{fontSize: "15px",fontFamily:"Arial"}}>
 
@@ -123,11 +133,11 @@ export class EditBook extends Component {
                             type="text"
                             ref="Title"
                         /><br/>
-                        Author
+                        Authors
                         <input
                             className={"inputForAdd"}
                             type="text"
-                            ref="Author"
+                            ref="Authors"
                         /><br/>
                         Publisher
                         <input

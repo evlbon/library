@@ -86,7 +86,7 @@ export const Document = Class.create({
 
                     let renter = User.findOne({libraryID: o.userID});
 
-                    renters.push({name: renter.name, tillDeadline: this.tillDeadline(o.userID)})
+                    renters.push({name: renter.name, tillDeadline: this.tillDeadline(o.userID),libraryID:o.userID})
                 }
             });
             return renters;

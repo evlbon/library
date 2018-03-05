@@ -46,10 +46,10 @@ class Users2 extends Component {
             <li >
                 <h1>User - {this.props.user.name}</h1>
                 {books.length ? <pre>{books.join("\n")}</pre>
-                    :<p>Nothing</p>}
+                    :<p>No Book rental records</p>}
 
                 {jarticles.length ? <pre>{jarticles.join("\n")}</pre>
-                    :<p>Nothing</p>}
+                    :<p>No Journal article rental record</p>}
             </li>
 
         )

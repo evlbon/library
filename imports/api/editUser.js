@@ -24,7 +24,7 @@ export class EditUser extends Component {
     handleOk = (e) => {
 
         const Name = ReactDOM.findDOMNode(this.refs.name).value.trim();
-        const Group = ReactDOM.findDOMNode(this.refs.group).value.trim();
+        const Group = "";
         const Address = ReactDOM.findDOMNode(this.refs.address).value.trim();
         const Phone = ReactDOM.findDOMNode(this.refs.phone).value.trim();
         console.log(Address);
@@ -38,7 +38,6 @@ export class EditUser extends Component {
 
 
         ReactDOM.findDOMNode(this.refs.name).value= "";
-        ReactDOM.findDOMNode(this.refs.group).value="";/// see if we can view initial data here
         ReactDOM.findDOMNode(this.refs.address).value="";
         ReactDOM.findDOMNode(this.refs.phone).value="";
 
@@ -79,12 +78,7 @@ export class EditUser extends Component {
                                     type="text"
                                     ref="name"
                                 /><br/>
-                                group
-                                <input
-                                    className={"inputForAdd"}
-                                    type="text"
-                                    ref="group"
-                                /><br/>
+
                                 Address
                                 <input
                                     className={"inputForAdd"}

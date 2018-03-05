@@ -15,6 +15,7 @@ import { Faculty } from "../users/faculty";
  */
 
 Meteor.methods({
+
     'documents.addBook' ({
                              title, authors=['Crowd'], edition, publisher, release_date,
                              price, number_of_copies, number_of_references, tags=[], bestseller=false
@@ -104,6 +105,7 @@ Meteor.methods({
     'addLibrarian' ({ id,name }) {
         Librarian.insert({
             libraryID: id,
+            login:name,
             name: name,
             group:"Librarian",
             address:"None",
@@ -115,6 +117,7 @@ Meteor.methods({
     'addHumbleUser' ({ id,name }) {
         Librarian.insert({
             libraryID: id,
+            login:name,
             name: name,
             group:"HumbleUser",
             address:"None",
@@ -128,47 +131,20 @@ Meteor.methods({
         Student.insert({
             libraryID:id,
             name: name,
+            login:name,
             group:"Student",
             address:"None",
             phone:-1,
         });
         return id;
     },
-    'addUser'({name,password,group,phone,address}){
 
-
-        Accounts.createUser({
-            username:name,
-            email : "",
-            password : password,
-            profile  : {
-                //publicly visible fields like firstname goes here
-            }
-        });
-        let LID  =Meteor.users.findOne({username:name})._id;
-        let S = 2;
-        if(group==="HumbleUser") {
-            Meteor.call('addHumblerUser', {id: LID, name: name});
-            S = 0;
-        }
-        if(group==="Librarian") {
-            Meteor.call('addLibrarian', {id: LID, name: name});
-            S = 1;
-        }
-        if(group==="Faculty") {
-            Meteor.call('addFaculty', {id: LID, name: name});
-            S = 3;
-        }
-        if(group==="Student")
-            Meteor.call('addStudent',{id:LID,name:name});
-        Meteor.call('ModifyUser',{id:LID,S:S});
-
-    },
 
     'addFaculty' ({ id,name  }) {
         Faculty.insert({
             libraryID: id,
             name: name,
+            login:name,
             group:"Faculty",
             address:"None",
             phone:-1,
@@ -192,8 +168,29 @@ Meteor.methods({
 
 /**Modify users*/
 Meteor.methods({
+    'addUser'({name,password,phone,address}){
+
+
+        Accounts.createUser({
+            username:name,
+            email : "",
+            password : password,
+            profile  : {
+                //publicly visible fields like firstname goes here
+            }
+        });
+        let LID  =Meteor.users.findOne({username:name})._id;
+        let S = 2;
+        Meteor.call('addHumbleUser', {id: LID, name: name});
+        S = 0;
+        Meteor.call('ModifyUser',{id:LID,S:S});
+    },
     'ModifyUser' ({ id,S}) {
-       let str = S===1? "Librarian":S===2?"Student":"Faculty";
+        let str = "";
+        if(S===0)
+            str = "HumbleUser";
+        else
+       str = S===1? "Librarian":S===2?"Student":"Faculty";
         User.update({libraryID:id},{$set:{group:str}});
         return id;
     },

@@ -6,6 +6,7 @@ import {Librarian} from "../models/users/librarian";
 import * as functions from "../models/documents/functions";
 import {User} from "../models/users/user";
 import {EditBook} from "../api/editBook";
+import {EditArticle} from "../api/editArticle";
 class Article extends Component {
 
 
@@ -52,7 +53,7 @@ class Article extends Component {
                 { this.props.currentUser ?
                     Librarian.findOne({libraryID : this.props.currentUser._id}) ?
                         Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                            <EditBook id={this.props.jarticle._id}/>
+                            <EditArticle id={this.props.jarticle._id}/>
                             : ''
                         :""
                     :""}

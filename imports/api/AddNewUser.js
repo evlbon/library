@@ -28,8 +28,6 @@ export class AddNewUser extends Component {
         Meteor.call('addUser',{
             name:Name,
             password:pass,
-            phone:0,
-            address:"None",
         }));
         console.log("Done Didding");
 

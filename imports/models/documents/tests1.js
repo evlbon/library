@@ -8,12 +8,8 @@ import { Copy, Document } from "./document"
  */
 Meteor.methods({
 
-    'clr_bd'() {
-        User.remove({});
-        Books.remove({});
-    },
 
-    'test1'() {
+    'test12345'() {
         Meteor.call('clr_bd');
         let librarian1 = Meteor.call('addLibrarian',{name:Name, password:pass, phone:0, address:"None"});
 
@@ -28,6 +24,8 @@ Meteor.methods({
         });
 
         Meteor.call('checkOut', {userID: student1, documentID: book1});
+    },
+    'test7697'(){
     },
 
 

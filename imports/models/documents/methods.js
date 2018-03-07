@@ -21,17 +21,17 @@ Meteor.methods({
                              price, number_of_copies, number_of_references, tags=[], bestseller=false
     }) {
         check(title, String);
-        check(authors, [String]);
+        check(authors, Match.Maybe([String]));
         check(edition, Match.Maybe(String));
         check(publisher, Match.Maybe(String));
         check(release_date, Match.Maybe(Date));
         check(price, Match.Maybe(Number));
         check(number_of_copies, Number);
         check(number_of_references, Number);
-        check(tags, [String]);
+        check(tags, Match.Maybe([String]));
         check(bestseller, Boolean);
 
-        if (authors.length === 0 || authors[0] === '') authors = ['Crowd'];
+        if (!authors || authors.length === 0 || authors[0] === '') authors = ['Crowd'];
 
         let copies = [];
         for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
@@ -170,7 +170,7 @@ Meteor.methods({
 
 /**Modify users*/
 Meteor.methods({
-    'addUser'({name,password,phone,address}){
+    'addUser'({name,password}){
 
 
         Accounts.createUser({

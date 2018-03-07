@@ -51,6 +51,7 @@ class Users extends Component {
                     <p>Group: <strong>{this.props.user.group}</strong></p>
                     <p>Address:<strong>{this.props.user.address}</strong></p>
                     <p>Phone Number: <strong>{this.props.user.phone}</strong></p>
+                    <p>LibraryID: <strong>{this.props.user.libId}</strong></p>
                     Make this User:
 
 

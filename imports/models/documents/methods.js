@@ -13,7 +13,7 @@ import { Faculty } from "../users/faculty";
 /**
  * Methods for adding / deletion docs مراجل
  */
-
+let cnt = 0;
 Meteor.methods({
 
     'documents.addBook' ({
@@ -112,8 +112,9 @@ Meteor.methods({
             group:"Librarian",
             address:"None",
             phone:-1,
+            libId:cnt+1,
         });
-
+        cnt = cnt + 1;
         return id;
     },
     'addHumbleUser' ({ id,name }) {
@@ -124,8 +125,9 @@ Meteor.methods({
             group:"HumbleUser",
             address:"None",
             phone:-1,
+            libId:cnt+1,
         });
-
+        cnt = cnt +1 ;
         return id;
     },
 

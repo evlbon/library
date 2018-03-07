@@ -21,7 +21,9 @@ export const User = Class.create({                  // Main class of users
             optional: true,
 
         },
-
+        libId: {
+            type: Number,
+        },
         address: {
             type: String,
             optional: true,

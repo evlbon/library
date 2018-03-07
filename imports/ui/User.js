@@ -11,7 +11,13 @@ import {EditUser} from "../api/editUser";
 class Users extends Component {
 
     renderCase(number){
+        console.log(this.props.currentUser.username);
+        console.log(this.props.user.login);
+        if(this.props.currentUser.username === this.props.user.login) {
+            window.alert("You can not modify your self!!!");
+            return;
 
+        }
         switch (number) {
 
             case 1:
@@ -40,11 +46,12 @@ class Users extends Component {
 
             <li >
                 <div className="USERBOX">
-                    <h1>User login: {this.props.user.username}</h1>
+                    <h1>User login: {this.props.user.login}</h1>
                     <p>Name : <strong>{this.props.user.name}.</strong></p>
                     <p>Group: <strong>{this.props.user.group}</strong></p>
                     <p>Address:<strong>{this.props.user.address}</strong></p>
                     <p>Phone Number: <strong>{this.props.user.phone}</strong></p>
+                    <p>LibraryID: <strong>{this.props.user.libId}</strong></p>
                     Make this User:
 
 

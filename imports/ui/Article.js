@@ -29,10 +29,10 @@ class Article extends Component {
 */
         let rents = functions.getRenters(this.props.jarticle._id);
 
-        rents ? rents = rents.map(o => (o.name + '" | '+o.tillDeadline+' days left. Fee is'+functions.calculateFee(o.libraryID,this.props.jarticle._id))):"";
+        rents ? rents = rents.map(o => (o.name + '" | '+fun({date:o.tillDeadline})+'. Fee is'+functions.calculateFee(o.libraryID,this.props.jarticle._id))):"";
         let rents2 = functions.getRentsViaId(this.props.jarticle._id, this.props.currentUser._id);
 
-        rents2 ? rents2 = rents2.map(o =>(o.tillDeadline + ' days left.')):"";
+        rents2 ? rents2 = rents2.map(o =>(fun({date:o.tillDeadline}))):"";
         return (
             <li>
 
@@ -133,3 +133,12 @@ export default withTracker(() => {
         currentUser: Meteor.user(),
     };
 })(Article);
+function fun( date )
+{
+    console.log(date.date);
+    if (date.date < 0)
+    {
+        let ff = - date.date;
+        return "Overdue " + ff + " days.";
+    }else return date.date + " days left.";
+}

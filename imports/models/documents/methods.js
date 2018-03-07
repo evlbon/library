@@ -351,6 +351,14 @@ Meteor.methods({
     }
 });
 
+/**
+ * Important Features
+ */
+Meteor.methods({
+    'whoIsRivera' () {
+        return "Fagot";
+    },
+});
 
 /**
  * Checking out system
@@ -441,5 +449,4 @@ Meteor.methods({
             throw Error('User can\'t return a book, because he doesn\'t have it');
         }
     },
-
 });

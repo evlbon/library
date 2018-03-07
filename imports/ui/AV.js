@@ -17,20 +17,21 @@ class AV extends Component {
 
     }
     rentAV(id){
-        Meteor.call("checkOut",{userID:this.props.currentUser._id, documentID:id});
+        console.log(this.props.av._id);
+        Meteor.call('checkOut',{userID:this.props.currentUser._id, documentID:id});
     }
 
     returnAV(id){
-        Meteor.call("returnDocument",{userID:this.props.currentUser._id, documentID:id});
+        Meteor.call('returnDocument',{userID:this.props.currentUser._id, documentID:id});
     }
 
     render() {
         let rents = functions.getRenters(this.props.av._id);
 
-        rents ? rents = rents.map(o => (o.name + '" | '+o.tillDeadline+' days left. Fee is'+functions.calculateFee(o.libraryID,this.props.av._id))):"";
+        rents ? rents = rents.map(o => (o.name + '" | '+fun({date:o.tillDeadline})+' Fee is'+functions.calculateFee(o.libraryID,this.props.av._id))):"";
         let rents2 = functions.getRentsViaId(this.props.av._id, this.props.currentUser._id);
 
-        rents2 ? rents2 = rents2.map(o =>(o.tillDeadline + ' days left.')):"";
+        rents2 ? rents2 = rents2.map(o =>(fun({date:o.tillDeadline}))):"";
 
         return (
             <li>
@@ -132,3 +133,12 @@ export default withTracker(() => {
         currentUser: Meteor.user(),
     };
 })(AV);
+function fun( date )
+{
+    console.log(date.date);
+    if (date.date < 0)
+    {
+        let ff = - date.date;
+        return "Overdue " + ff + " days.";
+    }else return date.date + " days left.";
+}

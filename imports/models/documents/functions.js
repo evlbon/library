@@ -31,6 +31,16 @@ export function getUsersArticles(userID)
     // console.log(books);
     return jarticles;
 }
+export function getUsersAVs(userID)
+{
+    let avs= [];
+    AVs.find().forEach( o => {
+        if (o.userHas(userID)) avs.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
+    });
+
+    // console.log(books);
+    return avs;
+}
 
 export function getRenters(documentID) {
     let document = Books.findOne({_id: documentID});

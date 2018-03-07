@@ -8,7 +8,7 @@ import {Copy} from "../models/documents/document";
 import { withTracker } from 'meteor/react-meteor-data';
 import {Librarian} from "../models/users/librarian";
 
-class AddArticleButton extends Component {
+class AddAVButton extends Component {
 
     state = { visible: false };
     showModal = () => {
@@ -21,8 +21,6 @@ class AddArticleButton extends Component {
 
         const Title = ReactDOM.findDOMNode(this.refs.Title).value.trim();
         const Author = ReactDOM.findDOMNode(this.refs.Author).value.trim();
-        const Editor = ReactDOM.findDOMNode(this.refs.Editorr).value.trim();
-        const Journal = ReactDOM.findDOMNode(this.refs.Journal).value.trim();
         const PDate = ReactDOM.findDOMNode(this.refs.ReleaseDate).value.trim();
         const Tags = ReactDOM.findDOMNode(this.refs.Tags).value.trim();
         const Price = Number(ReactDOM.findDOMNode(this.refs.Price).value.trim());
@@ -33,11 +31,9 @@ class AddArticleButton extends Component {
         for (let i=0; i<Math.min(Copies, References); i++) copies.push(new Copy({reference: true}));
         for (let i=Math.min(Copies, References); i<Copies; i++) copies.push(new Copy({reference: false}));
 
-        Meteor.call('documents.addArticle',{
+        Meteor.call('documents.addAV',{
             title: Title,
-            journal: Journal,
             authors: Author.split(','),
-            editor: Editor,
             release_date: new Date(PDate,1),
             price: Number(Price),
             tags: Tags.split(','),
@@ -46,8 +42,6 @@ class AddArticleButton extends Component {
 
         ReactDOM.findDOMNode(this.refs.Title).value = '';
         ReactDOM.findDOMNode(this.refs.Author).value = '';
-        ReactDOM.findDOMNode(this.refs.Journal).value = '';
-        ReactDOM.findDOMNode(this.refs.Editorr).value = '';
         ReactDOM.findDOMNode(this.refs.ReleaseDate).value = '';
         ReactDOM.findDOMNode(this.refs.Copies).value = '';
         ReactDOM.findDOMNode(this.refs.References).value = '';
@@ -58,24 +52,23 @@ class AddArticleButton extends Component {
         this.setState({
             visible: false,
         });
-    }
+    };
     handleCancel = (e) => {
         this.setState({
             visible: false,
         });
-    }
+    };
     render() {
         return (
 
 
             <div >
 
-                        <div>
-                <Button className={"myButton"} type="primary" onClick={this.showModal}>Add Article</Button>
+                <Button className={"myButton"} type="primary" onClick={this.showModal}>Add AV</Button>
 
 
                 <Modal
-                    title="Add Article"
+                    title="Add Audio or Video"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
@@ -89,7 +82,6 @@ class AddArticleButton extends Component {
                             Title
                             <input
                                 className={"inputForAdd"}
-                                required
                                 type="text"
                                 ref="Title"
                             /><br/>
@@ -98,18 +90,6 @@ class AddArticleButton extends Component {
                                 className={"inputForAdd"}
                                 type="text"
                                 ref="Author"
-                            /><br/>
-                            Journal
-                            <input
-                                className={"inputForAdd"}
-                                type="text"
-                                ref="Journal"
-                            /><br/>
-                            Editor
-                            <input
-                                className={"inputForAdd"}
-                                type="text"
-                                ref="Editorr"
                             /><br/>
                             ReleaseDate
                             <input
@@ -127,7 +107,6 @@ class AddArticleButton extends Component {
                             <input
                                 className={"inputForAdd"}
                                 type="number"
-                                required
                                 ref="Price"
                             /><br/>
                             Number of copies
@@ -150,7 +129,6 @@ class AddArticleButton extends Component {
 
 
                 </Modal>
-                        </div>
 
 
             </div>
@@ -163,4 +141,4 @@ export default withTracker(() => {
     return {
         currentUser: Meteor.user(),
     };
-})(AddArticleButton);
+})(AddAVButton);

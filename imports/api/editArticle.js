@@ -21,6 +21,12 @@ const Option = Select.Option;
 export class EditArticle extends Component {
 
     state = { visible: false };
+
+    constructor(){
+        super();
+        this.jarticle=null;
+
+    }
     showModal = () => {
         this.setState({
             visible: true,
@@ -28,7 +34,7 @@ export class EditArticle extends Component {
     };
 
     handleOk = (e) => {
-        let jarticle = JournalArticle.findOne({_id: this.props.id});
+        let jarticle = this.jarticle;
 
         let Title = ReactDOM.findDOMNode(this.refs.Title).value.trim();
         (!Title)? Title=jarticle.title:"";
@@ -39,8 +45,8 @@ export class EditArticle extends Component {
         let Publisher = ReactDOM.findDOMNode(this.refs.Publisher).value.trim();
         (!Publisher)? Publisher=jarticle.journal:"";
 
-        let Editor = ReactDOM.findDOMNode(this.refs.Edition).value.trim();
-        (!Edition)? Edition=jarticle.edition:"";
+        let Editorr = ReactDOM.findDOMNode(this.refs.Editorr).value.trim();
+        (!Editorr)? Editorr=jarticle.editor:"";
 
         let PDate = ReactDOM.findDOMNode(this.refs.ReleaseDate).value.trim();
         (!PDate)? PDate=jarticle.release_date:PDate=new Date(PDate,1);
@@ -57,11 +63,13 @@ export class EditArticle extends Component {
         let References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
         (!References)? References=jarticle.numberOfReferences():"";
 
+        console.log("qqqqqqqqqqqqqqqqqq " + Editorr);
+
         if(functions.canEditDocument(this.props.id,Copies,References)) {
             Meteor.call('editArticle',this.props.id,{
                 title: Title,
-                editors: Authors,
-                editor: Editor,
+                authors: Authors,
+                editor: Editorr,
                 journal: Publisher,
                 release_date: PDate,
                 price: Number(Price),
@@ -74,7 +82,7 @@ export class EditArticle extends Component {
             ReactDOM.findDOMNode(this.refs.Title).value = '';
             ReactDOM.findDOMNode(this.refs.Authors).value = '';
             ReactDOM.findDOMNode(this.refs.Publisher).value = '';
-            ReactDOM.findDOMNode(this.refs.Edition).value = '';
+            ReactDOM.findDOMNode(this.refs.Editorr).value = '';
             ReactDOM.findDOMNode(this.refs.ReleaseDate).value = '';
             ReactDOM.findDOMNode(this.refs.Copies).value = '';
             ReactDOM.findDOMNode(this.refs.References).value = '';
@@ -97,7 +105,7 @@ export class EditArticle extends Component {
     };
 
     render() {
-        console.log(this.props.ID);
+        this.jarticle=JournalArticle.findOne({_id: this.props.id});
 
         return   <div>
 
@@ -105,7 +113,7 @@ export class EditArticle extends Component {
 
 
             <Modal
-                title="Modify Book"
+                title="Modify Article"
                 visible={this.state.visible}
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
@@ -122,36 +130,42 @@ export class EditArticle extends Component {
                             className={"inputForAdd"}
                             type="text"
                             ref="Title"
+                            placeholder={this.jarticle.title}
                         /><br/>
                         Author
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="Authors"
+                            placeholder={Author.find({ _id: { $in: this.jarticle.authorsID} }).map(o => o.name).join(', ')}
                         /><br/>
                        Journal
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="Publisher"
+                            placeholder={this.jarticle.publisher}
                         /><br/>
-                        Edition
+                        Editor
                         <input
                             className={"inputForAdd"}
                             type="text"
-                            ref="Edition"
+                            ref="Editorr"
+                            placeholder={this.jarticle.editor}
                         /><br/>
                         ReleaseDate
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="ReleaseDate"
+                            placeholder={this.jarticle.release_date ? this.jarticle.release_date.getFullYear() : ""}
                         /><br/>
                         Tags
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="Tags"
+                            placeholder={this.jarticle.tags.join(', ')}
                         /><br/>
                         Price
                         <input
@@ -159,6 +173,7 @@ export class EditArticle extends Component {
                             type="number"
                             min="0"
                             ref="Price"
+                            placeholder={this.jarticle.price}
                         /><br/>
                         Number of copies
                         <input
@@ -166,6 +181,7 @@ export class EditArticle extends Component {
                             type="number"
                             min="0"
                             ref="Copies"
+                            placeholder={this.jarticle.numberOfCopies()}
                         /><br/>
                         Number of references
                         <input
@@ -173,6 +189,7 @@ export class EditArticle extends Component {
                             type="number"
                             min="0"
                             ref="References"
+                            placeholder={this.jarticle.numberOfReferences()}
                         /><br/>
 
 

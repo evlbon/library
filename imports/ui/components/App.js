@@ -12,7 +12,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import ReactDOM from 'react-dom';
 import { Books } from '../../models/documents/book';
 import { JournalArticle } from "../../models/documents/journal_article";
-
+import { AVs} from "../../models/documents/av";
 import { Meteor } from 'meteor/meteor';
 import {Header} from "./Header";
 import {ViewDocs} from "./ViewDocs"
@@ -42,9 +42,9 @@ class App extends Component {
 
         return <div className="container">
 
-            <Header books={this.props.books} articles={this.props.articles} users={this.props.users} currentUser={this.props.currentUser}>
+            <Header books={this.props.books} articles={this.props.articles} users={this.props.users} currentUser={this.props.currentUser} avs={this.props.avs}>
             </Header>
-            <ViewDocs books={this.props.books} articles={this.props.articles} users={this.props.users} currentUser={this.props.currentUser}>
+            <ViewDocs books={this.props.books} articles={this.props.articles} users={this.props.users} currentUser={this.props.currentUser} avs={this.props.avs}>
             </ViewDocs>
         </div>;
     }
@@ -53,6 +53,7 @@ export default withTracker(() => {
     return {
         books: Books.find({}).fetch(),
         articles : JournalArticle.find({}).fetch(),
+        avs : AVs.find({}).fetch(),
         users : User.find({}).fetch(),
         currentUser: Meteor.user(),
     };

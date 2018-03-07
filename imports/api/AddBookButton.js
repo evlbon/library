@@ -155,6 +155,7 @@ class AddBookButton extends Component {
                                     <input
                                         type="checkbox"
                                         ref="Bestseller"
+                                        value={true}
                                         style={{margin:"5px 45% 5px 5px"}}
                                     />
 

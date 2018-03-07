@@ -15,6 +15,13 @@ const Option = Select.Option;
 export class EditUser extends Component {
 
     state = { visible: false };
+
+    constructor(){
+        super();
+        this.user=null;
+
+    }
+
     showModal = () => {
         this.setState({
             visible: true,
@@ -27,6 +34,7 @@ export class EditUser extends Component {
         const Group = "";
         const Address = ReactDOM.findDOMNode(this.refs.address).value.trim();
         const Phone = ReactDOM.findDOMNode(this.refs.phone).value.trim();
+        const libId = ReactDOM.findDOMNode(this.refs.libId).value.trim();
         console.log(Address);
         Meteor.call('ModifyUserProperties',{
             name:Name,
@@ -34,13 +42,14 @@ export class EditUser extends Component {
             address:Address,
             phone:Phone,
             id:this.props.ID,
+            libId:libId,
         });
 
 
         ReactDOM.findDOMNode(this.refs.name).value= "";
         ReactDOM.findDOMNode(this.refs.address).value="";
         ReactDOM.findDOMNode(this.refs.phone).value="";
-
+        ReactDOM.findDOMNode(this.refs.libId).value = "";
         this.setState({
             visible: false,
         });
@@ -73,6 +82,7 @@ export class EditUser extends Component {
                                 Name
                                 <input
                                     className={"inputForAdd"}
+                                    required
                                     type="text"
                                     ref="name"
                                 /><br/>
@@ -88,6 +98,12 @@ export class EditUser extends Component {
                                     className={"inputForAdd"}
                                     type="text"
                                     ref="phone"
+                                /><br/>
+                                Lib. card ID:
+                                <input
+                                    className={"inputForAdd"}
+                                    type="text"
+                                    ref="libId"
                                 /><br/>
 
                             </form>

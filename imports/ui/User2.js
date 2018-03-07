@@ -35,11 +35,12 @@ class Users2 extends Component {
 
         let books = functions.getUsersBooks(this.props.user.libraryID);
 
-        books ? books = books.map(o => ('Book - "' + o.title + '" | '+o.tillDeadline+' days left.')):"";
+        books ? books = books.map(o => ('Book - "' + o.title + '" | '+fun({date:o.tillDeadline}))):"";
 
         let jarticles = functions.getUsersArticles(this.props.user.libraryID);
 
-        jarticles ? jarticles = jarticles.map(o => ('Article - "' + o.title + '" | '+o.tillDeadline+' days left.')):"";
+        let avs = functions.getUsersAVs(this.props.user.libraryID);
+        avs ? avs = avs.map(o => ('AV - "' + o.title + '" | '+fun({date:o.tillDeadline}))):"";
 
 
         return(
@@ -50,6 +51,9 @@ class Users2 extends Component {
 
                 {jarticles.length ? <pre>{jarticles.join("\n")}</pre>
                     :<p>No Journal article rental record</p>}
+
+                {avs.length ? <pre>{avs.join("\n")}</pre>
+                    :<p>No Journal AVs rental record</p>}
             </li>
 
         )
@@ -71,7 +75,6 @@ class Users2 extends Component {
                     {books.length? books.join("\n"):"Nothing"}
 
                     <div className="delete">
-
                         <button onClick={this.renderCase.bind(this,1)}>Make Librarian</button><br/>
                         <button onClick={this.renderCase.bind(this,2)}>Make student</button><br/>
                         <button onClick={this.renderCase.bind(this,3)}>Make faculty</button><br/>
@@ -114,3 +117,12 @@ export default withTracker(() => {
         wholeUsers: Meteor.users.find({}).fetch(),
     };
 })(Users2);
+function fun( date )
+{
+    console.log(date.date);
+    if (date.date < 0)
+    {
+        let ff = - date.date;
+        return "Overdue " + ff + " days.";
+    }else return date.date + " days left.";
+}

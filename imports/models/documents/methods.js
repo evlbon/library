@@ -11,6 +11,7 @@ import { Student } from "../users/student";
 import { Faculty } from "../users/faculty";
 import { AVs } from "./av";
 
+
 /**
  * Methods for adding / deletion docs مراجل
  */
@@ -22,17 +23,17 @@ Meteor.methods({
                              price, number_of_copies, number_of_references, tags=[], bestseller=false
     }) {
         check(title, String);
-        check(authors, [String]);
+        check(authors, Match.Maybe([String]));
         check(edition, Match.Maybe(String));
         check(publisher, Match.Maybe(String));
         check(release_date, Match.Maybe(Date));
         check(price, Match.Maybe(Number));
         check(number_of_copies, Number);
         check(number_of_references, Number);
-        check(tags, [String]);
+        check(tags, Match.Maybe([String]));
         check(bestseller, Boolean);
 
-        if (authors.length === 0 || authors[0] === '') authors = ['Crowd'];
+        if (!authors || authors.length === 0 || authors[0] === '') authors = ['Crowd'];
 
         let copies = [];
         for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
@@ -204,7 +205,7 @@ Meteor.methods({
 
 /**Modify users*/
 Meteor.methods({
-    'addUser'({name,password,phone,address}){
+    'addUser'({name,password}){
 
 
         Accounts.createUser({
@@ -230,15 +231,18 @@ Meteor.methods({
         User.update({libraryID:id},{$set:{group:str}});
         return id;
     },
-    'ModifyUserProperties' ({id,name,group,phone,address}){
+    'ModifyUserProperties' ({id,name,group,phone,address,libId}){
         if(name.length)
-            User.update({libraryID:id},{$set:{name:name}});
+            User.update({libraryID:id},{$set:{name:name}});;
         if(group.length)
             User.update({libraryID:id},{$set:{group:group}});
         if(phone.length)
             User.update({libraryID:id},{$set:{phone:Number(phone)}});
         if(address.length)
             User.update({libraryID:id},{$set:{address:address}});
+        if(libId.length)
+            User.update({libraryID:id},{$set:{libId:Number(libId)}});
+
     },
 });
 
@@ -460,7 +464,8 @@ Meteor.methods({
     'canCheckOut' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
-
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
+        if(!(document)) document = AVs.findOne({_id:documentID}); // new
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         return document.canCheckOut(userID);
@@ -471,6 +476,8 @@ Meteor.methods({
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
         if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
+        if(!(document)) document = AVs.findOne({_id:documentID}); // new
+
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.canCheckOut(userID)) {
@@ -534,7 +541,8 @@ Meteor.methods({
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
         if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
-        if (!(user && document)) throw Error('Incorrect id of user or document');
+        if(!(document)) document = AVs.findOne({_id:documentID}); // new
+         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.userHas(userID)) {
             document.return(userID);

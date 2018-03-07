@@ -17,20 +17,21 @@ class AV extends Component {
 
     }
     rentAV(id){
-        Meteor.call("checkOut",{userID:this.props.currentUser._id, documentID:id});
+        console.log(this.props.av._id);
+        Meteor.call('checkOut',{userID:this.props.currentUser._id, documentID:id});
     }
 
     returnAV(id){
-        Meteor.call("returnDocument",{userID:this.props.currentUser._id, documentID:id});
+        Meteor.call('returnDocument',{userID:this.props.currentUser._id, documentID:id});
     }
 
     render() {
         let rents = functions.getRenters(this.props.av._id);
 
-        rents ? rents = rents.map(o => (o.name + '" | '+o.tillDeadline+' days left. Fee is'+functions.calculateFee(o.libraryID,this.props.av._id))):"";
+        rents ? rents = rents.map(o => (o.name + '" | '+fun({date:o.tillDeadline})+' Fee is'+functions.calculateFee(o.libraryID,this.props.av._id))):"";
         let rents2 = functions.getRentsViaId(this.props.av._id, this.props.currentUser._id);
 
-        rents2 ? rents2 = rents2.map(o =>(o.tillDeadline + ' days left.')):"";
+        rents2 ? rents2 = rents2.map(o =>(fun({date:o.tillDeadline}))):"";
 
         return (
             <li>
@@ -83,7 +84,7 @@ class AV extends Component {
                 <h1>Audio or Video</h1><br/>
                 <span className="text">Title: {this.props.av.title} </span><br/>
                 <span className="text">Authors: {Author.find({ _id: { $in: this.props.av.authorsID} }).map(o => o.name).join(', ')} </span><br/>
-                <span className="text">Year: {this.props.av.release_date.getFullYear()} </span><br/>
+                <span className="text">Year: {this.props.av.release_date ? this.props.av.release_date.getFullYear() : "undefined"} </span><br/>
                 <span className="text">Price: {this.props.av.price} </span><br/>
                 <span className="text">Tags: {this.props.av.tags.join(', ')} </span><br/>
                 <span className="text">Copies available: {
@@ -132,3 +133,12 @@ export default withTracker(() => {
         currentUser: Meteor.user(),
     };
 })(AV);
+function fun( date )
+{
+    console.log(date.date);
+    if (date.date < 0)
+    {
+        let ff = - date.date;
+        return "Overdue " + ff + " days.";
+    }else return date.date + " days left.";
+}

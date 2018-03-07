@@ -89,6 +89,7 @@ class AddArticleButton extends Component {
                             Title
                             <input
                                 className={"inputForAdd"}
+                                required
                                 type="text"
                                 ref="Title"
                             /><br/>
@@ -126,6 +127,7 @@ class AddArticleButton extends Component {
                             <input
                                 className={"inputForAdd"}
                                 type="number"
+                                required
                                 ref="Price"
                             /><br/>
                             Number of copies

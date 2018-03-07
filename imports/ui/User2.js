@@ -39,7 +39,8 @@ class Users2 extends Component {
 
         let jarticles = functions.getUsersArticles(this.props.user.libraryID);
 
-        jarticles ? jarticles = jarticles.map(o => ('Article - "' + o.title + '" | '+fun({date:o.tillDeadline}))):"";
+        let avs = functions.getUsersAVs(this.props.user.libraryID);
+        avs ? avs = avs.map(o => ('AV - "' + o.title + '" | '+fun({date:o.tillDeadline}))):"";
 
 
         return(
@@ -50,6 +51,9 @@ class Users2 extends Component {
 
                 {jarticles.length ? <pre>{jarticles.join("\n")}</pre>
                     :<p>No Journal article rental record</p>}
+
+                {avs.length ? <pre>{avs.join("\n")}</pre>
+                    :<p>No Journal AVs rental record</p>}
             </li>
 
         )

@@ -138,7 +138,7 @@ export class EditAV extends Component {
                             className={"inputForAdd"}
                             type="text"
                             ref="ReleaseDate"
-                            placeholder={this.av1.release_date.getFullYear()}
+                            placeholder={this.av1.release_date ? this.av1.release_date.getFullYear() : ""}
                         /><br/>
                         Tags
                         <input

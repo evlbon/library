@@ -3,6 +3,8 @@ import '../imports/models/documents/book';
 import '../imports/models/documents/journal_article';
 import '../imports/models/documents/methods'
 import '../imports/models/documents/tests1'
+
+import '../imports/models/documents/tests2'
 import '../imports/models/users/user'
 
 

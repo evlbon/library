@@ -39,8 +39,8 @@ export class EditArticle extends Component {
         let Publisher = ReactDOM.findDOMNode(this.refs.Publisher).value.trim();
         (!Publisher)? Publisher=jarticle.journal:"";
 
-        let Edition = ReactDOM.findDOMNode(this.refs.Edition).value.trim();
-        (!Edition)? Edition=jarticle.edition:"";
+        let Editorr = ReactDOM.findDOMNode(this.refs.Editorr).value.trim();
+        (!Editorr)? Editorr=jarticle.editor:"";
 
         let PDate = ReactDOM.findDOMNode(this.refs.ReleaseDate).value.trim();
         (!PDate)? PDate=jarticle.release_date:PDate=new Date(PDate,1);
@@ -57,17 +57,13 @@ export class EditArticle extends Component {
         let References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
         (!References)? References=jarticle.numberOfReferences():"";
 
-
-        //TODO
-
-       // console.log(ReactDOM.findDOMNode(this.refs.Bestseller).value);
-
+        console.log("qqqqqqqqqqqqqqqqqq " + Editorr);
 
         if(functions.canEditDocument(this.props.id,Copies,References)) {
             Meteor.call('editArticle',this.props.id,{
                 title: Title,
-                editors: Authors,
-                edition: Edition,
+                authors: Authors,
+                editor: Editorr,
                 journal: Publisher,
                 release_date: PDate,
                 price: Number(Price),
@@ -77,12 +73,10 @@ export class EditArticle extends Component {
 
             });
 
-
-
             ReactDOM.findDOMNode(this.refs.Title).value = '';
             ReactDOM.findDOMNode(this.refs.Authors).value = '';
             ReactDOM.findDOMNode(this.refs.Publisher).value = '';
-            ReactDOM.findDOMNode(this.refs.Edition).value = '';
+            ReactDOM.findDOMNode(this.refs.Editorr).value = '';
             ReactDOM.findDOMNode(this.refs.ReleaseDate).value = '';
             ReactDOM.findDOMNode(this.refs.Copies).value = '';
             ReactDOM.findDOMNode(this.refs.References).value = '';
@@ -143,11 +137,11 @@ export class EditArticle extends Component {
                             type="text"
                             ref="Publisher"
                         /><br/>
-                        Edition
+                        Editor
                         <input
                             className={"inputForAdd"}
                             type="text"
-                            ref="Edition"
+                            ref="Editorr"
                         /><br/>
                         ReleaseDate
                         <input

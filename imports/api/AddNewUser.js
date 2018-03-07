@@ -68,16 +68,18 @@ export class AddNewUser extends Component {
                        Login
                         <input
                             className={"inputForAdd"}
-                            type="text"
                             required
+                            type="text"
                             ref="name"
                         /><br/>
 
                         Password:
                         <input
                             className={"inputForAdd"}
-                            type="text"
                             required
+                            placeholder="at least 6 symbols"
+                            type="text"
+                            minLength="6"
                             ref="pass"
                         /><br/>
                     </form>

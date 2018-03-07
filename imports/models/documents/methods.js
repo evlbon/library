@@ -11,6 +11,7 @@ import { Student } from "../users/student";
 import { Faculty } from "../users/faculty";
 import { AVs } from "./av";
 
+
 /**
  * Methods for adding / deletion docs مراجل
  */
@@ -463,7 +464,8 @@ Meteor.methods({
     'canCheckOut' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
-
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
+        if(!(document)) document = AVs.findOne({_id:documentID}); // new
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         return document.canCheckOut(userID);
@@ -474,6 +476,8 @@ Meteor.methods({
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
         if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
+        if(!(document)) document = AVs.findOne({_id:documentID}); // new
+
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.canCheckOut(userID)) {
@@ -537,7 +541,8 @@ Meteor.methods({
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
         if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
-        if (!(user && document)) throw Error('Incorrect id of user or document');
+        if(!(document)) document = AVs.findOne({_id:documentID}); // new
+         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.userHas(userID)) {
             document.return(userID);

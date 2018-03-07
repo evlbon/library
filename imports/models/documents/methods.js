@@ -285,11 +285,13 @@ Meteor.methods({
     },
 
     'editArticle' (documentID, {
-        title, editors=['Crowd'], editor, journal, release_date,
+        title, authors=['Crowd'], editor, journal, release_date,
         price, number_of_copies, number_of_references, tags=[], bestseller=false
     }) {
+        console.log("000000000000000000000000" + editor);
+
         check(title, String);
-        check(editors, [String]);
+        check(authors, [String]);
         check(editor, Match.Maybe(String));
         check(journal, Match.Maybe(String));
         check(release_date, Match.Maybe(Date));
@@ -328,7 +330,7 @@ Meteor.methods({
 
         let authorsID = [];
 
-        editors.forEach(name => {
+        authors.forEach(name => {
             let exist = Author.find({name: name}).count();
             authorsID.push(
                 exist ?

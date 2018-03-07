@@ -20,6 +20,13 @@ const Option = Select.Option;
 export class EditBook extends Component {
 
     state = { visible: false };
+
+    constructor(){
+        super();
+        this.book=null;
+
+    }
+
     showModal = () => {
         this.setState({
             visible: true,
@@ -27,7 +34,7 @@ export class EditBook extends Component {
     };
 
     handleOk = (e) => {
-        let book = Books.findOne({_id: this.props.id});
+        let book = this.book;
 
         let Title = ReactDOM.findDOMNode(this.refs.Title).value.trim();
         (!Title)? Title=book.title:"";
@@ -107,7 +114,7 @@ export class EditBook extends Component {
     };
 
     render() {
-        console.log(this.props.ID);
+        this.book=Books.findOne({_id: this.props.id});
 
         return   <div>
 
@@ -132,36 +139,42 @@ export class EditBook extends Component {
                             className={"inputForAdd"}
                             type="text"
                             ref="Title"
+                            placeholder={this.book.title}
                         /><br/>
                         Authors
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="Authors"
+                            placeholder={Author.find({ _id: { $in: this.book.authorsID} }).map(o => o.name).join(', ')}
                         /><br/>
                         Publisher
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="Publisher"
+                            placeholder={this.book.publisher}
                         /><br/>
                         Edition
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="Edition"
+                            placeholder={this.book.edition}
                         /><br/>
                         ReleaseDate
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="ReleaseDate"
+                            placeholder={this.book.release_date.getFullYear()}
                         /><br/>
                         Tags
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="Tags"
+                            placeholder={this.book.tags.join(', ')}
                         /><br/>
                         Price
                         <input
@@ -169,6 +182,7 @@ export class EditBook extends Component {
                             type="number"
                             min="0"
                             ref="Price"
+                            placeholder={this.book.price}
                         /><br/>
                         Number of copies
                         <input
@@ -176,6 +190,7 @@ export class EditBook extends Component {
                             type="number"
                             min="0"
                             ref="Copies"
+                            placeholder={this.book.numberOfCopies()}
                         /><br/>
                         Number of references
                         <input
@@ -183,6 +198,7 @@ export class EditBook extends Component {
                             type="number"
                             min="0"
                             ref="References"
+                            placeholder={this.book.numberOfReferences()}
                         /><br/>
                         Bestseller?
                         <input

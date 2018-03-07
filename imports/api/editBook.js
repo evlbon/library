@@ -24,6 +24,7 @@ export class EditBook extends Component {
     constructor(){
         super();
         this.book=null;
+        this.bestseller=false
 
     }
 
@@ -63,11 +64,8 @@ export class EditBook extends Component {
         let References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
         (!References)? References=book.numberOfReferences():"";
 
-        let Bestseller = !!ReactDOM.findDOMNode(this.refs.Bestseller).value.trim();
 
         //TODO
-        console.log("Value changes even if i don't switch the checkbox " + Bestseller);
-        console.log(ReactDOM.findDOMNode(this.refs.Bestseller).value);
 
 
         if(functions.canEditDocument(this.props.id,Copies,References)) {
@@ -81,7 +79,7 @@ export class EditBook extends Component {
                 tags: Tags,
                 number_of_copies: Copies,
                 number_of_references: References,
-                bestseller: Bestseller
+                bestseller: this.bestseller,
             });
 
 
@@ -95,8 +93,6 @@ export class EditBook extends Component {
             ReactDOM.findDOMNode(this.refs.References).value = '';
             ReactDOM.findDOMNode(this.refs.Tags).value = '';
             ReactDOM.findDOMNode(this.refs.Price).value = '';
-            ReactDOM.findDOMNode(this.refs.Bestseller).value = '';
-
 
             document.getElementById('editBookError').style.display="none";
             this.setState({
@@ -107,6 +103,21 @@ export class EditBook extends Component {
             document.getElementById('editBookError').style.display="";
     };
 
+    bs(){
+        if(this.bestseller){
+            this.bestseller=false;
+            document.getElementById(this.book._id).style.background="Red";
+            document.getElementById(this.book._id).innerText="No"
+
+        }
+        else{
+            this.bestseller=true;
+            document.getElementById(this.book._id).style.background="Green";
+            document.getElementById(this.book._id).innerText="Yes"
+        }
+
+    }
+
     handleCancel = (e) => {
         this.setState({
             visible: false,
@@ -115,6 +126,8 @@ export class EditBook extends Component {
 
     render() {
         this.book=Books.findOne({_id: this.props.id});
+
+        this.bestseller = this.book.bestseller;
 
         return   <div>
 
@@ -199,16 +212,17 @@ export class EditBook extends Component {
                             min="0"
                             ref="References"
                             placeholder={this.book.numberOfReferences()}
-                        /><br/>
-                        Bestseller?
-                        <input
-                            type="checkbox"
-                            ref="Bestseller"
-                            style={{margin:"5px 45% 5px 5px"}}
-                        />
+                        /><br/><br/>
 
 
                     </form>
+                    Bestseller?
+                    <button
+                        id={this.book._id}
+                        style={{background:"Red",
+                            margin:"5px 45% 5px 5px"}}
+                        onClick={this.bs.bind(this)}
+                    >No</button>:
 
                     <br/>
                 </div>

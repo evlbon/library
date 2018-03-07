@@ -5,6 +5,7 @@ import {Copy, Document} from "./document"
 import {Librarian} from "../users/librarian";
 import {JournalArticle} from "./journal_article";
 import {AVs} from "./av"
+import Book from "../../ui/Book";
 
 Meteor.methods({
 
@@ -16,7 +17,7 @@ Meteor.methods({
         AVs.remove({});
     },
 
-    'test1'() {
+    'test2-1'() {
         Meteor.call('clr_bd');
 
         let name1 = "Librarian";
@@ -48,6 +49,26 @@ Meteor.methods({
 
         let av2 = Meteor.call('documents.addAV', {
             title: 'AV2', price: 999999, bestseller: false, number_of_copies: 1,number_of_references:0
+        });
+    },
+
+    'test2-2'() {
+        Meteor.call('test2-1');
+
+        let book1 = Books.findOne({title: 'Book1'})._id;
+        Meteor.call('editBook', book1, {
+            title: 'Book1', price: 999999, bestseller: false, number_of_copies: 1,number_of_references:0
+        });
+
+        let book3 = Books.findOne({title: 'Book3'})._id;
+        Meteor.call('editBook', book3, {
+            title: 'Book3', price: 999999, bestseller: false, number_of_copies:0, number_of_references:0
+        });
+
+        let studentId2 = Meteor.users.findOne({username: 'Student2'})._id;
+        Meteor.call('Delete', {
+            ID: studentId2,
+            ID2: studentId2
         });
     }
 });

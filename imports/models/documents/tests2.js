@@ -49,6 +49,17 @@ Meteor.methods({
         let av2 = Meteor.call('documents.addAV', {
             title: 'AV2', price: 999999, bestseller: false, number_of_copies: 1,number_of_references:0
         });
+    },
+
+    'test2-2'(){
+        Meteor.call('test1');
+        let book1 = Meteor.call('documents.addBook', {
+            title: 'Book1', price: 999999, bestseller: false, number_of_copies: 3,number_of_references:0
+        });
+
+        let book1 = Meteor.call('\'editBook\'')
+
+        Meteor.call('Delete', ({id:Meteor.users.findOne({username:"Student2"})._id, id:Meteor.users.findOne({username:"Student1"})._id}));
     }
 });
 

@@ -195,7 +195,7 @@ Meteor.methods({
             Meteor.users.remove(ID2);
             User.remove({libraryID:ID2});
 
-        } catch (e) {
+        } catch (e) {   
             // handle this however you want
 
             throw new Meteor.Error('self-delete', 'Failed to remove yourself');

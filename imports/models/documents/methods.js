@@ -248,16 +248,14 @@ Meteor.methods({
         User.update({libraryID:id},{$set:{group:str}});
         return id;
     },
-    'ModifyUserProperties' ({id,name,group,phone,address,libId}){
-        if(name.length)
-            User.update({libraryID:id},{$set:{name:name}});;
-        if(group.length)
-            User.update({libraryID:id},{$set:{group:group}});
-        if(phone.length)
+    'ModifyUserProperties' ({id,name,phone,address,libId}){
+        if(name)
+            User.update({libraryID:id},{$set:{name:name}});
+        if(phone)
             User.update({libraryID:id},{$set:{phone:Number(phone)}});
-        if(address.length)
+        if(address)
             User.update({libraryID:id},{$set:{address:address}});
-        if(libId.length)
+        if(libId)
             User.update({libraryID:id},{$set:{libId:Number(libId)}});
 
     },

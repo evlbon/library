@@ -4,13 +4,15 @@ import {Meteor} from "meteor/meteor";
 import ReactDOM from 'react-dom';
 import {Copy} from "../models/documents/document";
 import * as functions from "../models/documents/functions"
-
-import { withTracker } from 'meteor/react-meteor-data';;
+import { withTracker } from 'meteor/react-meteor-data';
 import {Librarian} from "../models/users/librarian";
 import { Select } from 'antd';
 import {Books} from "../models/documents/book";
 import {Author} from "../models/utility/author";
 import {JournalArticle} from "../models/documents/journal_article";
+import {AVs} from "../models/documents/av";
+
+
 function handleChange(value) {
     console.log(`selected ${value}`);
 }
@@ -18,9 +20,16 @@ const Option = Select.Option;
 
 
 
-export class EditArticle extends Component {
+export class EditAV extends Component {
 
     state = { visible: false };
+
+    constructor(){
+        super();
+        this.av1=null;
+
+    }
+
     showModal = () => {
         this.setState({
             visible: true,
@@ -28,47 +37,34 @@ export class EditArticle extends Component {
     };
 
     handleOk = (e) => {
-        let jarticle = JournalArticle.findOne({_id: this.props.id});
+        let av = this.av1;
 
         let Title = ReactDOM.findDOMNode(this.refs.Title).value.trim();
-        (!Title)? Title=jarticle.title:"";
+        (!Title)? Title=av.title:"";
 
         let Authors = ReactDOM.findDOMNode(this.refs.Authors).value.trim();
-        (!Authors)? Authors=Author.find({ _id: { $in: jarticle.authorsID} }).map(o => o.name):Authors=Authors.split(',');
-
-        let Publisher = ReactDOM.findDOMNode(this.refs.Publisher).value.trim();
-        (!Publisher)? Publisher=jarticle.journal:"";
-
-        let Edition = ReactDOM.findDOMNode(this.refs.Edition).value.trim();
-        (!Edition)? Edition=jarticle.edition:"";
+        (!Authors)? Authors=Author.find({ _id: { $in: av.authorsID} }).map(o => o.name):Authors=Authors.split(',');
 
         let PDate = ReactDOM.findDOMNode(this.refs.ReleaseDate).value.trim();
-        (!PDate)? PDate=jarticle.release_date:PDate=new Date(PDate,1);
+        (!PDate)? PDate=av.release_date:PDate=new Date(PDate,1);
 
         let Tags = ReactDOM.findDOMNode(this.refs.Tags).value.trim();
-        (!Tags)? Tags=jarticle.tags:Tags=Tags.split(',');
+        (!Tags)? Tags=av.tags:Tags=Tags.split(',');
 
         let Price = Number(ReactDOM.findDOMNode(this.refs.Price).value.trim());
-        (!Price)? Price=jarticle.price:"";
+        (!Price)? Price=av.price:"";
 
         let Copies = ReactDOM.findDOMNode(this.refs.Copies).value.trim();
-        (!Copies)? Copies= jarticle.numberOfCopies() : Copies=Number(Copies);
+        (!Copies)? Copies= av.numberOfCopies() : Copies=Number(Copies);
 
         let References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
-        (!References)? References=jarticle.numberOfReferences():"";
-
-
-        //TODO
-
-       // console.log(ReactDOM.findDOMNode(this.refs.Bestseller).value);
+        (!References)? References=av.numberOfReferences():"";
 
 
         if(functions.canEditDocument(this.props.id,Copies,References)) {
-            Meteor.call('editArticle',this.props.id,{
+            Meteor.call('editAV',this.props.id,{
                 title: Title,
-                editors: Authors,
-                edition: Edition,
-                journal: Publisher,
+                authors: Authors,
                 release_date: PDate,
                 price: Number(Price),
                 tags: Tags,
@@ -76,8 +72,6 @@ export class EditArticle extends Component {
                 number_of_references: References,
 
             });
-
-
 
             ReactDOM.findDOMNode(this.refs.Title).value = '';
             ReactDOM.findDOMNode(this.refs.Authors).value = '';
@@ -103,7 +97,8 @@ export class EditArticle extends Component {
     };
 
     render() {
-        console.log(this.props.ID);
+        this.av1=AVs.findOne({_id: this.props.id});
+
 
         return   <div>
 
@@ -111,7 +106,7 @@ export class EditArticle extends Component {
 
 
             <Modal
-                title="Modify Book"
+                title="Modify AV"
                 visible={this.state.visible}
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
@@ -128,26 +123,29 @@ export class EditArticle extends Component {
                             className={"inputForAdd"}
                             type="text"
                             ref="Title"
+                            placeholder={this.av1.title}
                         /><br/>
                         Author
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="Authors"
+                            placeholder={Author.find({ _id: { $in: this.av1.authorsID} }).map(o => o.name).join(', ')}
                         /><br/>
-                       Journal
 
                         ReleaseDate
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="ReleaseDate"
+                            placeholder={this.av1.release_date.getFullYear()}
                         /><br/>
                         Tags
                         <input
                             className={"inputForAdd"}
                             type="text"
                             ref="Tags"
+                            placeholder={this.av1.tags.join(', ')}
                         /><br/>
                         Price
                         <input
@@ -155,6 +153,7 @@ export class EditArticle extends Component {
                             type="number"
                             min="0"
                             ref="Price"
+                            placeholder={this.av1.price}
                         /><br/>
                         Number of copies
                         <input
@@ -162,6 +161,7 @@ export class EditArticle extends Component {
                             type="number"
                             min="0"
                             ref="Copies"
+                            placeholder={this.av1.numberOfCopies()}
                         /><br/>
                         Number of references
                         <input
@@ -169,6 +169,7 @@ export class EditArticle extends Component {
                             type="number"
                             min="0"
                             ref="References"
+                            placeholder={this.av1.numberOfReferences()}
                         /><br/>
 
 

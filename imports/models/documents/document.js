@@ -43,7 +43,11 @@ export const Document = Class.create({
         },
         price: {
             type: Number
-        }
+        },
+        release_date: {                         // Release Date reserved as the Built_in Data type of "Date"
+            type: Date,
+            optional: true,
+        },
     },
 
     helpers: {

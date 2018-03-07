@@ -31,7 +31,7 @@ export class ViewDocs extends React.Component {
     }
     renderAV(){
         if(Meteor.userId()) {
-            return this.props.articles.map((av) => (
+            return this.props.avs.map((av) => (
                 <AV key={av._id} av={av}/>
             ));
         }

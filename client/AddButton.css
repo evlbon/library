@@ -72,7 +72,7 @@
     position: fixed;
     top: 10%;
     right: 30%;
-    bottom: 40%;
+    bottom: auto;
     left: 30%;
     padding: 7px;
     overflow: scroll;

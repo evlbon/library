@@ -5,8 +5,10 @@ import {Author} from "../models/utility/author";
 import {Librarian} from "../models/users/librarian";
 import * as functions from "../models/documents/functions";
 import {User} from "../models/users/user";
+import {EditAV} from "../api/editAV";
 import {EditBook} from "../api/editBook";
 import {EditArticle} from "../api/editArticle";
+
 class AV extends Component {
 
 
@@ -23,17 +25,13 @@ class AV extends Component {
     }
 
     render() {
-        /*let rents = functions.getRenters(this.props.book._id);
-
-        rents ? rents = rents.map(o => (o.name + '" | '+o.tillDeadline+' days left. '+functions.calculateFee(o.libraryID,this.props.book._id))):"";
-        let rents2 = functions.getRentsViaId(this.props.book._id,this.props.currentUser._id);
-*/
         let rents = functions.getRenters(this.props.av._id);
 
         rents ? rents = rents.map(o => (o.name + '" | '+o.tillDeadline+' days left. Fee is'+functions.calculateFee(o.libraryID,this.props.av._id))):"";
         let rents2 = functions.getRentsViaId(this.props.av._id, this.props.currentUser._id);
 
         rents2 ? rents2 = rents2.map(o =>(o.tillDeadline + ' days left.')):"";
+
         return (
             <li>
 
@@ -50,13 +48,13 @@ class AV extends Component {
                 }
                 <br/>
 
-                {/*{ this.props.currentUser ?*/}
-                    {/*Librarian.findOne({libraryID : this.props.currentUser._id}) ?*/}
-                        {/*Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?*/}
-                            {/*<EditAV id={this.props.av._id}/>*/}
-                            {/*: ''*/}
-                        {/*:""*/}
-                    {/*:""}*/}
+                { this.props.currentUser ?
+                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
+                            <EditAV id={this.props.av._id}/>
+                            : ''
+                        :""
+                    :""}
 
                 <br/>
                 { this.props.currentUser ?

@@ -158,7 +158,7 @@ export class EditArticle extends Component {
                             className={"inputForAdd"}
                             type="text"
                             ref="ReleaseDate"
-                            placeholder={this.jarticle.release_date.getFullYear()}
+                            placeholder={this.jarticle.release_date ? this.jarticle.release_date.getFullYear() : ""}
                         /><br/>
                         Tags
                         <input

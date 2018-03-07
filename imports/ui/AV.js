@@ -83,7 +83,7 @@ class AV extends Component {
                 <h1>Audio or Video</h1><br/>
                 <span className="text">Title: {this.props.av.title} </span><br/>
                 <span className="text">Authors: {Author.find({ _id: { $in: this.props.av.authorsID} }).map(o => o.name).join(', ')} </span><br/>
-                <span className="text">Year: {this.props.av.release_date.getFullYear()} </span><br/>
+                <span className="text">Year: {this.props.av.release_date ? this.props.av.release_date.getFullYear() : "undefined"} </span><br/>
                 <span className="text">Price: {this.props.av.price} </span><br/>
                 <span className="text">Tags: {this.props.av.tags.join(', ')} </span><br/>
                 <span className="text">Copies available: {

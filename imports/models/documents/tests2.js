@@ -4,7 +4,7 @@ import {User} from "../users/user";
 import {Copy, Document} from "./document"
 import {Librarian} from "../users/librarian";
 import {JournalArticle} from "./journal_article";
-import {AV} from "./av"
+import {AVs} from "./av"
 
 Meteor.methods({
 
@@ -13,7 +13,7 @@ Meteor.methods({
         User.remove({});
         JournalArticle.remove({});
         Books.remove({});
-        AV.remove({});
+        AVs.remove({});
     },
 
     'test1'() {
@@ -41,6 +41,14 @@ Meteor.methods({
         let student1 = Meteor.call('ModifyUser', ({id:Meteor.users.findOne({username:"Student1"})._id,S:2}));
         let student2 = Meteor.call('ModifyUser', ({id:Meteor.users.findOne({username:"Student2"})._id,S:2}));
         let student3 = Meteor.call('ModifyUser', ({id:Meteor.users.findOne({username:"Student3"})._id,S:2}));
+
+        let av1 = Meteor.call('documents.addAV', {
+            title: 'AV1', price: 999999, bestseller: false, number_of_copies: 1,number_of_references:0
+        });
+
+        let av2 = Meteor.call('documents.addAV', {
+            title: 'AV2', price: 999999, bestseller: false, number_of_copies: 1,number_of_references:0
+        });
     }
 });
 

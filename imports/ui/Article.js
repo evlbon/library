@@ -84,7 +84,7 @@ class Article extends Component {
                 <span className="text">Title: {this.props.jarticle.title} </span><br/>
                 <span className="text">Journal: {this.props.jarticle.journal} </span><br/>
                 <span className="text">Authors: {Author.find({ _id: { $in: this.props.jarticle.authorsID} }).map(o => o.name).join(', ')} </span><br/>
-                <span className="text">Year: {this.props.jarticle.release_date.getFullYear()} </span><br/>
+                <span className="text">Year: {this.props.jarticle.release_date ? this.props.jarticle.release_date.getFullYear() : "undefined"} </span><br/>
                 <span className="text">Editor: {this.props.jarticle.editor ? this.props.jarticle.editor : 'undefined'} </span><br/>
                 <span className="text">Price: {this.props.jarticle.price} </span><br/>
                 <span className="text">Tags: {this.props.jarticle.tags.join(', ')} </span><br/>

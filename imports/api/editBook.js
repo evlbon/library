@@ -167,7 +167,7 @@ export class EditBook extends Component {
                             className={"inputForAdd"}
                             type="text"
                             ref="ReleaseDate"
-                            placeholder={this.book.release_date.getFullYear()}
+                            placeholder={this.book.release_date ? this.book.release_date.getFullYear() : ""}
                         /><br/>
                         Tags
                         <input

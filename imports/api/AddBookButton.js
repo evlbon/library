@@ -14,6 +14,13 @@ import {Librarian} from "../models/users/librarian";
 class AddBookButton extends Component {
 
     state = { visible: false };
+
+    constructor(){
+        super();
+        this.bestseller=false
+
+    }
+
     showModal = () => {
         this.setState({
             visible: true,
@@ -31,9 +38,6 @@ class AddBookButton extends Component {
         const Price = Number(ReactDOM.findDOMNode(this.refs.Price).value.trim());
         const Copies = Number(ReactDOM.findDOMNode(this.refs.Copies).value.trim());
         const References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
-        const Bestseller = !Boolean(ReactDOM.findDOMNode(this.refs.Bestseller).value.trim());
-
-        // console.log("Creation checkbox ---> "+Boolean(ReactDOM.findDOMNode(this.refs.Bestseller).value.trim()));
 
         Meteor.call('documents.addBook',{
             title: Title,
@@ -45,8 +49,7 @@ class AddBookButton extends Component {
             tags: Tags.split(','),
             number_of_copies: Copies,
             number_of_references: References,
-            bestseller: Bestseller
-        });
+            bestseller: this.bestseller});
 
         ReactDOM.findDOMNode(this.refs.Title).value = '';
         ReactDOM.findDOMNode(this.refs.Author).value = '';
@@ -57,13 +60,27 @@ class AddBookButton extends Component {
         ReactDOM.findDOMNode(this.refs.References).value = '';
         ReactDOM.findDOMNode(this.refs.Tags).value = '';
         ReactDOM.findDOMNode(this.refs.Price).value = '';
-        ReactDOM.findDOMNode(this.refs.Bestseller).value = '';
 
 
         this.setState({
             visible: false,
         });
     };
+
+    bs(){
+        if(this.bestseller){
+            this.bestseller=false;
+            document.getElementById('bestButton').style.background="Red";
+            document.getElementById('bestButton').innerText="No"
+
+        }
+        else{
+            this.bestseller=true;
+            document.getElementById('bestButton').style.background="Green";
+            document.getElementById('bestButton').innerText="Yes"
+        }
+
+    }
     handleCancel = (e) => {
         this.setState({
             visible: false,
@@ -150,17 +167,16 @@ class AddBookButton extends Component {
                                         type="number"
                                         min="0"
                                         ref="References"
-                                    /><br/>
-                                    Bestseller?
-                                    <input
-                                        type="checkbox"
-                                        ref="Bestseller"
-                                        value={true}
-                                        style={{margin:"5px 45% 5px 5px"}}
-                                    />
-
+                                    /><br/><br/>
 
                                 </form>
+                                Bestseller?
+                                <button
+                                    id="bestButton"
+                                    style={{background:"Red",
+                                        margin:"5px 45% 5px 5px"}}
+                                    onClick={this.bs.bind(this)}
+                                >No</button>:
 
                                 <br/>
                             </div>

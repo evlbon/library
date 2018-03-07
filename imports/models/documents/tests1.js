@@ -15,8 +15,8 @@ Meteor.methods({
 
     'test1'() {
         Meteor.call('clr_bd');
+        let librarian1 = Meteor.call('addLibrarian',{name:Name, password:pass, phone:0, address:"None"});
 
-        let librarian1 = Meteor.call('addLibrarian', {id: 'l1', name: 'l'});
         let student1 = Meteor.call('addStudent', {id: 's1', name: 'p'});
 
         let book1 = Meteor.call('documents.addBook', {

@@ -56,12 +56,9 @@ export class EditBook extends Component {
         let References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
         (!References)? References=book.numberOfReferences():"";
 
-        let Bestseller = !!ReactDOM.findDOMNode(this.refs.Bestseller).value.trim();
+        let Bestseller = !ReactDOM.findDOMNode(this.refs.Bestseller).value.trim();
 
-        //TODO
-        console.log("Value changes even if i don't switch the checkbox " + Bestseller);
-        console.log(ReactDOM.findDOMNode(this.refs.Bestseller).value);
-
+        // console.log("Value changes even if i don't switch the checkbox " + Bestseller);
 
         if(functions.canEditDocument(this.props.id,Copies,References)) {
             Meteor.call('editBook',this.props.id,{
@@ -76,8 +73,6 @@ export class EditBook extends Component {
                 number_of_references: References,
                 bestseller: Bestseller
             });
-
-
 
             ReactDOM.findDOMNode(this.refs.Title).value = '';
             ReactDOM.findDOMNode(this.refs.Authors).value = '';

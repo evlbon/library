@@ -31,7 +31,9 @@ class AddBookButton extends Component {
         const Price = Number(ReactDOM.findDOMNode(this.refs.Price).value.trim());
         const Copies = Number(ReactDOM.findDOMNode(this.refs.Copies).value.trim());
         const References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
-        const Bestseller = Boolean(ReactDOM.findDOMNode(this.refs.Bestseller).value.trim());
+        const Bestseller = !Boolean(ReactDOM.findDOMNode(this.refs.Bestseller).value.trim());
+
+        // console.log("Creation checkbox ---> "+Boolean(ReactDOM.findDOMNode(this.refs.Bestseller).value.trim()));
 
         Meteor.call('documents.addBook',{
             title: Title,
@@ -43,7 +45,8 @@ class AddBookButton extends Component {
             tags: Tags.split(','),
             number_of_copies: Copies,
             number_of_references: References,
-            bestseller: !(Boolean(Bestseller))});
+            bestseller: Bestseller
+        });
 
         ReactDOM.findDOMNode(this.refs.Title).value = '';
         ReactDOM.findDOMNode(this.refs.Author).value = '';

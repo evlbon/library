@@ -352,15 +352,6 @@ Meteor.methods({
 });
 
 /**
- * Important Features
- */
-Meteor.methods({
-    'whoIsRivera' () {
-        return "Fagot";
-    },
-});
-
-/**
  * Checking out system
  */
 Meteor.methods({

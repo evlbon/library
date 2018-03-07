@@ -9,6 +9,7 @@ import { Copy, Document } from "./document"
 import { JournalArticle } from "./journal_article";
 import { Student } from "../users/student";
 import { Faculty } from "../users/faculty";
+import {AV} from "./av";
 
 /**
  * Methods for adding / deletion docs مراجل
@@ -88,6 +89,37 @@ Meteor.methods({
             tags: tags
         });
 
+    },
+
+
+    'documents.addAV' ({
+                                title,authors=['Crowd'],release_date,
+                                price, copies=[], tags=[]
+                            }){
+
+        let authorsID = [];
+        authors.forEach(name => {
+            let exist = Author.find({ name: name }).count();
+            authorsID.push(
+                exist ?
+                    Author.findOne({ name: name })._id:
+                    Author.insert({ name: name })
+            );
+        });
+
+        return AV.insert({
+            title: title,
+            authorsID: authorsID,
+            release_date: release_date,
+            price: price,
+            copies: copies,
+            tags: tags
+        });
+
+    },
+
+    'documents.delBook' ({ id }) {
+        AV.remove(id);
     },
 
     'documents.delBook' ({ id }) {

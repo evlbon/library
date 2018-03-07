@@ -6,6 +6,7 @@ import Users from "../User"
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import Users2 from "../User2";
+import AV from "../AV";
 export class ViewDocs extends React.Component {
 
     constructor() {
@@ -25,6 +26,13 @@ export class ViewDocs extends React.Component {
         if(Meteor.userId()) {
             return this.props.articles.map((jarticle) => (
                 <Article key={jarticle._id} jarticle={jarticle}/>
+            ));
+        }
+    }
+    renderAV(){
+        if(Meteor.userId()) {
+            return this.props.articles.map((av) => (
+                <AV key={av._id} av={av}/>
             ));
         }
     }
@@ -60,6 +68,10 @@ export class ViewDocs extends React.Component {
                 document.getElementById('users').style.display="";
                 this.case=document.getElementById("users");
                 break;
+            case 4:
+                document.getElementById('av').style.display="";
+                this.case=document.getElementById("av");
+                break;
             case 69:
                 console.log("you are here");
                 document.getElementById('users2').style.display="";
@@ -78,6 +90,7 @@ export class ViewDocs extends React.Component {
         return  <div>
             <button onClick={this.reanderCase.bind(this,1)}>Books</button>
             <button onClick={this.reanderCase.bind(this,2)}>Articles</button>
+            <button onClick={this.reanderCase.bind(this,4)}>AV</button>
 
 
             {
@@ -103,6 +116,9 @@ export class ViewDocs extends React.Component {
             </ul>
             <ul id="articles" style={{display:"none"}}>
                 {this.renderArticles()}
+            </ul>
+            <ul id="av" style={{display:"none"}}>
+                {this.renderAV()}
             </ul>
 
             <ul id="users" style={{display:"none"}}>

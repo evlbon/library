@@ -39,7 +39,7 @@ export class EditArticle extends Component {
         let Publisher = ReactDOM.findDOMNode(this.refs.Publisher).value.trim();
         (!Publisher)? Publisher=jarticle.journal:"";
 
-        let Edition = ReactDOM.findDOMNode(this.refs.Edition).value.trim();
+        let Editor = ReactDOM.findDOMNode(this.refs.Edition).value.trim();
         (!Edition)? Edition=jarticle.edition:"";
 
         let PDate = ReactDOM.findDOMNode(this.refs.ReleaseDate).value.trim();
@@ -57,17 +57,11 @@ export class EditArticle extends Component {
         let References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
         (!References)? References=jarticle.numberOfReferences():"";
 
-
-        //TODO
-
-       // console.log(ReactDOM.findDOMNode(this.refs.Bestseller).value);
-
-
         if(functions.canEditDocument(this.props.id,Copies,References)) {
             Meteor.call('editArticle',this.props.id,{
                 title: Title,
                 editors: Authors,
-                edition: Edition,
+                editor: Editor,
                 journal: Publisher,
                 release_date: PDate,
                 price: Number(Price),
@@ -76,8 +70,6 @@ export class EditArticle extends Component {
                 number_of_references: References,
 
             });
-
-
 
             ReactDOM.findDOMNode(this.refs.Title).value = '';
             ReactDOM.findDOMNode(this.refs.Authors).value = '';

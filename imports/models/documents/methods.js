@@ -9,6 +9,7 @@ import { Copy, Document } from "./document"
 import { JournalArticle } from "./journal_article";
 import { Student } from "../users/student";
 import { Faculty } from "../users/faculty";
+import { AVs } from "./av";
 
 /**
  * Methods for adding / deletion docs مراجل
@@ -88,6 +89,37 @@ Meteor.methods({
             tags: tags
         });
 
+    },
+
+
+    'documents.addAV' ({
+                                title,authors=['Crowd'],release_date,
+                                price, copies=[], tags=[]
+                            }){
+
+        let authorsID = [];
+        authors.forEach(name => {
+            let exist = Author.find({ name: name }).count();
+            authorsID.push(
+                exist ?
+                    Author.findOne({ name: name })._id:
+                    Author.insert({ name: name })
+            );
+        });
+
+        return AVs.insert({
+            title: title,
+            authorsID: authorsID,
+            release_date: release_date,
+            price: price,
+            copies: copies,
+            tags: tags
+        });
+
+    },
+
+    'documents.delAV' ({ id }) {
+        AVs.remove(id);
     },
 
     'documents.delBook' ({ id }) {
@@ -355,9 +387,74 @@ Meteor.methods({
         document.bestseller = bestseller;
 
         document.save();
-    }
-});
+    },
 
+
+
+
+'editAV' (documentID, {
+    title, authors=['Crowd'],  release_date,
+    price, number_of_copies, number_of_references, tags=[]
+}) {
+
+    check(title, String);
+    check(authors, [String]);
+
+    check(release_date, Match.Maybe(Date));
+    check(price, Match.Maybe(Number));
+    check(number_of_copies, Number);
+    check(number_of_references, Number);
+    check(tags, [String]);
+
+    let document = AVs.findOne({_id:documentID}); // new
+    if (!document) throw Error('Incorrect id of a document');
+
+    if (document.numberOfCopies() - document.leftInLibrary() > number_of_copies - number_of_references)
+        throw Error('Number of already checked out books can\'t be more than available books after the change');
+
+    let old_reference = document.copies.filter(o => o.reference);
+    let old_available = document.copies.filter(o => !o.checked_out_date && !o.reference);
+
+    let new_checked = document.copies.filter(o => o.checked_out_date && !o.reference);
+
+    let number_of_available = number_of_copies - number_of_references - new_checked.length;
+
+    let new_reference = old_reference.splice(0, number_of_references);
+    let new_available = old_available.splice(0, number_of_available);
+
+    old_reference = old_reference.map(function(o){o.reference=false; return o});
+    old_available = old_available.map(function(o){o.reference=true; return o});
+
+    new_reference = new_reference.concat(old_available.splice(0, number_of_references - new_reference.length));
+    new_available = new_available.concat(old_reference.splice(0, number_of_available - new_available.length));
+
+    for (let i = new_reference.length; i < number_of_references; i++)
+        new_reference.push(new Copy({reference: true}));
+    for (let i = new_available.length; i < number_of_available; i++)
+        new_available.push(new Copy({reference: false}));
+
+    let authorsID = [];
+
+    authors.forEach(name => {
+        let exist = Author.find({name: name}).count();
+        authorsID.push(
+            exist ?
+                Author.findOne({name: name})._id :
+                Author.insert({name: name})
+        );
+    });
+
+    document.title = title;
+    document.authorsID = authorsID;
+    document.release_date = release_date;
+    document.price = price;
+    document.copies = new_reference.concat(new_available).concat(new_checked);
+    document.tags = tags;
+
+    document.save();
+    document.save();
+}
+});
 
 /**
  * Checking out system

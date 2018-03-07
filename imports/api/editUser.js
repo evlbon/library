@@ -15,6 +15,13 @@ const Option = Select.Option;
 export class EditUser extends Component {
 
     state = { visible: false };
+
+    constructor(){
+        super();
+        this.user=null;
+
+    }
+
     showModal = () => {
         this.setState({
             visible: true,

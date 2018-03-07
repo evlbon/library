@@ -254,9 +254,6 @@ Meteor.methods({
                     title, authors=['Crowd'], edition, publisher, release_date,
                     price, number_of_copies, number_of_references, tags=[], bestseller=false
                 }) {
-
-        console.log(bestseller);
-
         check(title, String);
         check(authors, [String]);
         check(edition, Match.Maybe(String));
@@ -269,7 +266,6 @@ Meteor.methods({
         check(bestseller, Boolean);
 
         let document = Books.findOne({_id: documentID});
-        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
         if (!document) throw Error('Incorrect id of a document');
 
         if (document.numberOfCopies() - document.leftInLibrary() > number_of_copies - number_of_references)
@@ -319,16 +315,14 @@ Meteor.methods({
 
         document.save();
     },
+
     'editArticle' (documentID, {
-        title, editors=['Crowd'], edition, journal, release_date,
+        title, editors=['Crowd'], editor, journal, release_date,
         price, number_of_copies, number_of_references, tags=[], bestseller=false
     }) {
-
-        console.log(bestseller);
-
         check(title, String);
         check(editors, [String]);
-        check(edition, Match.Maybe(String));
+        check(editor, Match.Maybe(String));
         check(journal, Match.Maybe(String));
         check(release_date, Match.Maybe(Date));
         check(price, Match.Maybe(Number));
@@ -337,8 +331,7 @@ Meteor.methods({
         check(tags, [String]);
         check(bestseller, Boolean);
 
-        let document = Books.findOne({_id: documentID});
-        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
+        let document = JournalArticle.findOne({_id:documentID}); // new
         if (!document) throw Error('Incorrect id of a document');
 
         if (document.numberOfCopies() - document.leftInLibrary() > number_of_copies - number_of_references)
@@ -378,8 +371,8 @@ Meteor.methods({
 
         document.title = title;
         document.authorsID = authorsID;
-        document.edition = edition;
-        document.publisher = journal;
+        document.editor = editor;
+        document.journal = journal;
         document.release_date = release_date;
         document.price = price;
         document.copies = new_reference.concat(new_available).concat(new_checked);

@@ -232,7 +232,7 @@ Meteor.methods({
     },
     'ModifyUserProperties' ({id,name,group,phone,address,libId}){
         if(name.length)
-            User.update({libraryID:id},{$set:{name:name}});
+            User.update({libraryID:id},{$set:{name:name}});;
         if(group.length)
             User.update({libraryID:id},{$set:{group:group}});
         if(phone.length)

@@ -65,9 +65,17 @@ Meteor.methods({
     },
 
     'documents.addArticle' ({
-                             title,authors=['Crowd'], editor, release_date,
-                             price, copies=[], tags=[], journal
+                             title,authors, editor, release_date,
+                             price, number_of_copies, number_of_references, tags=[], journal
                          }){
+        if (!authors || authors.length === 0 || authors[0] === '') authors = ['Crowd'];
+
+        let copies = [];
+        for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
+            copies.push(new Copy({reference: true}));
+        for (let i=Math.min(number_of_copies, number_of_references); i<number_of_copies; i++)
+            copies.push(new Copy({reference: false}));
+
 
         let authorsID = [];
         authors.forEach(name => {
@@ -95,8 +103,17 @@ Meteor.methods({
 
     'documents.addAV' ({
                                 title,authors=['Crowd'],release_date,
-                                price, copies=[], tags=[]
+                                price, number_of_copies, number_of_references, tags=[]
                             }){
+
+        if (!authors || authors.length === 0 || authors[0] === '') authors = ['Crowd'];
+
+        let copies = [];
+        for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
+            copies.push(new Copy({reference: true}));
+        for (let i=Math.min(number_of_copies, number_of_references); i<number_of_copies; i++)
+            copies.push(new Copy({reference: false}));
+
 
         let authorsID = [];
         authors.forEach(name => {

@@ -74,99 +74,27 @@ Meteor.methods({
         });
     },
     'test2-6'(){
-
-        let name1 = "p1";
-        let pass1 = "123456";
-        Meteor.call('addUser', ({name: name1, password: pass1}));
-        let userId1 = Meteor.users.findOne({username:name1})._id;
-        Meteor.call('ModifyUser', ({id:userId1,S:2}));
-
-        let name2 = "p2";
-        let pass2 = "123456";
-        Meteor.call('addUser', ({name: name2, password: pass2}));
-        let userId2 = Meteor.users.findOne({username:name2})._id;
-        Meteor.call('ModifyUser', ({id:userId2,S:2}));
+        Meteor.call('test2-2');
 
 
-        Meteor.call('documents.addBook', {
-            title: 'Book1', price: 999999, bestseller: false, number_of_copies: 3,number_of_references:0
-        });
 
-        Meteor.call('documents.addBook', {
-            title: 'Book2', price: 999999, bestseller: false, number_of_copies: 3,number_of_references:0
-        });
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student1"})._id, documentID:Books.findOne({title:'Book1'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student1"})._id, documentID:Books.findOne({title:'Book2'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student3"})._id, documentID:Books.findOne({title:'Book1'})._id});
 
-        Meteor.call("checkOut",{userID:userId1, documentID:Books.findOne({title:'Book1'})._id});
-        Meteor.call("checkOut",{userID:userId1, documentID:Books.findOne({title:'Book2'})._id});
-        Meteor.call("checkOut",{userID:userId2, documentID:Books.findOne({title:'Book1'})._id});
-
-        let p1 = User.findOne({libraryID:userId1});
-        let p2 = User.findOne({libraryID:userId2});
-
-        console.log(p1);
-        console.log("\n\n\n");
-        console.log(functions.getUsersBooks(userId1));
-        console.log("\n\n\n");
-        console.log(p2);
-        console.log("\n\n\n");
-        console.log(functions.getUsersBooks(userId2));
 
     },
     'test2-7'(){
-        let name1 = "p1";
-        let pass1 = "123456";
-        Meteor.call('addUser', ({name: name1, password: pass1}));
-        let userId1 = Meteor.users.findOne({username:name1})._id;
-        Meteor.call('ModifyUser', ({id:userId1,S:2}));
+        Meteor.call('test2-1');
 
-        let name2 = "p2";
-        let pass2 = "123456";
-        Meteor.call('addUser', ({name: name2, password: pass2}));
-        let userId2 = Meteor.users.findOne({username:name2})._id;
-        Meteor.call('ModifyUser', ({id:userId2,S:2}));
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student1"})._id, documentID:Books.findOne({title:'Book1'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student1"})._id, documentID:Books.findOne({title:'Book2'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student1"})._id, documentID:Books.findOne({title:'Book3'})._id});
+       Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student1"})._id, documentID:AVs.findOne({title:'AV1'})._id});
 
-
-        Meteor.call('documents.addBook', {
-            title: 'Book1', price: 999999, bestseller: false, number_of_copies: 3,number_of_references:0
-        });
-
-        Meteor.call('documents.addBook', {
-            title: 'Book2', price: 999999, bestseller: false, number_of_copies: 3,number_of_references:0
-        });
-
-        Meteor.call('documents.addBook', {
-            title: 'Book3', price: 999999, bestseller: false, number_of_copies: 3,number_of_references:0
-        });
-
-        Meteor.call('documents.addAV', {
-            title: 'AV1', price: 999999,  number_of_copies: 3,number_of_references:0
-        });
-        Meteor.call('documents.addAV', {
-            title: 'AV2', price: 999999,  number_of_copies: 3,number_of_references:0
-        });
-
-
-
-        Meteor.call("checkOut",{userID:userId1, documentID:Books.findOne({title:'Book1'})._id});
-        Meteor.call("checkOut",{userID:userId1, documentID:Books.findOne({title:'Book2'})._id});
-        Meteor.call("checkOut",{userID:userId1, documentID:Books.findOne({title:'Book3'})._id});
-        Meteor.call("checkOut",{userID:userId1, documentID:AVs.findOne({title:'AV1'})._id});
-
-        Meteor.call("checkOut",{userID:userId2, documentID:Books.findOne({title:'Book1'})._id});
-        Meteor.call("checkOut",{userID:userId2, documentID:Books.findOne({title:'Book2'})._id});
-        Meteor.call("checkOut",{userID:userId2, documentID:AVs.findOne({title:'AV2'})._id});
-
-        let p1 = User.findOne({libraryID:userId1});
-        let p2 = User.findOne({libraryID:userId2});
-
-        console.log(p1);
-        console.log("\n\n\n");
-        console.log(functions.getUsersBooks(userId1));
-        console.log("\n\n\n");
-        console.log(p2);
-        console.log("\n\n\n");
-        console.log(functions.getUsersBooks(userId2));
-
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student2"})._id, documentID:Books.findOne({title:'Book1'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student2"})._id, documentID:Books.findOne({title:'Book2'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student2"})._id, documentID:AVs.findOne({title:'AV2'})._id});
 
 
 

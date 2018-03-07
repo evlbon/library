@@ -21,6 +21,7 @@ export const User = Class.create({                  // Main class of users
             optional: true,
 
         },
+
         address: {
             type: String,
             optional: true,

@@ -81,6 +81,7 @@ export class AddNewUser extends Component {
                             type="text"
                             minLength="6"
                             ref="pass"
+
                         /><br/>
                     </form>
 

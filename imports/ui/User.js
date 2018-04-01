@@ -23,10 +23,11 @@ class Users extends Component {
             case 1:
             case 2:
             case 3:
+            case 4:
                 Meteor.call('ModifyUser',{id:this.props.user.libraryID,S:number});
                // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
                 break;
-            case 4:
+            case 5:
                 console.log(this.props.user._id);
                 console.log(this.props.user.libraryID);
                 Meteor.call('Delete',{ID:this.props.user._id, ID2:this.props.user.libraryID});
@@ -57,9 +58,9 @@ class Users extends Component {
 
                     <button onClick={this.renderCase.bind(this,1)}>Librarian,</button>
                     <button onClick={this.renderCase.bind(this,2)}>Student,</button>
-                    <button onClick={this.renderCase.bind(this,3)}>Faculty,</button>
-                    <button onClick={this.renderCase.bind(this,4)}>Deleted</button>
-
+                    <button onClick={this.renderCase.bind(this,3)}>Visiting Professor,</button>
+                    <button onClick={this.renderCase.bind(this,4)}>Faculty</button>
+                    <button onClick={this.renderCase.bind(this,5)}>Delete</button>
 
             </div>
                 <EditUser ID = {this.props.user.libraryID}/>

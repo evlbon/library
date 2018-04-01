@@ -205,6 +205,17 @@ Meteor.methods({
         });
         return id;
     },
+    'addVP' ({ id,name  }) {
+        Student.insert({
+            libraryID:id,
+            name: name,
+            login:name,
+            group:"Special",
+            address:"None",
+            phone:-1,
+        });
+        return id;
+    },
     'Delete'({ID, ID2}) {
         if (!Meteor.isServer) return;
         try {
@@ -244,7 +255,7 @@ Meteor.methods({
         if(S===0)
             str = "HumbleUser";
         else
-       str = S===1? "Librarian":S===2?"Student":"Faculty";
+       str = S===1? "Librarian":S===2?"Student":S===3?"Visiting Professor":"Faculty";
         User.update({libraryID:id},{$set:{group:str}});
         return id;
     },

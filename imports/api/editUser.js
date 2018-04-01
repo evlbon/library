@@ -15,6 +15,13 @@ const Option = Select.Option;
 export class EditUser extends Component {
 
     state = { visible: false };
+
+    constructor(){
+        super();
+        this.user=null;
+
+    }
+
     showModal = () => {
         this.setState({
             visible: true,
@@ -24,9 +31,10 @@ export class EditUser extends Component {
     handleOk = (e) => {
 
         const Name = ReactDOM.findDOMNode(this.refs.name).value.trim();
-        const Group = ReactDOM.findDOMNode(this.refs.group).value.trim();
+        const Group = "";
         const Address = ReactDOM.findDOMNode(this.refs.address).value.trim();
         const Phone = ReactDOM.findDOMNode(this.refs.phone).value.trim();
+        const libId = ReactDOM.findDOMNode(this.refs.libId).value.trim();
         console.log(Address);
         Meteor.call('ModifyUserProperties',{
             name:Name,
@@ -34,14 +42,14 @@ export class EditUser extends Component {
             address:Address,
             phone:Phone,
             id:this.props.ID,
+            libId:libId,
         });
 
 
         ReactDOM.findDOMNode(this.refs.name).value= "";
-        ReactDOM.findDOMNode(this.refs.group).value="";/// see if we can view initial data here
         ReactDOM.findDOMNode(this.refs.address).value="";
         ReactDOM.findDOMNode(this.refs.phone).value="";
-
+        ReactDOM.findDOMNode(this.refs.libId).value = "";
         this.setState({
             visible: false,
         });
@@ -54,9 +62,8 @@ export class EditUser extends Component {
     render() {
         console.log(this.props.ID);
 
-        return   <div>
+        return   <div className="boxButtons">
 
-            I want to :
             <Button className={"myButton"} type="primary" onClick={this.showModal}>Edit this User</Button>
 
 
@@ -75,15 +82,11 @@ export class EditUser extends Component {
                                 Name
                                 <input
                                     className={"inputForAdd"}
+                                    required
                                     type="text"
                                     ref="name"
                                 /><br/>
-                                group
-                                <input
-                                    className={"inputForAdd"}
-                                    type="text"
-                                    ref="group"
-                                /><br/>
+
                                 Address
                                 <input
                                     className={"inputForAdd"}
@@ -95,6 +98,12 @@ export class EditUser extends Component {
                                     className={"inputForAdd"}
                                     type="text"
                                     ref="phone"
+                                /><br/>
+                                Lib. card ID:
+                                <input
+                                    className={"inputForAdd"}
+                                    type="text"
+                                    ref="libId"
                                 /><br/>
 
                             </form>

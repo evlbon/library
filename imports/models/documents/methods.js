@@ -9,26 +9,31 @@ import { Copy, Document } from "./document"
 import { JournalArticle } from "./journal_article";
 import { Student } from "../users/student";
 import { Faculty } from "../users/faculty";
+import { AVs } from "./av";
+
 
 /**
- * Methods for adding / deletion docs
+ * Methods for adding / deletion docs مراجل
  */
-
+let cnt = 0;
 Meteor.methods({
+
     'documents.addBook' ({
-                             title, authors=['Crowd'], edition, publisher, release_date,
+                             title, authors, edition, publisher, release_date,
                              price, number_of_copies, number_of_references, tags=[], bestseller=false
     }) {
         check(title, String);
-        check(authors, [String]);
+        check(authors, Match.Maybe([String]));
         check(edition, Match.Maybe(String));
         check(publisher, Match.Maybe(String));
         check(release_date, Match.Maybe(Date));
         check(price, Match.Maybe(Number));
         check(number_of_copies, Number);
         check(number_of_references, Number);
-        check(tags, [String]);
+        check(tags, Match.Maybe([String]));
         check(bestseller, Boolean);
+
+        if (!authors || authors.length === 0 || authors[0] === '') authors = ['Crowd'];
 
         let copies = [];
         for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
@@ -60,9 +65,17 @@ Meteor.methods({
     },
 
     'documents.addArticle' ({
-                             title,authors=['Crowd'], editor, release_date,
-                             price, copies=[], tags=[], journal
+                             title,authors, editor, release_date,
+                             price, number_of_copies, number_of_references, tags=[], journal
                          }){
+        if (!authors || authors.length === 0 || authors[0] === '') authors = ['Crowd'];
+
+        let copies = [];
+        for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
+            copies.push(new Copy({reference: true}));
+        for (let i=Math.min(number_of_copies, number_of_references); i<number_of_copies; i++)
+            copies.push(new Copy({reference: false}));
+
 
         let authorsID = [];
         authors.forEach(name => {
@@ -87,6 +100,46 @@ Meteor.methods({
 
     },
 
+
+    'documents.addAV' ({
+                                title,authors=['Crowd'],release_date,
+                                price, number_of_copies, number_of_references, tags=[]
+                            }){
+
+        if (!authors || authors.length === 0 || authors[0] === '') authors = ['Crowd'];
+
+        let copies = [];
+        for (let i=0; i<Math.min(number_of_copies, number_of_references); i++)
+            copies.push(new Copy({reference: true}));
+        for (let i=Math.min(number_of_copies, number_of_references); i<number_of_copies; i++)
+            copies.push(new Copy({reference: false}));
+
+
+        let authorsID = [];
+        authors.forEach(name => {
+            let exist = Author.find({ name: name }).count();
+            authorsID.push(
+                exist ?
+                    Author.findOne({ name: name })._id:
+                    Author.insert({ name: name })
+            );
+        });
+
+        return AVs.insert({
+            title: title,
+            authorsID: authorsID,
+            release_date: release_date,
+            price: price,
+            copies: copies,
+            tags: tags
+        });
+
+    },
+
+    'documents.delAV' ({ id }) {
+        AVs.remove(id);
+    },
+
     'documents.delBook' ({ id }) {
         Books.remove(id);
     },
@@ -104,23 +157,27 @@ Meteor.methods({
     'addLibrarian' ({ id,name }) {
         Librarian.insert({
             libraryID: id,
+            login:name,
             name: name,
             group:"Librarian",
             address:"None",
             phone:-1,
+            libId:cnt+1,
         });
-
+        cnt = cnt + 1;
         return id;
     },
     'addHumbleUser' ({ id,name }) {
         Librarian.insert({
             libraryID: id,
+            login:name,
             name: name,
             group:"HumbleUser",
             address:"None",
             phone:-1,
+            libId:cnt+1,
         });
-
+        cnt = cnt +1 ;
         return id;
     },
 
@@ -128,47 +185,20 @@ Meteor.methods({
         Student.insert({
             libraryID:id,
             name: name,
+            login:name,
             group:"Student",
             address:"None",
             phone:-1,
         });
         return id;
     },
-    'addUser'({name,password,group,phone,address}){
 
-
-        Accounts.createUser({
-            username:name,
-            email : "",
-            password : password,
-            profile  : {
-                //publicly visible fields like firstname goes here
-            }
-        });
-        let LID  =Meteor.users.findOne({username:name})._id;
-        let S = 2;
-        if(group==="HumbleUser") {
-            Meteor.call('addHumblerUser', {id: LID, name: name});
-            S = 0;
-        }
-        if(group==="Librarian") {
-            Meteor.call('addLibrarian', {id: LID, name: name});
-            S = 1;
-        }
-        if(group==="Faculty") {
-            Meteor.call('addFaculty', {id: LID, name: name});
-            S = 3;
-        }
-        if(group==="Student")
-            Meteor.call('addStudent',{id:LID,name:name});
-        Meteor.call('ModifyUser',{id:LID,S:S});
-
-    },
 
     'addFaculty' ({ id,name  }) {
         Faculty.insert({
             libraryID: id,
             name: name,
+            login:name,
             group:"Faculty",
             address:"None",
             phone:-1,
@@ -179,7 +209,7 @@ Meteor.methods({
         if (!Meteor.isServer) return;
         try {
 
-            Meteor.users.remove(ID);
+            Meteor.users.remove(ID2);
             User.remove({libraryID:ID2});
 
         } catch (e) {
@@ -192,20 +222,42 @@ Meteor.methods({
 
 /**Modify users*/
 Meteor.methods({
+    'addUser'({name,password}){
+
+
+        Accounts.createUser({
+            username:name,
+            email : "",
+            password : password,
+            profile  : {
+                //publicly visible fields like firstname goes here
+            }
+        });
+        let LID  =Meteor.users.findOne({username:name})._id;
+        let S = 2;
+        Meteor.call('addHumbleUser', {id: LID, name: name});
+        S = 0;
+        Meteor.call('ModifyUser',{id:LID,S:S});
+    },
     'ModifyUser' ({ id,S}) {
-       let str = S===1? "Librarian":S===2?"Student":"Faculty";
+        let str = "";
+        if(S===0)
+            str = "HumbleUser";
+        else
+       str = S===1? "Librarian":S===2?"Student":"Faculty";
         User.update({libraryID:id},{$set:{group:str}});
         return id;
     },
-    'ModifyUserProperties' ({id,name,group,phone,address}){
-        if(name.length)
+    'ModifyUserProperties' ({id,name,phone,address,libId}){
+        if(name)
             User.update({libraryID:id},{$set:{name:name}});
-        if(group.length)
-            User.update({libraryID:id},{$set:{group:group}});
-        if(phone.length)
+        if(phone)
             User.update({libraryID:id},{$set:{phone:Number(phone)}});
-        if(address.length)
+        if(address)
             User.update({libraryID:id},{$set:{address:address}});
+        if(libId)
+            User.update({libraryID:id},{$set:{libId:Number(libId)}});
+
     },
 });
 
@@ -241,34 +293,34 @@ Meteor.methods({
             throw Error('Number of already checked out books can\'t be more than available books after the change');
 
         let old_reference = document.copies.filter(o => o.reference);
-        let old_available = document.copies.filter(o => o.checked_out_date);
+        let old_available = document.copies.filter(o => !o.checked_out_date && !o.reference);
 
-        let new_checked = document.copies.filter(o => o.checked_out_date);
+        let new_checked = document.copies.filter(o => o.checked_out_date && !o.reference);
 
         let number_of_available = number_of_copies - number_of_references - new_checked.length;
 
         let new_reference = old_reference.splice(0, number_of_references);
         let new_available = old_available.splice(0, number_of_available);
 
-        old_reference = old_reference.map(o => o.reference = false);
-        old_available = old_available.map(o => o.reference = true);
+        old_reference = old_reference.map(function(o){o.reference=false; return o});
+        old_available = old_available.map(function(o){o.reference=true; return o});
 
         new_reference = new_reference.concat(old_available.splice(0, number_of_references - new_reference.length));
         new_available = new_available.concat(old_reference.splice(0, number_of_available - new_available.length));
 
-        for (let i=number_of_references - new_reference.length; i<number_of_references; i++)
+        for (let i = new_reference.length; i < number_of_references; i++)
             new_reference.push(new Copy({reference: true}));
-        for (let i=number_of_available - new_available.length; i<number_of_available; i++)
-            new_available.push(new Copy({reference: true}));
-
+        for (let i = new_available.length; i < number_of_available; i++)
+            new_available.push(new Copy({reference: false}));
 
         let authorsID = [];
+
         authors.forEach(name => {
-            let exist = Author.find({ name: name }).count();
+            let exist = Author.find({name: name}).count();
             authorsID.push(
                 exist ?
-                    Author.findOne({ name: name })._id:
-                    Author.insert({ name: name })
+                    Author.findOne({name: name})._id :
+                    Author.insert({name: name})
             );
         });
 
@@ -283,9 +335,142 @@ Meteor.methods({
         document.bestseller = bestseller;
 
         document.save();
-    }
-});
+    },
 
+    'editArticle' (documentID, {
+        title, authors=['Crowd'], editor, journal, release_date,
+        price, number_of_copies, number_of_references, tags=[], bestseller=false
+    }) {
+        console.log("000000000000000000000000" + editor);
+
+        check(title, String);
+        check(authors, [String]);
+        check(editor, Match.Maybe(String));
+        check(journal, Match.Maybe(String));
+        check(release_date, Match.Maybe(Date));
+        check(price, Match.Maybe(Number));
+        check(number_of_copies, Number);
+        check(number_of_references, Number);
+        check(tags, [String]);
+        check(bestseller, Boolean);
+
+        let document = JournalArticle.findOne({_id:documentID}); // new
+        if (!document) throw Error('Incorrect id of a document');
+
+        if (document.numberOfCopies() - document.leftInLibrary() > number_of_copies - number_of_references)
+            throw Error('Number of already checked out books can\'t be more than available books after the change');
+
+        let old_reference = document.copies.filter(o => o.reference);
+        let old_available = document.copies.filter(o => !o.checked_out_date && !o.reference);
+
+        let new_checked = document.copies.filter(o => o.checked_out_date && !o.reference);
+
+        let number_of_available = number_of_copies - number_of_references - new_checked.length;
+
+        let new_reference = old_reference.splice(0, number_of_references);
+        let new_available = old_available.splice(0, number_of_available);
+
+        old_reference = old_reference.map(function(o){o.reference=false; return o});
+        old_available = old_available.map(function(o){o.reference=true; return o});
+
+        new_reference = new_reference.concat(old_available.splice(0, number_of_references - new_reference.length));
+        new_available = new_available.concat(old_reference.splice(0, number_of_available - new_available.length));
+
+        for (let i = new_reference.length; i < number_of_references; i++)
+            new_reference.push(new Copy({reference: true}));
+        for (let i = new_available.length; i < number_of_available; i++)
+            new_available.push(new Copy({reference: false}));
+
+        let authorsID = [];
+
+        authors.forEach(name => {
+            let exist = Author.find({name: name}).count();
+            authorsID.push(
+                exist ?
+                    Author.findOne({name: name})._id :
+                    Author.insert({name: name})
+            );
+        });
+
+        document.title = title;
+        document.authorsID = authorsID;
+        document.editor = editor;
+        document.journal = journal;
+        document.release_date = release_date;
+        document.price = price;
+        document.copies = new_reference.concat(new_available).concat(new_checked);
+        document.tags = tags;
+        document.bestseller = bestseller;
+
+        document.save();
+    },
+
+
+
+
+'editAV' (documentID, {
+    title, authors=['Crowd'],  release_date,
+    price, number_of_copies, number_of_references, tags=[]
+}) {
+
+    check(title, String);
+    check(authors, [String]);
+
+    check(release_date, Match.Maybe(Date));
+    check(price, Match.Maybe(Number));
+    check(number_of_copies, Number);
+    check(number_of_references, Number);
+    check(tags, [String]);
+
+    let document = AVs.findOne({_id:documentID}); // new
+    if (!document) throw Error('Incorrect id of a document');
+
+    if (document.numberOfCopies() - document.leftInLibrary() > number_of_copies - number_of_references)
+        throw Error('Number of already checked out books can\'t be more than available books after the change');
+
+    let old_reference = document.copies.filter(o => o.reference);
+    let old_available = document.copies.filter(o => !o.checked_out_date && !o.reference);
+
+    let new_checked = document.copies.filter(o => o.checked_out_date && !o.reference);
+
+    let number_of_available = number_of_copies - number_of_references - new_checked.length;
+
+    let new_reference = old_reference.splice(0, number_of_references);
+    let new_available = old_available.splice(0, number_of_available);
+
+    old_reference = old_reference.map(function(o){o.reference=false; return o});
+    old_available = old_available.map(function(o){o.reference=true; return o});
+
+    new_reference = new_reference.concat(old_available.splice(0, number_of_references - new_reference.length));
+    new_available = new_available.concat(old_reference.splice(0, number_of_available - new_available.length));
+
+    for (let i = new_reference.length; i < number_of_references; i++)
+        new_reference.push(new Copy({reference: true}));
+    for (let i = new_available.length; i < number_of_available; i++)
+        new_available.push(new Copy({reference: false}));
+
+    let authorsID = [];
+
+    authors.forEach(name => {
+        let exist = Author.find({name: name}).count();
+        authorsID.push(
+            exist ?
+                Author.findOne({name: name})._id :
+                Author.insert({name: name})
+        );
+    });
+
+    document.title = title;
+    document.authorsID = authorsID;
+    document.release_date = release_date;
+    document.price = price;
+    document.copies = new_reference.concat(new_available).concat(new_checked);
+    document.tags = tags;
+
+    document.save();
+    document.save();
+}
+});
 
 /**
  * Checking out system
@@ -294,7 +479,8 @@ Meteor.methods({
     'canCheckOut' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
-
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
+        if(!(document)) document = AVs.findOne({_id:documentID}); // new
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         return document.canCheckOut(userID);
@@ -302,10 +488,10 @@ Meteor.methods({
 
     'checkOut' ({ userID, documentID }) {
 
-        console.log(userID + " " + documentID);
-
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
+        if(!(document)) document = AVs.findOne({_id:documentID}); // new
 
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
@@ -321,13 +507,13 @@ Meteor.methods({
 
     'getRenters' ({ documentID }) {
         let document = Books.findOne({_id: documentID});
-
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
         if (!(document)) throw Error('Incorrect id of user or document');
 
         return document.renters();
     },
 
-    'getUsersBooks' ({ userID }) {
+    'getUsersBooks' ({ userID }) {/// needs editing
         let books = [];
         Books.find().forEach( o => {
             if (o.userHas(userID)) books.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
@@ -365,15 +551,13 @@ Meteor.methods({
 
         return document.userHas(userID);
     },
-
     'returnDocument' ({ userID, documentID }) {
-
-        console.log(userID + " " + documentID);
 
         let user = User.findOne({libraryID: userID});
         let document = Books.findOne({_id: documentID});
-
-        if (!(user && document)) throw Error('Incorrect id of user or document');
+        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
+        if(!(document)) document = AVs.findOne({_id:documentID}); // new
+         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.userHas(userID)) {
             document.return(userID);
@@ -381,24 +565,5 @@ Meteor.methods({
             throw Error('User can\'t return a book, because he doesn\'t have it');
         }
     },
-});
 
-// test test
-/*
-* METHOD INTERFACES:
-*
-* addArticle
-* addAV
-* delAV
-* changeTags
-* changePrice
-* addNewCopy
-* removeCopy
-* switchBestseller
-* changeNumberOfReferences
-* checkOut(user, document)
-* return(document)
-* getUsersOverdueDocuments
-* calculateFine(document)
-*
-* */
+});

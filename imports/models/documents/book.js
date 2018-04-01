@@ -14,10 +14,6 @@ export const Books = Document.inherit({        // A book inherits from Document 
             type: String,
             optional: true
         },
-        release_date: {                         // Release Date reserved as the Built_in Data type of "Date"
-            type: Date,
-            optional: true,
-        },
         bestseller: {
             type: Boolean                       // Indicates whether the book was a bestseller or not
         }

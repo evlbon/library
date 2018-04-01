@@ -11,9 +11,6 @@ export const JournalArticle = Document.inherit({            // JournalArticle is
         editor: {                                           // the full name of the editor
             type: String,
         },
-        release_date: {                                      // the release date of the journalArticle
-            type: Date,
-        }
     },
     // helpers: {
     //

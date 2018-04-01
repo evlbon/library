@@ -11,7 +11,13 @@ import {EditUser} from "../api/editUser";
 class Users extends Component {
 
     renderCase(number){
+        console.log(this.props.currentUser.username);
+        console.log(this.props.user.login);
+        if(this.props.currentUser.username === this.props.user.login) {
+            window.alert("You can not modify your self!!!");
+            return;
 
+        }
         switch (number) {
 
             case 1:
@@ -21,8 +27,8 @@ class Users extends Component {
                // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
                 break;
             case 4:
-                // console.log(this.props.user._id);
-                // console.log( this.props.user.name);
+                console.log(this.props.user._id);
+                console.log(this.props.user.libraryID);
                 Meteor.call('Delete',{ID:this.props.user._id, ID2:this.props.user.libraryID});
                 break;
             default:
@@ -35,31 +41,28 @@ class Users extends Component {
 
 
     renderNewUser(){
-
+        let user = this.props.wholeUsers.findOne({_id: this.props.user.libraryID})
         return(
 
             <li >
                 <div className="USERBOX">
-                    <h1>User Name: {this.props.user.name}.</h1>
-                    <p>Group: <strong>{this.props.user.group}</strong>.</p>
-                    <p>Address:<strong>{this.props.user.address}</strong>.</p>
-                    <p>Phone Number: <strong>{this.props.user.phone}</strong>.</p>
-                    I want this User to be :
+                    <h1>User login: {this.props.user.login}</h1>
+                    <p>Name : <strong>{this.props.user.name}.</strong></p>
+                    <p>Group: <strong>{this.props.user.group}</strong></p>
+                    <p>Address:<strong>{this.props.user.address}</strong></p>
+                    <p>Phone Number: <strong>{this.props.user.phone}</strong></p>
+                    <p>LibraryID: <strong>{this.props.user.libId}</strong></p>
+                    Make this User:
 
-
-                    {console.log(this.props.user.name)}
-                    {console.log(this.props.user._id)}
-                    {console.log(this.props.user.libraryID)}
 
                     <button onClick={this.renderCase.bind(this,1)}>Librarian,</button>
                     <button onClick={this.renderCase.bind(this,2)}>Student,</button>
                     <button onClick={this.renderCase.bind(this,3)}>Faculty,</button>
                     <button onClick={this.renderCase.bind(this,4)}>Deleted</button>
-                    <p></p>
-                    <EditUser ID = {this.props.user.libraryID}/>
 
 
             </div>
+                <EditUser ID = {this.props.user.libraryID}/>
             </li>
         )
 
@@ -88,6 +91,6 @@ class Users extends Component {
 export default withTracker(() => {
     return {
         currentUser: Meteor.user(),
-        wholeUsers: Meteor.users.find({}).fetch(),
+        wholeUsers: Meteor.users,
     };
 })(Users);

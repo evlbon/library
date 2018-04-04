@@ -27,17 +27,14 @@ class AddAVButton extends Component {
         const Copies = Number(ReactDOM.findDOMNode(this.refs.Copies).value.trim());
         const References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
 
-        let copies = [];
-        for (let i=0; i<Math.min(Copies, References); i++) copies.push(new Copy({reference: true}));
-        for (let i=Math.min(Copies, References); i<Copies; i++) copies.push(new Copy({reference: false}));
-
         Meteor.call('documents.addAV',{
             title: Title,
             authors: Author.split(','),
             release_date: new Date(PDate,1),
             price: Number(Price),
             tags: Tags.split(','),
-            copies: copies,
+            number_of_copies: Copies,
+            number_of_references: References,
         });
 
         ReactDOM.findDOMNode(this.refs.Title).value = '';

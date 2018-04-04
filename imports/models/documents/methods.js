@@ -167,6 +167,7 @@ Meteor.methods({
         cnt = cnt + 1;
         return id;
     },
+
     'addHumbleUser' ({ id,name }) {
         Librarian.insert({
             libraryID: id,
@@ -193,7 +194,6 @@ Meteor.methods({
         return id;
     },
 
-
     'addFaculty' ({ id,name  }) {
         Faculty.insert({
             libraryID: id,
@@ -205,6 +205,7 @@ Meteor.methods({
         });
         return id;
     },
+
     'addVP' ({ id,name  }) {
         Student.insert({
             libraryID:id,
@@ -216,6 +217,7 @@ Meteor.methods({
         });
         return id;
     },
+
     'Delete'({ID, ID2}) {
         if (!Meteor.isServer) return;
         try {
@@ -233,7 +235,7 @@ Meteor.methods({
 
 /**Modify users*/
 Meteor.methods({
-    'addUser'({name,password}){
+    'addUser'({name,password}) {
 
 
         Accounts.createUser({
@@ -255,7 +257,7 @@ Meteor.methods({
         if(S===0)
             str = "HumbleUser";
         else
-       str = S===1? "Librarian":S===2?"Student":S===3?"Visiting Professor":"Faculty";
+            str = S===1? "Librarian":S===2?"Student":S===3?"Visiting Professor":"Faculty";
         User.update({libraryID:id},{$set:{group:str}});
         return id;
     },
@@ -416,13 +418,10 @@ Meteor.methods({
         document.save();
     },
 
-
-
-
-'editAV' (documentID, {
-    title, authors=['Crowd'],  release_date,
-    price, number_of_copies, number_of_references, tags=[]
-}) {
+    'editAV' (documentID, {
+        title, authors=['Crowd'],  release_date,
+        price, number_of_copies, number_of_references, tags=[]
+    }) {
 
     check(title, String);
     check(authors, [String]);

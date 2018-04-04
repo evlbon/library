@@ -28,7 +28,7 @@ class AV extends Component {
     render() {
         let rents = functions.getRenters(this.props.av._id);
 
-        rents ? rents = rents.map(o => (o.name + '" | '+fun({date:o.tillDeadline})+' Fee is'+functions.calculateFee(o.libraryID,this.props.av._id))):"";
+        rents ? rents = rents.map(o => (o.name + '   | '+fun({date:o.tillDeadline})+' Fee is'+functions.calculateFee(o.libraryID,this.props.av._id))):"";
         let rents2 = functions.getRentsViaId(this.props.av._id, this.props.currentUser._id);
 
         rents2 ? rents2 = rents2.map(o =>(fun({date:o.tillDeadline}))):"";

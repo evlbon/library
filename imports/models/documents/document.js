@@ -21,6 +21,41 @@ export const Copy = Class.create({
     }
 });
 
+
+export const Queue = Class.create({
+    name: 'Queue',
+    fields: {
+        queue_of_students: {
+            type: [String],
+            default: [],
+
+        },
+        queue_of_other: {
+            type: [String],
+            default: [],
+        },
+    },
+    helpers: {
+        get_all_queue: function () {
+            return this.queue_of_students.concat(this.queue_of_other);
+        },
+        inqueue: function (id) {
+            let a = this.get_all_queue().indexOf(id);
+            return !(a === -1);
+        },
+        get_queue: function (group) {
+            if (group === "Student"){
+                return this.queue_of_students;
+            }
+            else{
+                return this.queue_of_other;
+            }
+
+        }
+    },
+});
+
+
 export const Document = Class.create({
     name: 'Document',
 
@@ -47,6 +82,10 @@ export const Document = Class.create({
         release_date: {                         // Release Date reserved as the Built_in Data type of "Date"
             type: Date,
             optional: true,
+        },
+        queue: {
+            type: Queue,
+            default: new Queue,
         },
     },
 

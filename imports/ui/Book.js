@@ -18,6 +18,12 @@ class Book extends Component {
     rentBook(id){
         Meteor.call("checkOut",{userID:this.props.currentUser._id, documentID:id});
     }
+    enqueue(id){
+        Meteor.call("enqueue",{userID:this.props.currentUser._id, documentID:id});
+    }
+    dequeue(id){
+        Meteor.call("dequeue",{userID:this.props.currentUser._id, documentID:id});
+    }
 
     returnBook(id){
         Meteor.call("returnDocument",{userID:this.props.currentUser._id, documentID:id});
@@ -27,10 +33,13 @@ class Book extends Component {
     render() {
         // Give books a different className when they are checked off,
         // so that we can style them nicely in CSS
-        let rents = functions.getRenters(this.props.book._id);
 
+        let rents = functions.getRenters(this.props.book._id);
         rents ? rents = rents.map(o => (o.name + '" | '+fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.book._id))):"";
-        let rents2 = functions.getRentsViaId(this.props.book._id, this.props.currentUser._id);
+
+        let rents2 = null;
+
+        this.props.currentUser ? rents2 = functions.getRentsViaId(this.props.book._id, this.props.currentUser._id):"";
 
         rents2 ? rents2 = rents2.map(o =>(fun({date:o.tillDeadline}) )):"";
         return (
@@ -62,14 +71,37 @@ class Book extends Component {
 
 
 
-                    { this.props.currentUser ?
-                        User.findOne({libraryID : this.props.currentUser._id}) ?
-                            <button className="delete" onClick={this.rentBook.bind(this,this.props.book._id)}
-                                disabled={!(functions.canCheckOut(this.props.currentUser._id,this.props.book._id))}>
-                            Rent
-                        </button>
-                        :""
-                    :""}
+
+                    {  functions.canCheckOut(this.props.currentUser._id,this.props.book._id)?
+
+
+                            this.props.currentUser ?
+                                User.findOne({libraryID : this.props.currentUser._id}) ?
+                                    <button className="delete" onClick={this.rentBook.bind(this,this.props.book._id)}
+                                        disabled={!(functions.canCheckOut(this.props.currentUser._id,this.props.book._id))}>
+                                    Rent
+                                </button>
+                                    :""
+                                :"":
+                            this.props.currentUser ?
+                                User.findOne({libraryID : this.props.currentUser._id}) ?
+                                    <div>
+                                    <button className="delete" onClick={this.enqueue.bind(this,this.props.book._id)}
+                                                               disabled={this.props.book.queue.inqueue(this.props.currentUser._id)}>
+                                        Enqueue
+                                    </button>
+
+                                    <button className="delete" onClick={this.dequeue.bind(this,this.props.book._id)}
+                                                               disabled={!(this.props.book.queue.inqueue(this.props.currentUser._id))}>
+                                        Dequeue
+                                    </button>
+
+                                    </div>
+                                    :""
+                                :""
+
+
+                    }
 
 
 

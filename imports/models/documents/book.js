@@ -16,14 +16,9 @@ export const Books = Document.inherit({        // A book inherits from Document 
         },
         bestseller: {
             type: Boolean                       // Indicates whether the book was a bestseller or not
-        }
-    },
-
-    helpers: {
-        edit: function () {
-            this.title = "nigga"
         },
     },
+
 });
 
 

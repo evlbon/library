@@ -33,7 +33,6 @@ class Book extends Component {
     render() {
         // Give books a different className when they are checked off,
         // so that we can style them nicely in CSS
-
         let rents = functions.getRenters(this.props.book._id);
         rents ? rents = rents.map(o => (o.name + '" | '+fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.book._id))):"";
 

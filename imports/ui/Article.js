@@ -29,7 +29,7 @@ class Article extends Component {
 */
         let rents = functions.getRenters(this.props.jarticle._id);
 
-        rents ? rents = rents.map(o => (o.name + '" | '+fun({date:o.tillDeadline})+'. Fee is'+functions.calculateFee(o.libraryID,this.props.jarticle._id))):"";
+        rents ? rents = rents.map(o => (o.name + ' | '+fun({date:o.tillDeadline})+'. Fee is'+functions.calculateFee(o.libraryID,this.props.jarticle._id)+"rubles")):"";
         let rents2 = functions.getRentsViaId(this.props.jarticle._id, this.props.currentUser._id);
 
         rents2 ? rents2 = rents2.map(o =>(fun({date:o.tillDeadline}))):"";

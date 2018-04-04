@@ -296,3 +296,64 @@ input:invalid:not(:placeholder-shown) {
     text-shadow: 0 -1px 0 rgba(29,29,30,1) ;
 }
 
+.navigation{
+
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 70%;
+    overflow: hidden;
+    border: none;
+    font: normal normal bold 24px/50px Arial Black, Gadget, sans-serif;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+
+
+}
+
+.navigation a{
+
+    margin-right: 10%;
+    color: gray;
+    text-decoration: none;
+}
+
+.navigation a:visited{
+
+    color: gray;
+    text-decoration: none;
+}
+
+.menu{
+    text-align: center;
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    float: left;
+    width: 10%;
+    height: 100%;
+    min-height: 1000px;
+    padding: 0.5%;
+    border: black;
+    border-top: 1px solid;
+    font: normal 100%/normal "Times New Roman", Times, serif;
+    color: rgb(255, 255, 255);
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: rgb(151, 156, 162);
+
+}
+
+.login{
+    display: inline-block;
+}
+
+.content{
+    float: right;
+    width: 89%;
+    height: auto;
+}

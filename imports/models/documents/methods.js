@@ -535,7 +535,17 @@ Meteor.methods({
         if (!(document)) throw Error('Incorrect id of user or document');
 
         return document.leftInLibrary();
-    }
+    },
+
+    'checkedOtDate' ({ userID, documentID }) {
+        let user = User.findOne({libraryID: userID});
+        let document = Books.findOne({_id: documentID});
+        if(!(document)) document = JournalArticle.findOne({_id:documentID});
+        if(!(document)) document = AVs.findOne({_id:documentID});
+        if (!(user && document)) throw Error('Incorrect id of user or document');
+
+        return document.checkedOtDate(userID);
+    },
 });
 
 
@@ -551,6 +561,7 @@ Meteor.methods({
 
         return document.userHas(userID);
     },
+
     'returnDocument' ({ userID, documentID }) {
 
         let user = User.findOne({libraryID: userID});

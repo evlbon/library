@@ -63,6 +63,13 @@ export const Document = Class.create({
         numberOfCopies: function () {
             return this.copies.length;
         },
+        checkedOtDate: function (userID) {
+            if (!this.userHas(userID)) throw new Error('user doesn\'t have the document');
+
+            let copy = this.copies.find(o => o.checked_out_date && (o.userID === userID));
+
+            return copy.checked_out_date;
+        },
         tillDeadline: function (userID) {
             if (!this.userHas(userID)) throw new Error('user doesn\'t have the document');
 

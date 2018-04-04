@@ -56,9 +56,9 @@ class Users extends Component {
                     Make this User:
 
 
-                    <button onClick={this.renderCase.bind(this,1)}>Librarian,</button>
-                    <button onClick={this.renderCase.bind(this,2)}>Student,</button>
-                    <button onClick={this.renderCase.bind(this,3)}>Visiting Professor,</button>
+                    <button onClick={this.renderCase.bind(this,1)}>Librarian</button>
+                    <button onClick={this.renderCase.bind(this,2)}>Student</button>
+                    <button onClick={this.renderCase.bind(this,3)}>Visiting Professor</button>
                     <button onClick={this.renderCase.bind(this,4)}>Faculty</button>
                     <button onClick={this.renderCase.bind(this,5)}>Delete</button>
 

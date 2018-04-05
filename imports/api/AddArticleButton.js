@@ -71,7 +71,7 @@ class AddArticleButton extends Component {
             <div >
 
                         <div>
-                <Button className={"myButton"} type="primary" onClick={this.showModal}>Add Article</Button>
+                <Button type="primary" onClick={this.showModal}>Add Article</Button>
 
 
                 <Modal
@@ -80,6 +80,7 @@ class AddArticleButton extends Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     className="AddBlock"
+                    width="40%"
                     closable={false}
                 >
 

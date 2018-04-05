@@ -10,37 +10,55 @@ import { withTracker } from 'meteor/react-meteor-data';
 import Book from "../Book";
 import AddBookButton from "../../api/AddBookButton";
 import {Librarian} from "../../models/users/librarian";
+
+import 'antd/dist/antd.css';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import Home from "./App";
+import USERS from "./USERS";
+import AaV from "./AaV";
+
+import {BrowserRouter, Route, Link} from "react-router-dom"
 import Article from "../Article";
 import AddArticleButton from "../../api/AddArticleButton";
 
+const { SubMenu } = Menu;
+const { Header, Content, Sider } = Layout;
+
+
+
+
+
+
+
+
+
+
+const AllArticles = function() {
+    let articles = JournalArticle.find({}).fetch();
+
+    if(Meteor.userId()) {
+
+        return <div>
+
+            {articles.map((jarticle) => (<Article key={jarticle._id} jarticle={jarticle}/>))}
+
+        </div>
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 class ARTICLES extends Component{
-    constructor() {
-        super();
-        this.case = null;
-    }
-
-    reanderCase(number){
-
-        this.case ? this.case.style.display="none" : document.getElementById("articles").style.display="none";
-
-        switch (number) {
-            case 1:
-                document.getElementById('articles').style.display="";
-                this.case=document.getElementById("articles");
-                break;
-            default:
-                return("");
-        }
-
-    }
-
-    renderArticles(){
-        if(Meteor.userId()) {
-            return this.props.articles.map((jarticle) => (
-                <Article key={jarticle._id} jarticle={jarticle}/>
-            ));
-        }
-    }
 
     render(){
         let isLabrarian = this.props.currentUser &&
@@ -48,31 +66,42 @@ class ARTICLES extends Component{
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
 
         return(
-            <div>
+            <BrowserRouter>
 
 
-                <div className="menu">
-
-                    <h2 align="center">MENU</h2><br/>
-                    <button onClick={this.reanderCase.bind(this,1)} className="myButton">All Articles </button>
-                    {isLabrarian? <AddArticleButton/>:""}
-
-
-                </div>
-
-                <div className="content">
-                    <ul id="articles" >
-                        {this.renderArticles()}
-                    </ul>
-                </div>
-
-            </div>
+                <Layout>
+                    <Sider width={200} style={{ background: '#fff' }}>
+                        <Menu
+                            mode="inline"
+                            defaultSelectedKeys={['1']}
+                            defaultOpenKeys={['sub1']}
+                            style={{ height: '100%', borderRight: 0 }}
+                        >
+                            <Menu.Item key="1"><Link to="/articles/allarticles">All Articles </Link></Menu.Item>
+                            {isLabrarian? <AddArticleButton/>:""}
 
 
+                        </Menu>
+                    </Sider>
+
+                    <Layout style={{ padding: '0 24px 24px' }}>
+
+                        <Breadcrumb style={{ margin: '16px 0' }}>
+                            <Breadcrumb.Item><Link to="/">Home </Link></Breadcrumb.Item>
+                            <Breadcrumb.Item>Articles</Breadcrumb.Item>
+                        </Breadcrumb>
+
+                        <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 800 }}>
+
+                            <Route exact path="/articles/allarticles" component={AllArticles} />
+
+                        </Content>
+                    </Layout>
 
 
 
-
+                </Layout>
+            </BrowserRouter>
 
         )
     }
@@ -88,4 +117,3 @@ export default withTracker(() => {
         currentUser: Meteor.user(),
     };
 })(ARTICLES);
-

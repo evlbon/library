@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
 import '../imports/models/documents/book';
 import '../imports/models/documents/journal_article';
-import Navigation from '../imports/ui/components/App.js';
+import Navigation from '../imports/ui/components/NAVI.js';
 import '../imports/startup/accounts-config.js';
 
 

@@ -1,3 +1,8 @@
+.myBut {
+    margin-right: 30px;
+}
+
+
 .myButton {
     -moz-box-shadow: 0px 1px 0px 0px #f0f7fa;
     -webkit-box-shadow: 0px 1px 0px 0px #f0f7fa;
@@ -65,78 +70,10 @@
 
 
 .AddBlock {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-    width: 20%;
-    position: fixed;
-    top: 10%;
-    right: 30%;
-    bottom: auto;
-    left: 30%;
-    padding: 7px;
-    overflow: scroll;
-    border: 2px solid rgba(45,70,86,0.419608);
-    font: normal 20px/1 "Times New Roman", Times, serif;
-    color: rgb(255, 255, 255);
-    text-align: center;
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis;
-    background: -webkit-linear-gradient(90deg, rgba(104,152,168,0.780392) 0, rgba(120,209,219,0.85098) 100%), rgba(0, 0, 0, 0);
-    background: -moz-linear-gradient(0deg, rgba(104,152,168,0.780392) 0, rgba(120,209,219,0.85098) 100%), rgba(0, 0, 0, 0);
-    background: linear-gradient(0deg, rgba(104,152,168,0.780392) 0, rgba(120,209,219,0.85098) 100%), rgba(0, 0, 0, 0);
-    background-position: 50% 50%;
-    -webkit-background-origin: padding-box;
-    background-origin: padding-box;
-    -webkit-background-clip: border-box;
-    background-clip: border-box;
-    -webkit-background-size: auto auto;
-    background-size: auto auto;
-    -webkit-box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.298039) ;
+
     box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.298039) ;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
 
-}
-
-.AddBlock Button {
-    -moz-box-shadow: 0px 1px 0px 0px #f0f7fa;
-    -webkit-box-shadow: 0px 1px 0px 0px #f0f7fa;
-    box-shadow: 0px 1px 0px 0px #f0f7fa;
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #33bdef), color-stop(1, #019ad2));
-    background:-moz-linear-gradient(top, #33bdef 5%, #019ad2 100%);
-    background:-webkit-linear-gradient(top, #33bdef 5%, #019ad2 100%);
-    background:-o-linear-gradient(top, #33bdef 5%, #019ad2 100%);
-    background:-ms-linear-gradient(top, #33bdef 5%, #019ad2 100%);
-    background:linear-gradient(to bottom, #33bdef 5%, #019ad2 100%);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33bdef', endColorstr='#019ad2',GradientType=0);
-    background-color:#33bdef;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-    border-radius:6px;
-    border:1px solid #057fd0;
-    display:inline-block;
-    cursor:pointer;
-    color:#ffffff;
-    font-family:Arial;
-    font-size:11px;
-    font-weight:bold;
-    padding:5px 20px;
-    text-decoration:none;
-    text-shadow:0px -1px 0px #5b6178;
-}
-.AddBlock Button :hover {
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #019ad2), color-stop(1, #33bdef));
-    background:-moz-linear-gradient(top, #019ad2 5%, #33bdef 100%);
-    background:-webkit-linear-gradient(top, #019ad2 5%, #33bdef 100%);
-    background:-o-linear-gradient(top, #019ad2 5%, #33bdef 100%);
-    background:-ms-linear-gradient(top, #019ad2 5%, #33bdef 100%);
-    background:linear-gradient(to bottom, #019ad2 5%, #33bdef 100%);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#019ad2', endColorstr='#33bdef',GradientType=0);
-    background-color:#019ad2;
-}
-.AddBlock Button :active {
-    position:relative;
-    top:1px;
 }
 
 .linebar {
@@ -246,6 +183,7 @@ input:invalid:not(:placeholder-shown) {
     -moz-box-shadow: 0px 1px 0px 0px #f0f7fa;
     -webkit-box-shadow: 0px 1px 0px 0px #f0f7fa;
     box-shadow: 0px 1px 0px 0px #f0f7fa;
+    margin: 2px;
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #33bdef), color-stop(1, #019ad2));
     background:-moz-linear-gradient(top, #33bdef 5%, #019ad2 100%);
     background:-webkit-linear-gradient(top, #33bdef 5%, #019ad2 100%);
@@ -356,4 +294,166 @@ input:invalid:not(:placeholder-shown) {
     float: right;
     width: 89%;
     height: auto;
+}
+
+
+#components-layout-demo-top-side-2 .logo {
+    width: 120px;
+    height: 31px;
+    background: rgba(255,255,255,.2);
+    margin: 16px 28px 16px 0;
+    float: left;
+}
+
+
+
+body {
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    padding: 0;
+    margin: 0;
+
+    font-size: 14px;
+}
+
+.container {
+
+    background: white;
+
+}
+
+.ab {
+    margin: 0;
+    background: white;
+    width:10px;
+    height:auto;
+    position:absolute;
+    left:1150px;
+    top:0px;
+}
+header {
+    background: #d2edf4;
+    background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
+    position: relative;
+    margin:0;
+
+}
+
+#login-buttons {
+    display: block;
+}
+
+h1 {
+    font-size: 1.5em;
+    margin: 0;
+    margin-bottom: 10px;
+    display: inline-block;
+    margin-right: 1em;
+}
+
+form {
+    margin-top: 10px;
+    margin-bottom: -10px;
+    position: relative;
+}
+
+
+
+.new-book input {
+    box-sizing: border-box;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    width: 100%;
+    padding-right: 80px;
+    font-size: 1em;
+}
+
+.new-book input:focus{
+    outline: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    background: white;
+}
+
+
+li {
+    position: relative;
+
+    list-style: none;
+    padding: 15px;
+    border-bottom: #eee solid 1px;
+
+}
+
+li .text {
+    margin-left: 10px;
+}
+
+li.checked {
+    color: #888;
+}
+
+li.checked .text {
+    text-decoration: line-through;
+}
+
+li.private {
+    background: #eee;
+    border-color: #ddd;
+}
+
+header .hide-completed {
+    float: right;
+}
+
+.toggle-private {
+    margin-left: 5px;
+}
+#add{
+    background:transparent;
+    width:100px;
+    height:100px;
+    position:absolute;
+    left:600px;
+    top:10px;
+}
+
+#lab{
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 50px;
+    width: 10%;
+    padding: 0.5%;
+    border: none;
+    font: normal 100%/50px "Times New Roman", Times, serif;
+    color: rgba(255,255,255,1);
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: rgb(151, 156, 162);
+}
+@media (max-width: 600px) {
+    li {
+        padding: 12px 15px;
+    }
+
+    .search {
+        width: 150px;
+        clear: both;
+    }
+
+    .new-book input {
+        padding-bottom: 5px;
+    }
+
 }

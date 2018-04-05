@@ -1,22 +1,10 @@
 import React, { Component } from 'react';
-import AccountsUIWrapper from '../AccountsUIWrapper.js';
-
-import Book from '../Book.js';
-import Article from '../Article';
 import {Librarian} from "../../models/users/librarian"
-
-import Users from "../User"
 import {User} from "../../models/users/user";
 
 import { withTracker } from 'meteor/react-meteor-data';
-import ReactDOM from 'react-dom';
-import { Books } from '../../models/documents/book';
-import { JournalArticle } from "../../models/documents/journal_article";
-import { AVs} from "../../models/documents/av";
 import { Meteor } from 'meteor/meteor';
-import {ViewDocs} from "./ViewDocs"
 import {BrowserRouter, Route, Link} from "react-router-dom"
-import createBrowserHistory from "history/createBrowserHistory"
 import BOOKS from "./BOOKS";
 import ARTICLES from "./ARTICLES";
 import AaV from "./AaV";

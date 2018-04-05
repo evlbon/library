@@ -1,21 +1,12 @@
 import {Component} from "react";
 import React from "react";
-import {ViewDocs} from "./ViewDocs";
 import {Meteor} from "meteor/meteor";
-import {User} from "../../models/users/user";
 import {JournalArticle} from "../../models/documents/journal_article";
-import {AVs} from "../../models/documents/av";
-import {Books} from "../../models/documents/book";
 import { withTracker } from 'meteor/react-meteor-data';
-import Book from "../Book";
-import AddBookButton from "../../api/AddBookButton";
 import {Librarian} from "../../models/users/librarian";
 
 import 'antd/dist/antd.css';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-import Home from "./App";
-import USERS from "./USERS";
-import AaV from "./AaV";
 
 import {BrowserRouter, Route, Link} from "react-router-dom"
 import Article from "../Article";
@@ -44,6 +35,7 @@ const AllArticles = function() {
 
         </div>
     }
+    else return<h1>PLEASE LOGIN</h1>
 };
 
 
@@ -110,10 +102,6 @@ class ARTICLES extends Component{
 
 export default withTracker(() => {
     return {
-        books: Books.find({}).fetch(),
-        articles : JournalArticle.find({}).fetch(),
-        avs : AVs.find({}).fetch(),
-        users : User.find({}).fetch(),
         currentUser: Meteor.user(),
     };
 })(ARTICLES);

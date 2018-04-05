@@ -326,6 +326,27 @@ body {
     background: white;
 
 }
+.login-link-text{
+    font: normal 100%/64px "Arial", Times, serif;
+    color: lightgray;
+}
+
+.accounts-dialog{
+    width: 300px;
+    align-content: left;
+}
+
+#login-username{
+    width: 70%;
+}
+#login-password{
+     width: 70%;
+     margin: 2px;
+ }
+#login-password-again{
+    width: 55%;
+    margin: 2px;
+}
 
 .ab {
     margin: 0;

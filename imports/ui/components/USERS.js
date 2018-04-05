@@ -1,25 +1,16 @@
 import {Component} from "react";
 import React from "react";
-import {ViewDocs} from "./ViewDocs";
 import {Meteor} from "meteor/meteor";
 import {User} from "../../models/users/user";
-import {JournalArticle} from "../../models/documents/journal_article";
-import {AVs} from "../../models/documents/av";
 import Users from "../User"
 import Users2 from "../User2"
 import { withTracker } from 'meteor/react-meteor-data';
-import Book from "../Book";
-import AddBookButton from "../../api/AddBookButton";
 import {Librarian} from "../../models/users/librarian";
 
 import 'antd/dist/antd.css';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
 import {BrowserRouter, Route, Link} from "react-router-dom"
-import Article from "../Article";
-import AddArticleButton from "../../api/AddArticleButton";
-import AV from "../AV";
-import AddAVButton from "../../api/AddAVButton";
 import {AddNewUser} from "../../api/AddNewUser";
 
 const { SubMenu } = Menu;
@@ -45,6 +36,7 @@ const AllUsers = function() {
 
         </div>
     }
+    else return<h1>PLEASE LOGIN</h1>
 };
 
 const UserStories = function() {

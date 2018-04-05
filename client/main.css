@@ -19,9 +19,7 @@ body {
 }
 
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    min-height: 100%;
+
     background: white;
 
 }
@@ -38,9 +36,9 @@ body {
 header {
     background: #d2edf4;
     background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
-    padding: 20px 15px 15px 15px;
     position: relative;
     margin:0;
+
 }
 
 #login-buttons {
@@ -86,6 +84,7 @@ ul {
 
 li {
     position: relative;
+
     list-style: none;
     padding: 15px;
     border-bottom: #eee solid 1px;
@@ -126,9 +125,19 @@ header .hide-completed {
 }
 
 #lab{
-    background:transparent;
-    width:300px;
-    height:100px;
+    display: inline-block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 50px;
+    width: 10%;
+    padding: 0.5%;
+    border: none;
+    font: normal 100%/50px "Times New Roman", Times, serif;
+    color: rgba(255,255,255,1);
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: rgb(151, 156, 162);
 }
 @media (max-width: 600px) {
     li {

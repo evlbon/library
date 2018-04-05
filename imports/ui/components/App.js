@@ -16,19 +16,20 @@ import { AVs} from "../../models/documents/av";
 import { Meteor } from 'meteor/meteor';
 import {Header} from "./Header";
 import {ViewDocs} from "./ViewDocs"
+import {BrowserRouter, Route, Link} from "react-router-dom"
+import createBrowserHistory from "history/createBrowserHistory"
+import BOOKS from "./BOOKS";
+import ARTICLES from "./ARTICLES";
+import AaV from "./AaV";
+import USERS from "./USERS";
 
 
 
-class App extends Component {
 
-    constructor() {
-        //  "YKPFAF9gaMJWWNHFY"
-        // Meteor.call('addLibrarian',{id : 'YKPFAF9gaMJWWNHFY'});
-        super();
-        this.case = null;
-    }
-    render() {
 
+class Navigation extends Component{
+
+    render(){
         if (this.props.currentUser){
             if (this.props.users.length===0){
                 Meteor.call('addLibrarian', {id: this.props.currentUser._id, name: this.props.currentUser.username})
@@ -39,22 +40,67 @@ class App extends Component {
 
         }
 
+        let isLabrarian = this.props.currentUser &&
+            Librarian.findOne({libraryID : this.props.currentUser._id}) &&
+            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
+        return(
 
-        return <div className="container">
+            <BrowserRouter>
 
-            <Header books={this.props.books} articles={this.props.articles} users={this.props.users} currentUser={this.props.currentUser} avs={this.props.avs}>
-            </Header>
-            <ViewDocs books={this.props.books} articles={this.props.articles} users={this.props.users} currentUser={this.props.currentUser} avs={this.props.avs}>
-            </ViewDocs>
-        </div>;
+                <div className="container">
+                    <header>
+                        <div id={"lab"}>
+                            <h1 align="center">#InnoLibrary</h1>
+
+
+                        </div>
+
+                        <div className="navigation">
+
+                            <Link to="/books">Books </Link>
+
+                            <Link to="/articles">Articles</Link>
+
+                            <Link to="/av">Audio or Video</Link>
+
+                            {isLabrarian?<Link to="/users">Users</Link>:""}
+
+                        </div>
+                        <div className="login" >
+                            <AccountsUIWrapper/>
+                        </div>
+
+
+
+
+
+
+                    </header>
+
+
+
+                    <Route exact path="/books" component={BOOKS} />
+                    <Route exact path="/articles" component={ARTICLES} />
+                    <Route exact path="/av" component={AaV} />
+                    <Route exact path="/users" component={USERS} />
+                </div>
+            </BrowserRouter>
+
+
+
+
+        )
+
     }
 }
+
+
 export default withTracker(() => {
     return {
-        books: Books.find({}).fetch(),
-        articles : JournalArticle.find({}).fetch(),
-        avs : AVs.find({}).fetch(),
         users : User.find({}).fetch(),
         currentUser: Meteor.user(),
     };
-})(App);
+})(Navigation);
+
+
+

@@ -60,7 +60,9 @@ Meteor.methods({
             price: price,
             copies: copies,
             tags: tags,
-            bestseller: bestseller
+            bestseller: bestseller,
+            queue_of_students: [],
+            queue_of_other: [],
         });
     },
 
@@ -586,5 +588,28 @@ Meteor.methods({
             throw Error('User can\'t return a book, because he doesn\'t have it');
         }
     },
+
+});
+
+
+/**
+ * QUEUE
+ */
+Meteor.methods({
+    'enqueue' ({ userID, documentID }) {
+        let user = User.findOne({libraryID: userID});
+        let document = Books.findOne({_id: documentID});
+        let queue = document.queue.get_queue(user.group);
+        queue.push(user.libraryID);
+        document.save();
+    },
+    'dequeue' ({ userID, documentID }) {
+        let user = User.findOne({libraryID: userID});
+        let document = Books.findOne({_id: documentID});
+        let queue = document.queue.get_queue(user.group);
+        queue.shift();
+        document.save();
+    },
+
 
 });

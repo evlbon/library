@@ -5,11 +5,14 @@ import {User} from "../../models/users/user";
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import {BrowserRouter, Route, Link} from "react-router-dom"
-import BOOKS from "./BOOKS";
-import ARTICLES from "./ARTICLES";
-import AaV from "./AaV";
-import USERS from "./USERS";
+import BOOKS, {Allbooks} from "./BOOKS";
+import ARTICLES, {AllArticles} from "./ARTICLES";
+import AaV, {AllAVs} from "./AaV";
+import USERS, {AllUsers, UserStories} from "./USERS";
 import Home from "./App";
+import {Books} from "../../models/documents/book";
+import {JournalArticle} from "../../models/documents/journal_article";
+import {AVs} from "../../models/documents/av";
 
 
 
@@ -39,10 +42,23 @@ class Navigation extends Component{
 
 
                     <Route path="/" component={Home} />
-                    <Route exact path="/books" component={BOOKS} />
-                    <Route exact path="/articles" component={ARTICLES} />
-                    <Route exact path="/av" component={AaV} />
-                    <Route exact path="/users" component={USERS} />
+
+                    <Route path="/books" component={BOOKS} />
+                    <Route exact path="/books/allbooks" component={()=>(<Allbooks books={this.props.books}/>)}/>
+
+                    <Route path="/articles" component={ARTICLES} />
+                    <Route exact path="/articles/allarticles" component={()=>(<AllArticles articles={this.props.jarticles}/>)} />
+
+                    <Route path="/av" component={AaV} />
+                    <Route exact path="/av/allavs" component={()=>(<AllAVs avs={this.props.avs}/>)} />
+
+                    <Route path="/users" component={USERS} />
+                    <Route exact path="/users/allusers" component={()=>(<AllUsers users={this.props.users}/>)} />
+                    <Route exact path="/users/userstories" component={()=>(<UserStories users={this.props.users}/>)} />
+
+
+
+
                 </div>
             </BrowserRouter>
 
@@ -57,6 +73,9 @@ class Navigation extends Component{
 
 export default withTracker(() => {
     return {
+        avs: AVs.find({}).fetch(),
+        jarticles: JournalArticle.find({}).fetch(),
+        books: Books.find({}).fetch(),
         users : User.find({}).fetch(),
         currentUser: Meteor.user(),
     };

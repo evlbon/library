@@ -25,32 +25,66 @@ const { Header, Content, Sider } = Layout;
 
 
 
-const AllUsers = function() {
-    let users =User.find({}).fetch();
 
-    if(Meteor.userId()) {
+export class AllUsers extends Component {
+    render(){
 
-        return <div>
+        if(Meteor.userId()) {
 
-            {users.map((user) => (<Users key={user._id} user={user}/>))}
+            return <Layout style={{ padding: '0 24px 24px', id:"lay" }}>
 
-        </div>
+                <Breadcrumb style={{ margin: '16px 0' }}>
+                    <Breadcrumb.Item><Link to="/">Home </Link></Breadcrumb.Item>
+                    <Breadcrumb.Item>Users</Breadcrumb.Item>
+                </Breadcrumb>
+
+                <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 800 }}>
+
+                    {this.props.users.map((user) => (<Users key={user._id} user={user}/>))}
+
+                </Content>
+            </Layout>
+
+
+
+        }
+        else return<h1>PLEASE LOGIN</h1>
+
     }
-    else return<h1>PLEASE LOGIN</h1>
-};
 
-const UserStories = function() {
-    let users =User.find({}).fetch();
+}
 
-    if(Meteor.userId()) {
 
-        return <div>
 
-            {users.map((user) => (<Users2 key={user._id} user={user}/>))}
 
-        </div>
+export class UserStories extends Component {
+    render(){
+
+        if(Meteor.userId()) {
+
+            return <Layout style={{ padding: '0 24px 24px', id:"lay" }}>
+
+                <Breadcrumb style={{ margin: '16px 0' }}>
+                    <Breadcrumb.Item><Link to="/">Home </Link></Breadcrumb.Item>
+                    <Breadcrumb.Item>Users</Breadcrumb.Item>
+                </Breadcrumb>
+
+                <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 800 }}>
+
+                    {this.props.users.map((user) => (<Users2 key={user._id} user={user}/>))}
+
+                </Content>
+            </Layout>
+
+
+
+        }
+        else return<h1>PLEASE LOGIN</h1>
+
     }
-};
+
+}
+
 
 
 
@@ -71,11 +105,8 @@ class USERS extends Component{
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
 
         if(isLibrarian) return(
-            <BrowserRouter>
 
-
-                <Layout>
-                    <Sider width={200} style={{ background: '#fff' }}>
+                    <Sider width={200} style={{ background: '#fff',float:"left" }}>
                         <Menu
                             mode="inline"
                             defaultSelectedKeys={['1']}
@@ -90,25 +121,8 @@ class USERS extends Component{
                         </Menu>
                     </Sider>
 
-                    <Layout style={{ padding: '0 24px 24px' }}>
-
-                        <Breadcrumb style={{ margin: '16px 0' }}>
-                            <Breadcrumb.Item><Link to="/">Home </Link></Breadcrumb.Item>
-                            <Breadcrumb.Item>Users</Breadcrumb.Item>
-                        </Breadcrumb>
-
-                        <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 800 }}>
-
-                            <Route exact path="/users/allusers" component={AllUsers} />
-                            <Route exact path="/users/userstories" component={UserStories} />
-
-                        </Content>
-                    </Layout>
 
 
-
-                </Layout>
-            </BrowserRouter>
 
         );
         else return(<h1>YOU AREN'T LIBRARIAN</h1>)

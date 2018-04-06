@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
-import AccountsUIWrapper from '../AccountsUIWrapper.js';
 import {Librarian} from "../../models/users/librarian"
 import {User} from "../../models/users/user";
+
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import {BrowserRouter, Route, Link} from "react-router-dom"
-import 'antd/dist/antd.css';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+import BOOKS from "./BOOKS";
+import ARTICLES from "./ARTICLES";
+import AaV from "./AaV";
+import USERS from "./USERS";
+import Home from "./App";
 
 
 
 
 
-class Home extends Component{
+class Navigation extends Component{
 
     render(){
         if (this.props.currentUser){
@@ -27,31 +28,25 @@ class Home extends Component{
 
         }
 
-
-
         let isLabrarian = this.props.currentUser &&
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
         return(
 
-            <Layout>
-                <Header className="header">
-                    <div className="logo" />
-                    <Menu
-                        theme="dark"
-                        mode="horizontal"
-                        style={{ lineHeight: '64px' }}
-                    >
-                        <Menu.Item key="0"><AccountsUIWrapper/></Menu.Item>
-                        <Menu.Item key="1"><Link to="/books">Books </Link></Menu.Item>
+            <BrowserRouter>
 
-                        <Menu.Item key="2"><Link to="/articles">Articles </Link></Menu.Item>
-                        <Menu.Item key="3"><Link to="/av">Audio and Video </Link></Menu.Item>
-                        {isLabrarian? <Menu.Item key="666"><Link to="/users">Users </Link></Menu.Item>:""}
-                    </Menu>
-                </Header>
+                <div className="container">
 
-            </Layout>
+
+                    <Route path="/" component={Home} />
+                    <Route exact path="/books" component={BOOKS} />
+                    <Route exact path="/articles" component={ARTICLES} />
+                    <Route exact path="/av" component={AaV} />
+                    <Route exact path="/users" component={USERS} />
+                </div>
+            </BrowserRouter>
+
+
 
 
         )
@@ -65,7 +60,4 @@ export default withTracker(() => {
         users : User.find({}).fetch(),
         currentUser: Meteor.user(),
     };
-})(Home);
-
-
-
+})(Navigation);

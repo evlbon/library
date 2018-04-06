@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {Meteor} from "meteor/meteor";
 import ReactDOM from 'react-dom';
 import { withTracker } from 'meteor/react-meteor-data';
+import "../../client/AddButton.css"
 
 export class AddNewUser extends Component {
 
@@ -49,12 +50,13 @@ export class AddNewUser extends Component {
 
         return   <div>
 
-            <Button className={"myButton"} type="primary" onClick={this.showModal}>Add user card</Button>
+            <Button  className="myBut" type="primary" onClick={this.showModal}>Add user card</Button>
 
 
             <Modal
                 title="User addition"
                 visible={this.state.visible}
+                width="40%"
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
                 className="AddBlock"

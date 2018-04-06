@@ -61,11 +61,12 @@ class AddAVButton extends Component {
 
             <div >
 
-                <Button className={"myButton"} type="primary" onClick={this.showModal}>Add AV</Button>
+                <Button  type="primary" onClick={this.showModal}>Add AV</Button>
 
 
                 <Modal
                     title="Add Audio or Video"
+                    width="40%"
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}

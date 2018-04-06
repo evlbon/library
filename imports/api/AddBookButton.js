@@ -7,6 +7,7 @@ import {Copy} from "../models/documents/document";
 
 import { withTracker } from 'meteor/react-meteor-data';
 import {Librarian} from "../models/users/librarian";
+import "../../client/AddButton.css"
 
 
 
@@ -94,7 +95,7 @@ class AddBookButton extends Component {
 
                     <div>
 
-                        <Button className={"myButton"} type="primary" onClick={this.showModal}>Add Book</Button>
+                        <Button type="primary" onClick={this.showModal}>Add Book</Button>
 
 
                         <Modal
@@ -103,6 +104,7 @@ class AddBookButton extends Component {
                             onOk={this.handleOk}
                             onCancel={this.handleCancel}
                             className="AddBlock"
+                            width="40%"
                             closable={false}
                         >
 

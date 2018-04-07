@@ -15,31 +15,33 @@ import {BrowserRouter, Route, Link} from "react-router-dom"
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
+export class Allbooks extends Component {
+    render(){
+
+        if(Meteor.userId()) {
+
+            return (<Layout style={{ padding: '0 24px 24px' }}>
+
+                        <Breadcrumb style={{ margin: '16px 0' }}>
+                            <Breadcrumb.Item><Link to="/">Home </Link></Breadcrumb.Item>
+                            <Breadcrumb.Item>Books</Breadcrumb.Item>
+                        </Breadcrumb>
+
+                        <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 800 }}>
+
+                            {this.props.books.map((book) => (<Book key={book._id} book={book}/> ))}
+
+                        </Content>
+                    </Layout>)
 
 
 
+        }
+        else return<h1>PLEASE LOGIN</h1>
 
-
-
-
-
-
-const Allbooks = function() {
-    let books = Books.find({}).fetch();
-
-    if(Meteor.userId()) {
-
-        return <div>
-
-            {books.map((book) => (<Book key={book._id} book={book}/> ))}
-
-            </div>
     }
-    else return<h1>PLEASE LOGIN</h1>
-};
 
-
-
+}
 
 
 
@@ -58,11 +60,9 @@ class BOOKS extends Component{
                           Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
 
         return(
-            <BrowserRouter>
 
 
-            <Layout>
-                <Sider width={200} style={{ background: '#fff' }}>
+                <Sider width={200} style={{ background: '#fff',float:"left"}}>
                     <Menu
                         mode="inline"
                         defaultSelectedKeys={['1']}
@@ -76,24 +76,10 @@ class BOOKS extends Component{
                     </Menu>
                 </Sider>
 
-                <Layout style={{ padding: '0 24px 24px' }}>
-
-                    <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item><Link to="/">Home </Link></Breadcrumb.Item>
-                        <Breadcrumb.Item>Books</Breadcrumb.Item>
-                    </Breadcrumb>
-
-                    <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 800 }}>
-
-                        <Route exact path="/books/allbooks" component={Allbooks} />
-
-                    </Content>
-                </Layout>
 
 
 
-            </Layout>
-    </BrowserRouter>
+
 
         )
     }
@@ -102,6 +88,7 @@ class BOOKS extends Component{
 
 export default withTracker(() => {
     return {
+        books : Books.find({}).fetch(),
         currentUser: Meteor.user(),
     };
 })(BOOKS);

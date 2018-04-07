@@ -19,25 +19,33 @@ const { Header, Content, Sider } = Layout;
 
 
 
+export class AllArticles extends Component {
+    render(){
+
+        if(Meteor.userId()) {
+
+            return (<Layout style={{ padding: '0 24px 24px'}}>
+
+                <Breadcrumb style={{ margin: '16px 0' }}>
+                    <Breadcrumb.Item><Link to="/">Home </Link></Breadcrumb.Item>
+                    <Breadcrumb.Item>Articles</Breadcrumb.Item>
+                </Breadcrumb>
+
+                <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 800 }}>
+
+                    {this.props.articles.map((jarticle) => (<Article key={jarticle._id} jarticle={jarticle}/>))}
+
+                </Content>
+            </Layout>)
 
 
 
+        }
+        else return<h1>PLEASE LOGIN</h1>
 
-
-const AllArticles = function() {
-    let articles = JournalArticle.find({}).fetch();
-
-    if(Meteor.userId()) {
-
-        return <div>
-
-            {articles.map((jarticle) => (<Article key={jarticle._id} jarticle={jarticle}/>))}
-
-        </div>
     }
-    else return<h1>PLEASE LOGIN</h1>
-};
 
+}
 
 
 
@@ -58,11 +66,8 @@ class ARTICLES extends Component{
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
 
         return(
-            <BrowserRouter>
 
-
-                <Layout>
-                    <Sider width={200} style={{ background: '#fff' }}>
+                    <Sider width={200} style={{ background: '#fff' ,float:"left"}}>
                         <Menu
                             mode="inline"
                             defaultSelectedKeys={['1']}
@@ -76,24 +81,6 @@ class ARTICLES extends Component{
                         </Menu>
                     </Sider>
 
-                    <Layout style={{ padding: '0 24px 24px' }}>
-
-                        <Breadcrumb style={{ margin: '16px 0' }}>
-                            <Breadcrumb.Item><Link to="/">Home </Link></Breadcrumb.Item>
-                            <Breadcrumb.Item>Articles</Breadcrumb.Item>
-                        </Breadcrumb>
-
-                        <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 800 }}>
-
-                            <Route exact path="/articles/allarticles" component={AllArticles} />
-
-                        </Content>
-                    </Layout>
-
-
-
-                </Layout>
-            </BrowserRouter>
 
         )
     }

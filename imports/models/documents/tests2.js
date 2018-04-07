@@ -25,8 +25,8 @@ Meteor.methods({
         let name1 = "Librarian";
         let pass1 = "123456";
         let HumbleUser1 = Meteor.call('addUser', ({name: name1, password: pass1}));
-        let userId1 = Meteor.users.findOne({username:name1})._id;
-        let librarian1 = Meteor.call('ModifyUser', ({id:userId1,S:1}));
+        let userID1 = Meteor.users.findOne({username:name1})._id;
+        let librarian1 = Meteor.call('ModifyUser', ({id:userID1,S:1}));
 
         Meteor.call('ModifyUserProperties',({
             id:Meteor.users.findOne({username:"Librarian"})._id,

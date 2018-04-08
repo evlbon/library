@@ -42,15 +42,19 @@ export const Queue = Class.create({
             if (group === "Student"){
                 return this.queue_of_students;
             }
-            else if (group === "Instructors"){
+            else if (group === "Instructor"){
                 return this.queue_of_students;
             }
-            else if (group === "TAs"){
+            else if (group === "TA"){
                 return this.queue_of_students;
             }
-            else if (group === "Professors"){
+            else if (group === "Visiting"){
                 return this.queue_of_students;
             }
+            else if (group === "Professor"){
+                return this.queue_of_students;
+            }
+            else throw Error("group " + group + " doesn\'t exist");
 
         }
     }

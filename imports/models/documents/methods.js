@@ -170,7 +170,7 @@ Meteor.methods({
     },
 
     'addAdmin' ({ id,name }) {
-        admin.insert({
+        Admin.insert({
             libraryID: id,
             login:name,
             name: name,
@@ -184,7 +184,6 @@ Meteor.methods({
     },
 
     'addLibrarian' ({ id,name }) {
-        console.log("KEEK")
         Librarian.insert({
             libraryID: id,
             login:name,
@@ -237,17 +236,17 @@ Meteor.methods({
         return id;
     },
 
-    'addFaculty' ({ id,name  }) {
-        Faculty.insert({
-            libraryID: id,
-            name: name,
-            login:name,
-            group:"Faculty",
-            address:"None",
-            phone:-1,
-        });
-        return id;
-    },
+    // 'addFaculty' ({ id,name  }) {
+    //     Faculty.insert({
+    //         libraryID: id,
+    //         name: name,
+    //         login:name,
+    //         group:"Faculty",
+    //         address:"None",
+    //         phone:-1,
+    //     });
+    //     return id;
+    // },
 
 
     // FACULTY members
@@ -256,7 +255,7 @@ Meteor.methods({
             libraryID:id,
             name: name,
             login:name,
-            group:"Instructors",
+            group:"Instructor",
             address:"None",
             phone:-1,
         });
@@ -280,7 +279,7 @@ Meteor.methods({
             libraryID:id,
             name: name,
             login:name,
-            group:"Professors",
+            group:"Professor",
             address:"None",
             phone:-1,
         });

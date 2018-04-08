@@ -13,7 +13,7 @@ import { AVs } from "./av";
 import {Instructors} from "../users/instructors";
 import {TAs} from "../users/TAs";
 import {Professors} from "../users/professors";
-import {admin} from "../users/admin";
+import {Admin} from "../users/admin";
 
 
 /**
@@ -169,7 +169,7 @@ Meteor.methods({
     },
 
     'addAdmin' ({ id,name }) {
-        admin.insert({
+        Admin.insert({
             libraryID: id,
             login:name,
             name: name,
@@ -235,17 +235,17 @@ Meteor.methods({
         return id;
     },
 
-    'addFaculty' ({ id,name  }) {
-        Faculty.insert({
-            libraryID: id,
-            name: name,
-            login:name,
-            group:"Faculty",
-            address:"None",
-            phone:-1,
-        });
-        return id;
-    },
+    // 'addFaculty' ({ id,name  }) {
+    //     Faculty.insert({
+    //         libraryID: id,
+    //         name: name,
+    //         login:name,
+    //         group:"Faculty",
+    //         address:"None",
+    //         phone:-1,
+    //     });
+    //     return id;
+    // },
 
 
     // FACULTY members
@@ -254,7 +254,7 @@ Meteor.methods({
             libraryID:id,
             name: name,
             login:name,
-            group:"Instructors",
+            group:"Instructor",
             address:"None",
             phone:-1,
         });
@@ -278,7 +278,7 @@ Meteor.methods({
             libraryID:id,
             name: name,
             login:name,
-            group:"Professors",
+            group:"Professor",
             address:"None",
             phone:-1,
         });
@@ -351,13 +351,9 @@ Meteor.methods({
 
     'getDocument' (documentID) {
 
-        console.log("WW0.5 " + documentID);
-
         let document = Books.findOne({_id: documentID});
         if(!document) document = JournalArticle.findOne({_id:documentID}); // new
         if(!document) document = AVs.findOne({_id:documentID}); // new
-
-        console.log("WW1" + document);
 
         return document;
     },

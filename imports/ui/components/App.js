@@ -43,11 +43,11 @@ class Home extends Component{
                         style={{ lineHeight: '64px' }}
                     >
                         <Menu.Item key="0"><AccountsUIWrapper/></Menu.Item>
-                        <Menu.Item key="1"><Link to="/books">Books </Link></Menu.Item>
+                        <Menu.Item key="1"><Link to="/books/allbooks"><Icon type="book" />Books </Link></Menu.Item>
 
-                        <Menu.Item key="2"><Link to="/articles">Articles </Link></Menu.Item>
-                        <Menu.Item key="3"><Link to="/av">Audio and Video </Link></Menu.Item>
-                        {isLabrarian? <Menu.Item key="666"><Link to="/users">Users </Link></Menu.Item>:""}
+                        <Menu.Item key="2"><Link to="/articles/allarticles"><Icon type="profile" />Articles </Link></Menu.Item>
+                        <Menu.Item key="3"><Link to="/av"><Icon type="play-circle-o" />Audio and Video </Link></Menu.Item>
+                        {isLabrarian? <Menu.Item key="666"><Link to="/users"><Icon type="user" />Users </Link></Menu.Item>:""}
                     </Menu>
                 </Header>
 

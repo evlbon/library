@@ -582,9 +582,11 @@ Meteor.methods({
 });
 
 
+
 /**
  * QUEUE
  */
+
 Meteor.methods({
     'enqueue' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});

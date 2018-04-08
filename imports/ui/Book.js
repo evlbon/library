@@ -86,12 +86,12 @@ class Book extends Component {
                                 User.findOne({libraryID : this.props.currentUser._id}) ?
                                     <div>
                                     <button className="delete" onClick={this.enqueue.bind(this,this.props.book._id)}
-                                                               disabled={this.props.book.queue.inqueue(this.props.currentUser._id)}>
+                                                               disabled={this.props.book.queue.in_queue(this.props.currentUser._id)}>
                                         Enqueue
                                     </button>
 
                                     <button className="delete" onClick={this.dequeue.bind(this,this.props.book._id)}
-                                                               disabled={!(this.props.book.queue.inqueue(this.props.currentUser._id))}>
+                                                               disabled={!(this.props.book.queue.in_queue(this.props.currentUser._id))}>
                                         Dequeue
                                     </button>
 

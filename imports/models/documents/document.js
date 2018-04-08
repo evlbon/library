@@ -3,6 +3,7 @@ import { Faculty } from "../users/faculty";
 import { Student } from "../users/student";
 import { Books } from "./book";
 import { User } from "../users/user";
+import {Queue} from "../utility/queue";
 
 export const Copy = Class.create({
     name: 'Copy',
@@ -14,47 +15,16 @@ export const Copy = Class.create({
             type: Date,
             optional: true
         },
+        acceptance_date: { //when a librarian accepted patron's request. The Patron has 1 day to take the doc in library
+            type: Date,
+            optional: true
+        },
         userID: {
             type: String,
             optional: true
         }
     }
 });
-
-
-export const Queue = Class.create({
-    name: 'Queue',
-    fields: {
-        queue_of_students: {
-            type: [String],
-            default: [],
-
-        },
-        queue_of_other: {
-            type: [String],
-            default: [],
-        },
-    },
-    helpers: {
-        get_all_queue: function () {
-            return this.queue_of_students.concat(this.queue_of_other);
-        },
-        inqueue: function (id) {
-            let a = this.get_all_queue().indexOf(id);
-            return !(a === -1);
-        },
-        get_queue: function (group) {
-            if (group === "Student"){
-                return this.queue_of_students;
-            }
-            else{
-                return this.queue_of_other;
-            }
-
-        }
-    },
-});
-
 
 export const Document = Class.create({
     name: 'Document',
@@ -94,13 +64,20 @@ export const Document = Class.create({
             return this.copies.filter(o => (o.reference)).length;
         },
         leftInLibrary: function () {
-            return this.copies.filter(o => !(o.checked_out_date)).length;
+            return this.copies.filter(o => !(o.checked_out_date || o.acceptance_date)).length;
         },
         available: function () {
-            return this.copies.filter(o => !(o.checked_out_date || o.reference)).length;
+            return this.copies.filter(o => !(o.checked_out_date || o.acceptance_date|| o.reference)).length;
         },
         numberOfCopies: function () {
             return this.copies.length;
+        },
+        checkedOtDate: function (userID) {
+            if (!this.userHas(userID)) throw new Error('user doesn\'t have the document');
+
+            let copy = this.copies.find(o => o.checked_out_date && (o.userID === userID));
+
+            return copy.checked_out_date;
         },
         tillDeadline: function (userID) {
             if (!this.userHas(userID)) throw new Error('user doesn\'t have the document');
@@ -134,12 +111,12 @@ export const Document = Class.create({
             });
             return renters;
         },
-        rentingViaId : function(cuser){
+        rentingViaId : function(user){
             let renters = [];
             this.copies.forEach(o => {
                 if (o.checked_out_date) {
 
-                    if ( cuser === o.userID) {
+                    if ( user === o.userID) {
                         renters.push({tillDeadline: this.tillDeadline(o.userID)})
                     }
                 }
@@ -149,6 +126,68 @@ export const Document = Class.create({
         userHas(userID) {
             return this.copies.find(o => !o.reference && o.checked_out_date && (o.userID === userID));
         },
+        return(userID) {
+            let copy = this.userHas(userID);
+            if (!copy) {
+                throw new Error('user ' + userID + ' didn\'t have this book');
+            }
+            copy.checked_out_date = null;
+            this.save();
+        },
+
+
+
+
+        // TODO NEW
+
+        accepted_renters: function () {
+            let renters = [];
+            this.copies.forEach(o => {
+                if (o.acceptance_date) {
+                    let renter = User.findOne({libraryID: o.userID});
+                    renters.push({
+                        name: renter.name,
+                        tillDeadline: this.tillDeadline(o.userID),
+                        libraryID: o.userID
+                    })
+                }
+            });
+            return renters;
+        },
+        canAccept() { //new
+            return this.available()
+        },
+        accept: function (userID) { //new
+            let copy = this.copies.find(o => !(o.checked_out_date || o.acceptance_date || o.reference));
+            if (!copy) {
+                throw new Error( 'Not possible to accept a book if there is no free left, fix UI' );
+            }
+            copy.acceptance_date = new Date();
+            copy.userID = userID;
+            this.save();
+            return true;
+        },
+        checkOutNEW(userID) {  //new. librarian executes it when a patron finally comes to take a book
+            let copy = this.copies.find(o => (o.acceptance_date || o.usersID === userID));
+            if (!copy) {
+                throw new Error( 'Trying to checkout a book but the user weren\'t accepted or smth' );
+            }
+            copy.checked_out_date = new Date();
+            copy.acceptance_date = null;
+            this.save();
+            return true;
+        },
+        renew(userID) {
+            let copy = this.userHas(userID);
+            if (!copy) {
+                throw new Error('user ' + userID + ' didn\'t have this book');
+            }
+            copy.checked_out_date = new Date();
+            this.save();
+        },
+
+
+        // todo OBSOLETE HELPERS \/ don't delete em to not fuck up the project. Will be deleted when there is no links to obsolete methods/helpers
         canCheckOut(userID) {
             return !this.userHas(userID) && this.available()
         },
@@ -161,27 +200,6 @@ export const Document = Class.create({
                 return true;
             } else
                 return false;
-        },
-        return(userID) {
-            let copy = this.userHas(userID);
-            if (copy) {
-                copy.checked_out_date = null;
-                this.save();
-            } else
-                throw new Error( 'user '+ userID +' didnt have this book' );
-        },
-
-        addAuthor(author) {
-
-        },
-        addNewCopy(documentID) {
-
-        },
-        switchReference(documentID, boolean) {
-
-        },
-        getOverdueDocuments() {
-
         },
     },
 });

@@ -14,7 +14,7 @@ export const User = Class.create({                  // Main class of users
             type: String,
         },
         login:{
-          type: String,
+            type: String,
         },
         name: {
             type: String,

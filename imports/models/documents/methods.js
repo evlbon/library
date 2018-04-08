@@ -349,10 +349,15 @@ Meteor.methods({
 
 Meteor.methods({
 
-    'getDocumentByID' (documentID) {
+    'getDocument' (documentID) {
+
+        console.log("WW0.5 " + documentID);
+
         let document = Books.findOne({_id: documentID});
-        if(!(document)) document = JournalArticle.findOne({_id:documentID}); // new
-        if(!(document)) document = AVs.findOne({_id:documentID}); // new
+        if(!document) document = JournalArticle.findOne({_id:documentID}); // new
+        if(!document) document = AVs.findOne({_id:documentID}); // new
+
+        console.log("WW1" + document);
 
         return document;
     },
@@ -565,7 +570,7 @@ Meteor.methods({
 Meteor.methods({
     'canCheckOut' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});
-        let document = Meteor.call("getDocument", {documentID: documentID});
+        let document = Meteor.call("getDocument",  documentID);
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         return document.canCheckOut(userID);
@@ -573,8 +578,13 @@ Meteor.methods({
 
     'checkOut' ({ userID, documentID }) {
 
+        console.log("WW0" + documentID);
+
         let user = User.findOne({libraryID: userID});
-        let document = Meteor.call("getDocument", {documentID: documentID});
+        let document = Meteor.call("getDocument", documentID);
+
+
+        console.log("WW2" + document);
 
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
@@ -589,7 +599,7 @@ Meteor.methods({
     },
 
     'getRenters' ({ documentID }) {
-        let document = Meteor.call("getDocument", {documentID: documentID});
+        let document = Meteor.call("getDocument",  documentID);
         if (!(document)) throw Error('Incorrect id of user or document');
 
         return document.renters();
@@ -621,7 +631,7 @@ Meteor.methods({
 
     'checkedOtDate' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});
-        let document = Meteor.call("getDocument", {documentID: documentID});
+        let document = Meteor.call("getDocument",  documentID);
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         return document.checkedOtDate(userID);
@@ -645,7 +655,7 @@ Meteor.methods({
     'returnDocument' ({ userID, documentID }) {
 
         let user = User.findOne({libraryID: userID});
-        let document = Meteor.call("getDocument", {documentID: documentID});
+        let document = Meteor.call("getDocument",  documentID);
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.userHas(userID)) {
@@ -665,24 +675,24 @@ Meteor.methods({
 Meteor.methods({
     'enqueue' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});
-        let document = Meteor.call("getDocument", {documentID: documentID});
+        let document = Meteor.call("getDocument",  documentID);
         let queue = document.queue.get_queue(user.group);
         queue.push(user.libraryID);
         document.save();
     },
     'dequeue' ({ userID, documentID }) {
         let user = User.findOne({libraryID: userID});
-        let document = Meteor.call("getDocument", {documentID: documentID});
+        let document = Meteor.call("getDocument",  documentID);
         let queue = document.queue.get_queue(user.group);
         queue.shift();
         document.save();
     },
     'canAccept' ({ documentID }) {  // can accept first person in the queue
-        let document = Meteor.call("getDocument", {documentID: documentID});
+        let document = Meteor.call("getDocument",  documentID);
         return document.canAccept();
     },
     'accept' ({ documentID }) {  // accept first person in the queue
-        let document = Meteor.call("getDocument", {documentID: documentID});
+        let document = Meteor.call("getDocument",  documentID);
         let userID = document.queue.get_all_queue[0];
 
         document.accept(userID);

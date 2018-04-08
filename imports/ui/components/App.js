@@ -17,17 +17,6 @@ const { Header, Content, Sider } = Layout;
 class Home extends Component{
 
     render(){
-        if (this.props.currentUser){
-            if (this.props.users.length===0){
-                Meteor.call('addLibrarian', {id: this.props.currentUser._id, name: this.props.currentUser.username})
-            }
-            else if(!User.findOne({libraryID : this.props.currentUser._id})){
-                Meteor.call('addHumbleUser', {id: this.props.currentUser._id, name: this.props.currentUser.username})
-            }
-
-        }
-
-
 
         let isLabrarian = this.props.currentUser &&
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&

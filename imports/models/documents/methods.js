@@ -14,6 +14,7 @@ import {Instructors} from "../users/instructors";
 import {TAs} from "../users/TAs";
 import {Professors} from "../users/professors";
 import {admin} from "../users/admin";
+import {VP} from "../users/visiting";
 
 
 /**
@@ -183,6 +184,7 @@ Meteor.methods({
     },
 
     'addLibrarian' ({ id,name }) {
+        console.log("KEEK")
         Librarian.insert({
             libraryID: id,
             login:name,
@@ -224,7 +226,7 @@ Meteor.methods({
     },
 
     'addVP' ({ id,name  }) {
-        Student.insert({
+        VP.insert({
             libraryID:id,
             name: name,
             login:name,

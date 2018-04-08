@@ -10,6 +10,10 @@ import { JournalArticle } from "./journal_article";
 import { Student } from "../users/student";
 import { Faculty } from "../users/faculty";
 import { AVs } from "./av";
+import {Instructors} from "../users/instructors";
+import {TAs} from "../users/TAs";
+import {Professors} from "../users/professors";
+import {admin} from "../users/admin";
 
 
 /**
@@ -164,6 +168,20 @@ Meteor.methods({
         return User.find({group: { $in: [ 'Student', 'Professor' /*TODO add others*/  ] }})
     },
 
+    'addAdmin' ({ id,name }) {
+        admin.insert({
+            libraryID: id,
+            login:name,
+            name: name,
+            group:"Admin",
+            address:"None",
+            phone:-1,
+            libId:cnt+1,
+        });
+        cnt = cnt +1 ;
+        return id;
+    },
+
     'addLibrarian' ({ id,name }) {
         Librarian.insert({
             libraryID: id,
@@ -173,6 +191,7 @@ Meteor.methods({
             address:"None",
             phone:-1,
             libId:cnt+1,
+            privilege:priv,
         });
         cnt = cnt + 1;
         return id;
@@ -191,6 +210,7 @@ Meteor.methods({
         cnt = cnt +1 ;
         return id;
     },
+// PATRONS
 
     'addStudent' ({ id,name  }) {
         Student.insert({
@@ -198,6 +218,18 @@ Meteor.methods({
             name: name,
             login:name,
             group:"Student",
+            address:"None",
+            phone:-1,
+        });
+        return id;
+    },
+
+    'addVP' ({ id,name  }) {
+        Student.insert({
+            libraryID:id,
+            name: name,
+            login:name,
+            group:"Visiting",
             address:"None",
             phone:-1,
         });
@@ -216,17 +248,44 @@ Meteor.methods({
         return id;
     },
 
-    'addVP' ({ id,name  }) {
-        Student.insert({
+
+    // FACULTY members
+    'addInstructor' ({ id,name  }) {
+        Instructors.insert({
             libraryID:id,
             name: name,
             login:name,
-            group:"Special",
+            group:"Instructors",
             address:"None",
             phone:-1,
         });
         return id;
     },
+
+    'addTA' ({ id,name  }) {
+        TAs.insert({
+            libraryID:id,
+            name: name,
+            login:name,
+            group:"TA",
+            address:"None",
+            phone:-1,
+        });
+        return id;
+    },
+
+    'addProfessors' ({ id,name  }) {
+        Professors.insert({
+            libraryID:id,
+            name: name,
+            login:name,
+            group:"Professors",
+            address:"None",
+            phone:-1,
+        });
+        return id;
+    },
+
 
     'Delete'({ID, ID2}) {
         if (!Meteor.isServer) return;
@@ -267,7 +326,7 @@ Meteor.methods({
         if(S===0)
             str = "HumbleUser";
         else
-            str = S===1? "Librarian":S===2?"Student":S===3?"Visiting Professor":"Faculty";
+            str = S===1? "Librarian":S===2?"Student":S===3?"Visiting Professor":S===4?"Professor":S===5?"Instructor":"Teaching Assistant";
         User.update({libraryID:id},{$set:{group:str}});
         return id;
     },

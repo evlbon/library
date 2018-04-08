@@ -191,7 +191,6 @@ Meteor.methods({
             address:"None",
             phone:-1,
             libId:cnt+1,
-            privilege:priv,
         });
         cnt = cnt + 1;
         return id;

@@ -126,7 +126,7 @@ export const Document = Class.create({
         userHas(userID) {
             return this.copies.find(o => !o.reference && o.checked_out_date && (o.userID === userID));
         },
-        return(userID) {
+        returnDocument(userID) {
             let copy = this.userHas(userID);
             if (!copy) {
                 throw new Error('user ' + userID + ' didn\'t have this book');
@@ -140,21 +140,21 @@ export const Document = Class.create({
 
         // TODO NEW
 
-        accepted_renters: function () {
+        acceptedRenters: function () {
             let renters = [];
             this.copies.forEach(o => {
                 if (o.acceptance_date) {
                     let renter = User.findOne({libraryID: o.userID});
                     renters.push({
                         name: renter.name,
-                        tillDeadline: this.tillDeadline(o.userID),
+                        tillDeadline: this.tillDeadline - new Date() + 864e5,
                         libraryID: o.userID
                     })
                 }
             });
             return renters;
         },
-        canAccept() { //new
+        canAccept() {
             return this.available()
         },
         accept: function (userID) { //new
@@ -167,7 +167,7 @@ export const Document = Class.create({
             this.save();
             return true;
         },
-        checkOutNEW(userID) {  //new. librarian executes it when a patron finally comes to take a book
+        checkOut(userID) {  //new. librarian executes it when a patron finally comes to take a book
             let copy = this.copies.find(o => (o.acceptance_date || o.usersID === userID));
             if (!copy) {
                 throw new Error( 'Trying to checkout a book but the user weren\'t accepted or smth' );
@@ -188,18 +188,18 @@ export const Document = Class.create({
 
 
         // todo OBSOLETE HELPERS \/ don't delete em to not fuck up the project. Will be deleted when there is no links to obsolete methods/helpers
-        canCheckOut(userID) {
-            return !this.userHas(userID) && this.available()
-        },
-        checkOut(userID) {
-            let copy = this.copies.find(o => !(o.checked_out_date || o.reference));
-            if (copy) {
-                copy.checked_out_date = new Date();
-                copy.userID = userID;
-                this.save();
-                return true;
-            } else
-                return false;
-        },
+        // canCheckOut(userID) {
+        //     return !this.userHas(userID) && this.available()
+        // },
+        // checkOut(userID) {
+        //     let copy = this.copies.find(o => !(o.checked_out_date || o.reference));
+        //     if (copy) {
+        //         copy.checked_out_date = new Date();
+        //         copy.userID = userID;
+        //         this.save();
+        //         return true;
+        //     } else
+        //         return false;
+        // },
     },
 });

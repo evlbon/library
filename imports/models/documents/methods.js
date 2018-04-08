@@ -13,8 +13,7 @@ import { AVs } from "./av";
 import {Instructors} from "../users/instructors";
 import {TAs} from "../users/TAs";
 import {Professors} from "../users/professors";
-import {admin} from "../users/admin";
-import {VP} from "../users/visiting";
+import {Admin} from "../users/admin";
 
 
 /**
@@ -569,34 +568,30 @@ Meteor.methods({
  * Checking out system
  */
 Meteor.methods({
-    'canCheckOut' ({ userID, documentID }) {
-        let user = User.findOne({libraryID: userID});
-        let document = Meteor.call("getDocument",  documentID);
-        if (!(user && document)) throw Error('Incorrect id of user or document');
-
-        return document.canCheckOut(userID);
-    },
+    // 'canCheckOut' ({ userID, documentID }) {
+    //     let user = User.findOne({libraryID: userID});
+    //     let document = Meteor.call("getDocument",  documentID);
+    //     if (!(user && document)) throw Error('Incorrect id of user or document');
+    //
+    //     return document.canCheckOut(userID);
+    // },
 
     'checkOut' ({ userID, documentID }) {
 
-        console.log("WW0" + documentID);
-
         let user = User.findOne({libraryID: userID});
         let document = Meteor.call("getDocument", documentID);
-
-
-        console.log("WW2" + document);
-
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
-        if (document.canCheckOut(userID)) {
-            document.checkOut(userID);
-        } else {
-            if (document.userHas(userID))
-                throw Error('Can\'t check out more than one same book');
-            else
-                throw Error('No book available');
-        }
+        document.checkOut(userID);
+
+        // if (document.canCheckOut(userID)) {
+        //     document.checkOut(userID);
+        // } else {
+        //     if (document.userHas(userID))
+        //         throw Error('Can\'t check out more than one same book');
+        //     else
+        //         throw Error('No book available');
+        // }
     },
 
     'getRenters' ({ documentID }) {
@@ -606,7 +601,14 @@ Meteor.methods({
         return document.renters();
     },
 
-    'getUsersBooks' ({ userID }) {/// needs editing
+    'getAcceptedRenters' ({ documentID }) {
+        let document = Meteor.call("getDocument",  documentID);
+        if (!document) throw Error('Incorrect id of user or document');
+
+        return document.acceptedRenters();
+    },
+
+    'getUsersBooks' ({ userID }) {
         let books = [];
         Books.find().forEach( o => {
             if (o.userHas(userID)) books.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
@@ -644,14 +646,14 @@ Meteor.methods({
  * Return system
  */
 Meteor.methods({
-    'hasDocument' ({ userID, documentID }) {
-        let user = User.findOne({libraryID: userID});
-        let document = Books.findOne({_id: documentID});
-
-        if (!(user && document)) throw Error('Incorrect id of user or document');
-
-        return document.userHas(userID);
-    },
+    // 'hasDocument' ({ userID, documentID }) {
+    //     let user = User.findOne({libraryID: userID});
+    //     let document = Books.findOne({_id: documentID});
+    //
+    //     if (!(user && document)) throw Error('Incorrect id of user or document');
+    //
+    //     return document.userHas(userID);
+    // },
 
     'returnDocument' ({ userID, documentID }) {
 
@@ -660,9 +662,22 @@ Meteor.methods({
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.userHas(userID)) {
-            document.return(userID);
+            document.returnDocument(userID);
         } else {
             throw Error('User can\'t return a book, because he doesn\'t have it');
+        }
+    },
+
+    'renewDocument' ({ userID, documentID }) {
+
+        let user = User.findOne({libraryID: userID});
+        let document = Meteor.call("getDocument",  documentID);
+        if (!(user && document)) throw Error('Incorrect id of user or document');
+
+        if (document.userHas(userID)) {
+            document.renew(userID);
+        } else {
+            throw Error('User can\'t renew a book, because he doesn\'t have it');
         }
     },
 });

@@ -51,6 +51,7 @@ export const Queue = Class.create({
             else if (group === "Professors"){
                 return this.queue_of_students;
             }
+
         }
     }
 });

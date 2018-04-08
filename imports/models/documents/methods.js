@@ -686,6 +686,7 @@ Meteor.methods({
         let user = User.findOne({libraryID: userID});
         let document = Meteor.call("getDocument",  documentID);
         let queue = document.queue.get_queue(user.group);
+        console.log(userID,documentID);
         queue.shift();
         document.save();
     },
@@ -695,14 +696,14 @@ Meteor.methods({
     },
     'accept' ({ documentID }) {  // accept first person in the queue
         let document = Meteor.call("getDocument",  documentID);
-        let userID = document.queue.get_all_queue[0];
+        let userID = document.queue.get_all_queue()[0];
 
         document.accept(userID);
         Meteor.call('dequeue', {userID: userID, documentID: documentID})
     },
     'deny' ({ documentID }) {  // accept first person in the queue
         let document = Books.findOne({_id: documentID});
-        let userID = document.queue.get_all_queue[0];
+        let userID = document.queue.get_all_queue()[0];
 
         Meteor.call('dequeue', {userID: userID, documentID: documentID})
     },

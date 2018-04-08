@@ -5,7 +5,7 @@ import {User} from "../../models/users/user";
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import {BrowserRouter, Route, Link} from "react-router-dom"
-import BOOKS, {Allbooks} from "./BOOKS";
+import BOOKS, {Allbooks, Allbooks2} from "./BOOKS";
 import ARTICLES, {AllArticles} from "./ARTICLES";
 import AaV, {AllAVs} from "./AaV";
 import USERS, {AllUsers, UserStories} from "./USERS";
@@ -45,6 +45,7 @@ class Navigation extends Component{
 
                     <Route path="/books" component={BOOKS} />
                     <Route exact path="/books/allbooks" component={()=>(<Allbooks books={this.props.books}/>)}/>
+                    <Route exact path="/books/allbooks2" component={()=>(<Allbooks2 books={this.props.books}/>)}/>
 
                     <Route path="/articles" component={ARTICLES} />
                     <Route exact path="/articles/allarticles" component={()=>(<AllArticles articles={this.props.jarticles}/>)} />

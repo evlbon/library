@@ -19,6 +19,7 @@ class Book extends Component {
         Meteor.call("checkOut",{userID:this.props.currentUser._id, documentID:id});
     }
     enqueue(id){
+        console.log("JOOOOOPA");
         Meteor.call("enqueue",{userID:this.props.currentUser._id, documentID:id});
     }
     dequeue(id){

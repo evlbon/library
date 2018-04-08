@@ -72,17 +72,7 @@ class Book extends Component {
 
 
 
-                    {  functions.canCheckOut(this.props.currentUser._id,this.props.book._id)?
-
-
-                            this.props.currentUser ?
-                                User.findOne({libraryID : this.props.currentUser._id}) ?
-                                    <button className="delete" onClick={this.rentBook.bind(this,this.props.book._id)}
-                                        disabled={!(functions.canCheckOut(this.props.currentUser._id,this.props.book._id))}>
-                                    Rent
-                                </button>
-                                    :""
-                                :"":
+                    {
                             this.props.currentUser ?
                                 User.findOne({libraryID : this.props.currentUser._id}) ?
                                     <div>

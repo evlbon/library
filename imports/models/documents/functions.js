@@ -96,6 +96,6 @@ export function canEditDocument(documentID, number_of_copies, number_of_referenc
 }
 
 export function canAccept(documentID) {  // can accept first person in the queue
-    let document = Meteor.call("getDocument",  documentID);
+    let document = Meteor.call("getDocument",  {documentID:documentID});
     return document.canAccept();
 }

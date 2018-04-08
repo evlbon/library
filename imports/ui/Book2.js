@@ -111,8 +111,8 @@ class Book2 extends Component {
 
                     <button className="delete"
                             onClick={this.accept.bind(this)}
-                            disabled={functions.canAccept(this.props.book._id)}>Accept</button>
-                    <button className="delete" onClick={this.deny.bind(this)}>Deny</button>
+                            disabled={!this.props.book.canAccept()}>Accept</button>
+                    <button className="delete" disabled={this.props.book.queue.get_all_queue().length===0} onClick={this.deny.bind(this)}>Deny</button>
 
                 </div>
 

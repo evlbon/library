@@ -13,7 +13,8 @@ import { AVs } from "./av";
 import {Instructors} from "../users/instructors";
 import {TAs} from "../users/TAs";
 import {Professors} from "../users/professors";
-import {Admin} from "../users/admin";
+import {admin} from "../users/admin";
+import {VP} from "../users/visiting";
 
 
 /**
@@ -224,7 +225,7 @@ Meteor.methods({
     },
 
     'addVP' ({ id,name  }) {
-        Student.insert({
+        VP.insert({
             libraryID:id,
             name: name,
             login:name,
@@ -351,9 +352,13 @@ Meteor.methods({
 
     'getDocument' (documentID) {
 
+        console.log("WW0.5 " + documentID);
+
         let document = Books.findOne({_id: documentID});
         if(!document) document = JournalArticle.findOne({_id:documentID}); // new
         if(!document) document = AVs.findOne({_id:documentID}); // new
+
+        console.log("WW1" + document);
 
         return document;
     },

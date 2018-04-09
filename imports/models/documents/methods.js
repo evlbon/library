@@ -165,7 +165,7 @@ Meteor.methods({
     },
 
     'allPatrons' () {
-        return User.find({group: { $in: [ 'Student', 'Professor' /*TODO add others*/  ] }})
+        return User.find({group: { $in: [ 'Student', 'Professor', 'TA', 'Instructor', 'Visiting' ] }})
     },
 
     'addAdmin' ({ id,name }) {

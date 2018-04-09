@@ -204,6 +204,11 @@ class Book2 extends Component {
                                                 disabled={!(this.props.book.queue.in_queue(this.props.currentUser._id))}>
                                             Dequeue
                                         </button>
+                                        <button
+                                            disabled={!(this.props.book.userHas(this.props.currentUser._id))}
+                                            onClick={this.props.book.renew(this.props.currentUser._id)}>
+                                            Renew
+                                        </button>
 
                                     </div>
 
@@ -234,6 +239,7 @@ class Book2 extends Component {
                                             onClick={this.deny.bind(this)}>
                                             Deny
                                         </button>
+
                                     </div>:
 
 

@@ -15,7 +15,9 @@ class User_in_Queue extends Component{
         let user = User.findOne({libraryID: this.props.userID});
 
         return(
-            <a>{this.props.n}){user.name}({user.group})</a>
+            <div>
+                {this.props.n}){user.name}({user.group})<br/>
+            </div>
         )
     }
 

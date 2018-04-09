@@ -34,17 +34,21 @@ class Accepted_users extends Component{
             s:t%60
 
         };
+        this.timer = null;
         this.time()
 
 
     }
 
     time(){
-        setInterval(()=>{
+        this.timer=setInterval(()=>{
             console.log(this.state.timeLeft);
-            let t =  this.state.timeLeft;
+            let t =  this.state.timeLeft-1;
+            if(t===0){
+                this.te()
+            }
             this.setState({
-                timeLeft : t - 1,
+                timeLeft : t,
                 h:Math.ceil(t/3600),
                 m:Math.ceil(t%3600/60),
                 s:t%60
@@ -52,14 +56,21 @@ class Accepted_users extends Component{
 
         }, 1000);
     }
+    te(){
+        this.f();
+        Meteor.call("returnDocument",{userID:this.props.userID, documentID:this.props.book._id});
+    }
 
-
-
+    f(){
+        clearInterval(this.timer);
+        Meteor.call("checkOut",{userID:this.props.userID, documentID:this.props.book._id});
+    }
 
     render(){
         return(
             <div>
                 {this.props.name} - <a>{this.state.h}:{this.state.m}:{this.state.s}</a> Left
+                <button onClick={this.f.bind(this)}>get book</button>
             </div>
         )
     }
@@ -103,6 +114,7 @@ class Book2 extends Component {
 
                 {queue.map((id) => (<User_in_Queue key={id} userID={id} n={queue.indexOf(id)+1}/>))}
 
+
             </div>
         )
 
@@ -118,16 +130,16 @@ class Book2 extends Component {
 
 
     render() {
-        // Give books a different className when they are checked off,
-        // so that we can style them nicely in CSS
-        let rents = functions.getRenters(this.props.book._id);
-        rents ? rents = rents.map(o => (o.name + '" | '+fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.book._id))):"";
 
         let rents2 = null;
 
         this.props.currentUser ? rents2 = functions.getRentsViaId(this.props.book._id, this.props.currentUser._id):"";
 
         rents2 ? rents2 = rents2.map(o =>(fun({date:o.tillDeadline}) )):"";
+
+        let isLabrarian = this.props.currentUser &&
+            Librarian.findOne({libraryID : this.props.currentUser._id}) &&
+            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
         return (
             <li >
 
@@ -154,22 +166,61 @@ class Book2 extends Component {
 
 
                 <div style={{float:"right", width:"40%"}}>
-                    <h1>Accepted</h1>
-                    {this.renderAccepted()}
+
+                    {
+                        isLabrarian ?
+                            <div>
+                                <h1>Accepted</h1>
+                                {this.renderAccepted()}
+                            </div>:
+                            <div>
+                                <button className="delete" onClick={this.enqueue.bind(this,this.props.book._id)}
+                                        disabled={this.props.book.queue.in_queue(this.props.currentUser._id)}>
+                                    Enqueue
+                                </button>
+
+                                <button className="delete" onClick={this.dequeue.bind(this,this.props.book._id)}
+                                        disabled={!(this.props.book.queue.in_queue(this.props.currentUser._id))}>
+                                    Dequeue
+                                </button>
+
+                            </div>
+
+
+                    }
                 </div>
 
 
                 <div style={{float:"right", width:"30%"}}>
-                    <div style={{float:"left"}}>
-                        <h1>Queue</h1><br/>
-                        {this.render_Queue()}
-                    </div>
+                    {
 
-                    <button className="delete"
-                            onClick={this.accept.bind(this)}
-                            disabled={!this.props.book.canAccept()}>Accept</button>
-                    <button className="delete" disabled={this.props.book.queue.get_all_queue().length===0} onClick={this.deny.bind(this)}>Deny</button>
+                        isLabrarian?
+                            <div>
+                                <div style={{float:"left"}}>
+                                    <h1>Queue</h1><br/>
+                                    {this.render_Queue()}
+                                </div>
 
+                                <button className="delete"
+                                        onClick={this.accept.bind(this)}
+                                        disabled={!this.props.book.canAccept()}>
+                                    Accept
+                                </button>
+                                <button className="delete"
+                                        disabled={this.props.book.queue.get_all_queue().length===0}
+                                        onClick={this.deny.bind(this)}>
+                                    Deny
+                                </button>
+                            </div>:
+
+
+                            <div className="BOOKBOX2">
+                                <h1>RENTS</h1><br/>
+                                {rents2 ? <pre>{rents2.join("\n")}</pre>
+                                    :<p>Nothing</p>}
+                            </div>
+
+                    }
                 </div>
 
 

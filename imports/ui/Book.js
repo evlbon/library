@@ -8,6 +8,39 @@ import * as functions from "../models/documents/functions"
 import {EditBook} from "../api/editBook";
 
 // Book component - represents a single todo item
+
+class UserWithBook extends Component{
+    fun( date )
+    {
+        if (date.date < 0)
+        {
+            let ff = - date.date;
+            return "Overdue " + ff + " days.";
+        }else return date.date + " days left.";
+    }
+
+    returnBook(){
+        Meteor.call("returnDocument",{userID:this.props.user.libraryID, documentID:this.props.book._id});
+    }
+
+
+    render(){
+        let o = this.props.user;
+        return(
+            <div>
+                {o.name + '" | '+this.fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.book._id)}
+                <button onClick={this.returnBook.bind(this)}
+                        disabled={!(functions.hasDocument(o.libraryID, this.props.book._id))}>
+                    Return
+                </button>
+            </div>
+
+
+        )
+    }
+}
+
+
 class Book extends Component {
 
 
@@ -26,22 +59,29 @@ class Book extends Component {
         Meteor.call("dequeue",{userID:this.props.currentUser._id, documentID:id});
     }
 
-    returnBook(id){
-        Meteor.call("returnDocument",{userID:this.props.currentUser._id, documentID:id});
+
+    renderUsers(){
+        let users = functions.getRenters(this.props.book._id);
+        return(
+            <div>
+                {users.map((user)=>(<UserWithBook key={user.libraryID} user={user} book={this.props.book}/>))}
+            </div>
+        )
     }
 
 
     render() {
         // Give books a different className when they are checked off,
         // so that we can style them nicely in CSS
-        let rents = functions.getRenters(this.props.book._id);
-        rents ? rents = rents.map(o => (o.name + '" | '+fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.book._id))):"";
 
-        let rents2 = null;
 
         this.props.currentUser ? rents2 = functions.getRentsViaId(this.props.book._id, this.props.currentUser._id):"";
 
         rents2 ? rents2 = rents2.map(o =>(fun({date:o.tillDeadline}) )):"";
+
+        let isLabrarian = this.props.currentUser &&
+            Librarian.findOne({libraryID : this.props.currentUser._id}) &&
+            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
         return (
             <li >
 
@@ -72,41 +112,6 @@ class Book extends Component {
 
 
 
-                    {
-                            this.props.currentUser ?
-                                User.findOne({libraryID : this.props.currentUser._id}) ?
-                                    <div>
-                                    <button className="delete" onClick={this.enqueue.bind(this,this.props.book._id)}
-                                                               disabled={this.props.book.queue.in_queue(this.props.currentUser._id)}>
-                                        Enqueue
-                                    </button>
-
-                                    <button className="delete" onClick={this.dequeue.bind(this,this.props.book._id)}
-                                                               disabled={!(this.props.book.queue.in_queue(this.props.currentUser._id))}>
-                                        Dequeue
-                                    </button>
-
-                                    </div>
-                                    :""
-                                :""
-
-
-                    }
-
-
-
-                    <br/>
-
-                    { this.props.currentUser ?
-                        User.findOne({libraryID : this.props.currentUser._id}) ?
-                            <button className="delete" onClick={this.returnBook.bind(this,this.props.book._id)}
-                                    disabled={!(functions.hasDocument(this.props.currentUser._id, this.props.book._id))}>
-                                Return
-                            </button>
-                            :""
-                        :""
-                    }
-
 
 
                 </div>
@@ -130,37 +135,14 @@ class Book extends Component {
                 </div>
 
 
-
-                {
-                    this.props.currentUser ?
-                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                            <div className="BOOKBOX2">
-                                <h1>Rents</h1><br/>
-                                {rents ? <pre>{rents.join("\n")}</pre>
-                                    :<p>Nothing</p>}
-                            </div>
-                            : ''
-                        :""
-                    :""
-
-                }
+                <div className="BOOKBOX2">
+                    {this.renderUsers()}
+                </div>
 
 
 
-                {
-                    this.props.currentUser ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Student" ?
-                                <div className="BOOKBOX2">
-                                    <h1>RENTS</h1><br/>
-                                    {rents2 ? <pre>{rents2.join("\n")}</pre>
-                                        :<p>Nothing</p>}
-                                </div>
-                                : ''
-                            :""
-                        :""
-                }
+
+
 
             </li>
         );
@@ -172,12 +154,6 @@ export default withTracker(() => {
         currentUser: Meteor.user(),
     };
 })(Book);
-function fun( date )
-{
-    console.log(date.date);
-    if (date.date < 0)
-    {
-        let ff = - date.date;
-        return "Overdue " + ff + " days.";
-    }else return date.date + " days left.";
-}
+
+
+

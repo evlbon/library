@@ -601,12 +601,7 @@ Meteor.methods({
         return document.renters();
     },
 
-    'getAcceptedRenters' ({ documentID }) {
-        let document = Meteor.call("getDocument",  documentID);
-        if (!document) throw Error('Incorrect id of user or document');
 
-        return document.acceptedRenters();
-    },
 
     'getUsersBooks' ({ userID }) {
         let books = [];

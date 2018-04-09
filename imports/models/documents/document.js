@@ -147,13 +147,18 @@ export const Document = Class.create({
                     let renter = User.findOne({libraryID: o.userID});
                     renters.push({
                         name: renter.name,
-                        tillDeadline: this.tillDeadline - new Date() + 864e5,
                         libraryID: o.userID
                     })
                 }
             });
             return renters;
         },
+
+        acceptedTimeLeft: function (userID) {
+            let copy = this.copies.find(o => o.acceptance_date && (o.userID === userID));
+            return copy.acceptance_date;
+        },
+
         canAccept() {
             return this.available()
         },

@@ -10,6 +10,7 @@ import {EditBook} from "../api/editBook";
 // Book component - represents a single todo item
 
 class User_in_Queue extends Component{
+
     render(){
         let user = User.findOne({libraryID: this.props.userID});
 
@@ -19,6 +20,49 @@ class User_in_Queue extends Component{
     }
 
 
+}
+
+class Accepted_users extends Component{
+    constructor(props){
+        super(props);
+        let t = new Date() - props.book.acceptedTimeLeft(this.props.userID);
+        t=t/1000-t%1000/1000;
+        this.state={
+            timeLeft: t,
+            h:Math.ceil(t/3600),
+            m:Math.ceil(t%3600/60),
+            s:t%60
+
+        };
+        this.time()
+
+
+    }
+
+    time(){
+        setInterval(()=>{
+            console.log(this.state.timeLeft);
+            let t =  this.state.timeLeft;
+            this.setState({
+                timeLeft : t - 1,
+                h:Math.ceil(t/3600),
+                m:Math.ceil(t%3600/60),
+                s:t%60
+            })
+
+        }, 1000);
+    }
+
+
+
+
+    render(){
+        return(
+            <div>
+                {this.props.name} - <a>{this.state.h}:{this.state.m}:{this.state.s}</a> Left
+            </div>
+        )
+    }
 }
 
 class Book2 extends Component {
@@ -64,6 +108,14 @@ class Book2 extends Component {
 
     }
 
+    renderAccepted(){
+        let users = this.props.book.acceptedRenters();
+        return(
+
+            (users.map((user)=>(<Accepted_users key={user.libraryID} userID={user.libraryID} name={user.name} book={this.props.book}/>)))
+        )
+    }
+
 
     render() {
         // Give books a different className when they are checked off,
@@ -101,9 +153,13 @@ class Book2 extends Component {
 
 
 
+                <div style={{float:"right", width:"40%"}}>
+                    <h1>Accepted</h1>
+                    {this.renderAccepted()}
+                </div>
 
 
-                <div className="BOOKBOX2">
+                <div style={{float:"right", width:"30%"}}>
                     <div style={{float:"left"}}>
                         <h1>Queue</h1><br/>
                         {this.render_Queue()}
@@ -115,6 +171,7 @@ class Book2 extends Component {
                     <button className="delete" disabled={this.props.book.queue.get_all_queue().length===0} onClick={this.deny.bind(this)}>Deny</button>
 
                 </div>
+
 
             </li>
         );

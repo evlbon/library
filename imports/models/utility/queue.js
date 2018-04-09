@@ -38,6 +38,7 @@ export const Queue = Class.create({
             let a = this.get_all_queue().indexOf(id);
             return a >= 0;
         },
+
         get_queue: function (group) {         // TODO: add new groups (TA, instructors etc), queue cant be done w/o them
             if (group === "Student"){
                 return this.queue_of_students;

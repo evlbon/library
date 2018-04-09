@@ -95,3 +95,12 @@ export function canEditDocument(documentID, number_of_copies, number_of_referenc
     return (document.numberOfCopies() - document.leftInLibrary() <= number_of_copies - number_of_references)
 }
 
+
+
+export function allUsers() {
+    return User.find()
+}
+
+export function allPatrons() {
+    return User.find({group: { $in: [ 'Student', 'Professor' /*TODO add others*/  ] }})
+}

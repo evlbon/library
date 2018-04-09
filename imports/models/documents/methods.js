@@ -160,13 +160,7 @@ Meteor.methods({
  * Manage users
  */
 Meteor.methods({
-    'allUsers' () {
-        return User.find()
-    },
 
-    'allPatrons' () {
-        return User.find({group: { $in: [ 'Student', 'Professor' /*TODO add others*/  ] }})
-    },
 
     'addAdmin' ({ id,name }) {
         Admin.insert({

@@ -6,8 +6,34 @@ import {Librarian} from "../models/users/librarian";
 import {User} from "../models/users/user";
 import * as functions from "../models/documents/functions"
 import {EditBook} from "../api/editBook";
+import { Popover, Button } from 'antd';
 
-// Book component - represents a single todo item
+const content = (
+    <div>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+    </div>
+);
+
+class OutUsers extends Component{
+    render(){
+        return(
+
+            <div>
+                <button style={{width:"150px", margin:"1px"}}>{this.props.user.name}</button><br/>
+            </div>
+        )
+
+    }
+
+
+}
 
 class UserWithBook extends Component{
     fun( date )
@@ -48,15 +74,12 @@ class Book extends Component {
         Meteor.call('documents.delBook',{id : this.props.book._id, name: ["yury", "jojo" ]})
     }
 
-    rentBook(id){
-        Meteor.call("checkOut",{userID:this.props.currentUser._id, documentID:id});
-    }
-    enqueue(id){
-        console.log("JOOOOOPA");
-        Meteor.call("enqueue",{userID:this.props.currentUser._id, documentID:id});
-    }
-    dequeue(id){
-        Meteor.call("dequeue",{userID:this.props.currentUser._id, documentID:id});
+    renderOutUsers(){
+        return(
+            <div>
+                {functions.allUsers().map((user)=>(<OutUsers key={user.libraryID} user={user} book={this.props.book}/>))}
+            </div>
+        )
     }
 
 
@@ -128,6 +151,15 @@ class Book extends Component {
 
                 <div className="BOOKBOX2">
                     {this.renderUsers()}
+                </div>
+
+
+                <div style={{float:"right"}}>
+                    <Popover content={this.renderOutUsers()} placement="bottom" title="Choose User">
+                        <Button  type="primary">Outstanding request</Button>
+                    </Popover>
+
+
                 </div>
 
 

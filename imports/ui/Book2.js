@@ -183,7 +183,6 @@ class Book2 extends Component {
 
 
                 {!isHumbleUser?
-                    <div>
                         <div style={{float:"right", width:"40%"}}>
 
                             {
@@ -192,6 +191,7 @@ class Book2 extends Component {
                                         <h1>Accepted</h1>
                                         {this.renderAccepted()}
                                     </div>:
+
                                     <div className="delete">
                                         <button onClick={this.enqueue.bind(this,this.props.book._id)}
                                                 disabled={this.props.book.queue.in_queue(this.props.currentUser._id)||rents2.length!==0}>
@@ -207,9 +207,11 @@ class Book2 extends Component {
 
 
                             }
-                        </div>
+                        </div>:""
+                        }
 
 
+                {!isHumbleUser?
                         <div style={{float:"right", width:"30%"}}>
                             {
 
@@ -243,9 +245,7 @@ class Book2 extends Component {
                                     </div>
 
                             }
-                        </div>
-
-                    </div>:""
+                        </div>:""
 
                 }
 

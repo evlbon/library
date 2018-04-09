@@ -151,6 +151,12 @@ class Book2 extends Component {
         let isLabrarian = this.props.currentUser &&
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
+        let isHumbleUser = this.props.currentUser &&
+            Librarian.findOne({libraryID : this.props.currentUser._id}) &&
+            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "HumbleUser";
+
+
+
         return (
             <li >
 
@@ -176,66 +182,72 @@ class Book2 extends Component {
 
 
 
-                <div style={{float:"right", width:"40%"}}>
+                {!isHumbleUser?
+                    <div>
+                        <div style={{float:"right", width:"40%"}}>
 
-                    {
-                        isLabrarian ?
-                            <div>
-                                <h1>Accepted</h1>
-                                {this.renderAccepted()}
-                            </div>:
-                            <div className="delete">
-                                <button onClick={this.enqueue.bind(this,this.props.book._id)}
-                                        disabled={this.props.book.queue.in_queue(this.props.currentUser._id)||rents2.length!==0}>
-                                    Enqueue
-                                </button>
+                            {
+                                isLabrarian ?
+                                    <div>
+                                        <h1>Accepted</h1>
+                                        {this.renderAccepted()}
+                                    </div>:
+                                    <div className="delete">
+                                        <button onClick={this.enqueue.bind(this,this.props.book._id)}
+                                                disabled={this.props.book.queue.in_queue(this.props.currentUser._id)||rents2.length!==0}>
+                                            Enqueue
+                                        </button>
 
-                                <button onClick={this.dequeue.bind(this,this.props.book._id)}
-                                        disabled={!(this.props.book.queue.in_queue(this.props.currentUser._id))}>
-                                    Dequeue
-                                </button>
+                                        <button onClick={this.dequeue.bind(this,this.props.book._id)}
+                                                disabled={!(this.props.book.queue.in_queue(this.props.currentUser._id))}>
+                                            Dequeue
+                                        </button>
 
-                            </div>
-
-
-                    }
-                </div>
-
-
-                <div style={{float:"right", width:"30%"}}>
-                    {
-
-                        isLabrarian?
-                            <div className="delete">
-                                <div style={{float:"left"}}>
-                                    <h1>Queue</h1><br/>
-                                    {this.render_Queue()}
-                                </div>
-
-                                <button
-                                        onClick={this.accept.bind(this)}
-                                        disabled={!this.props.book.canAccept()||this.props.book.queue.get_all_queue().length===0}>
-                                    Accept
-                                </button>
-                                <button
-                                        disabled={this.props.book.queue.get_all_queue().length===0}
-                                        onClick={this.deny.bind(this)}>
-                                    Deny
-                                </button>
-                            </div>:
-
-
-                            <div >
-
-                                {rents2.length!==0 ? <div>
-                                        <h3>YOU RENTED THIS BOOK</h3><br/>
-                                        <pre>{rents2.join("\n")}</pre>
                                     </div>
-                                    :""}
-                            </div>
 
-                    }
-                </div>
+
+                            }
+                        </div>
+
+
+                        <div style={{float:"right", width:"30%"}}>
+                            {
+
+                                isLabrarian?
+                                    <div className="delete">
+                                        <div style={{float:"left"}}>
+                                            <h1>Queue</h1><br/>
+                                            {this.render_Queue()}
+                                        </div>
+
+                                        <button
+                                            onClick={this.accept.bind(this)}
+                                            disabled={!this.props.book.canAccept()||this.props.book.queue.get_all_queue().length===0}>
+                                            Accept
+                                        </button>
+                                        <button
+                                            disabled={this.props.book.queue.get_all_queue().length===0}
+                                            onClick={this.deny.bind(this)}>
+                                            Deny
+                                        </button>
+                                    </div>:
+
+
+                                    <div >
+
+                                        {rents2.length!==0 ? <div>
+                                                <h3>YOU RENTED THIS BOOK</h3><br/>
+                                                <pre>{rents2.join("\n")}</pre>
+                                            </div>
+                                            :""}
+                                    </div>
+
+                            }
+                        </div>
+
+                    </div>:""
+
+                }
 
 
             </li>

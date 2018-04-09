@@ -44,8 +44,8 @@ class Navigation extends Component{
                     <Route path="/" component={Home} />
 
                     <Route path="/books" component={BOOKS} />
-                    <Route exact path="/books/allbooks" component={()=>(<Allbooks books={this.props.books}/>)}/>
-                    <Route exact path="/books/allbooks2" component={()=>(<Allbooks2 books={this.props.books}/>)}/>
+                    <Route exact path="/books/rentedBooks" component={()=>(<Allbooks books={this.props.books}/>)}/>
+                    <Route exact path="/books/allbooks" component={()=>(<Allbooks2 books={this.props.books}/>)}/>
 
                     <Route path="/articles" component={ARTICLES} />
                     <Route exact path="/articles/allarticles" component={()=>(<AllArticles articles={this.props.jarticles}/>)} />

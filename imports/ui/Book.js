@@ -75,10 +75,6 @@ class Book extends Component {
         // so that we can style them nicely in CSS
 
 
-        this.props.currentUser ? rents2 = functions.getRentsViaId(this.props.book._id, this.props.currentUser._id):"";
-
-        rents2 ? rents2 = rents2.map(o =>(fun({date:o.tillDeadline}) )):"";
-
         let isLabrarian = this.props.currentUser &&
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
@@ -108,11 +104,6 @@ class Book extends Component {
                         :""
                     :""}
                     <br/>
-
-
-
-
-
 
                 </div>
 

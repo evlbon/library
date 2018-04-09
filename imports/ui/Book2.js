@@ -25,8 +25,8 @@ class User_in_Queue extends Component{
 class Accepted_users extends Component{
     constructor(props){
         super(props);
-        let t = new Date() - props.book.acceptedTimeLeft(this.props.userID);
-        t=t/1000-t%1000/1000;
+        let t = props.book.acceptedTimeLeft(this.props.userID)-new Date();
+        t=t/1000-t%1000/1000+86400;
         this.state={
             timeLeft: t,
             h:Math.ceil(t/3600),
@@ -44,13 +44,13 @@ class Accepted_users extends Component{
         this.timer=setInterval(()=>{
             console.log(this.state.timeLeft);
             let t =  this.state.timeLeft-1;
-            if(t===0){
+            if(t<=0){
                 this.te()
             }
             this.setState({
                 timeLeft : t,
-                h:Math.ceil(t/3600),
-                m:Math.ceil(t%3600/60),
+                h:parseInt(t/3600),
+                m:parseInt(t%3600/60),
                 s:t%60
             })
 
@@ -129,13 +129,24 @@ class Book2 extends Component {
     }
 
 
+
+    static fun(date )
+    {
+        if (date.date < 0)
+        {
+            let ff = - date.date;
+            return "Overdue " + ff + " days.";
+        }else return date.date + " days left.";
+    }
+
+
     render() {
 
         let rents2 = null;
 
         this.props.currentUser ? rents2 = functions.getRentsViaId(this.props.book._id, this.props.currentUser._id):"";
 
-        rents2 ? rents2 = rents2.map(o =>(fun({date:o.tillDeadline}) )):"";
+        rents2 ? rents2 = rents2.map(o =>(Book2.fun({date:o.tillDeadline}) )):"";
 
         let isLabrarian = this.props.currentUser &&
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&
@@ -173,13 +184,13 @@ class Book2 extends Component {
                                 <h1>Accepted</h1>
                                 {this.renderAccepted()}
                             </div>:
-                            <div>
-                                <button className="delete" onClick={this.enqueue.bind(this,this.props.book._id)}
-                                        disabled={this.props.book.queue.in_queue(this.props.currentUser._id)}>
+                            <div className="delete">
+                                <button onClick={this.enqueue.bind(this,this.props.book._id)}
+                                        disabled={this.props.book.queue.in_queue(this.props.currentUser._id)||rents2.length!==0}>
                                     Enqueue
                                 </button>
 
-                                <button className="delete" onClick={this.dequeue.bind(this,this.props.book._id)}
+                                <button onClick={this.dequeue.bind(this,this.props.book._id)}
                                         disabled={!(this.props.book.queue.in_queue(this.props.currentUser._id))}>
                                     Dequeue
                                 </button>
@@ -195,18 +206,18 @@ class Book2 extends Component {
                     {
 
                         isLabrarian?
-                            <div>
+                            <div className="delete">
                                 <div style={{float:"left"}}>
                                     <h1>Queue</h1><br/>
                                     {this.render_Queue()}
                                 </div>
 
-                                <button className="delete"
+                                <button
                                         onClick={this.accept.bind(this)}
-                                        disabled={!this.props.book.canAccept()}>
+                                        disabled={!this.props.book.canAccept()||this.props.book.queue.get_all_queue()!==0}>
                                     Accept
                                 </button>
-                                <button className="delete"
+                                <button
                                         disabled={this.props.book.queue.get_all_queue().length===0}
                                         onClick={this.deny.bind(this)}>
                                     Deny
@@ -214,10 +225,13 @@ class Book2 extends Component {
                             </div>:
 
 
-                            <div className="BOOKBOX2">
-                                <h1>RENTS</h1><br/>
-                                {rents2 ? <pre>{rents2.join("\n")}</pre>
-                                    :<p>Nothing</p>}
+                            <div >
+
+                                {rents2.length!==0 ? <div>
+                                        <h3>YOU RENTED THIS BOOK</h3><br/>
+                                        <pre>{rents2.join("\n")}</pre>
+                                    </div>
+                                    :""}
                             </div>
 
                     }
@@ -234,12 +248,3 @@ export default withTracker(() => {
         currentUser: Meteor.user(),
     };
 })(Book2);
-function fun( date )
-{
-    console.log(date.date);
-    if (date.date < 0)
-    {
-        let ff = - date.date;
-        return "Overdue " + ff + " days.";
-    }else return date.date + " days left.";
-}

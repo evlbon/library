@@ -98,8 +98,12 @@ class BOOKS extends Component{
                         style={{ height: '100%', borderRight: 0 }}
                     >
                         <Menu.Item key="1"><Link to="/books/allbooks">All Books </Link></Menu.Item>
-                        <Menu.Item key="2"><Link to="/books/allbooks2">All Books2 </Link></Menu.Item>
-                        {isLabrarian? <AddBookButton/>:""}
+
+                        {isLabrarian?
+                            <Menu.Item key="2"><Link to="/books/rentedBooks">Rented Books </Link></Menu.Item>:""}
+
+                        {isLabrarian?
+                            <AddBookButton/>:""}
 
 
                     </Menu>

@@ -214,7 +214,7 @@ class Book2 extends Component {
 
                                 <button
                                         onClick={this.accept.bind(this)}
-                                        disabled={!this.props.book.canAccept()||this.props.book.queue.get_all_queue()!==0}>
+                                        disabled={!this.props.book.canAccept()||this.props.book.queue.get_all_queue().length===0}>
                                     Accept
                                 </button>
                                 <button

@@ -37,6 +37,24 @@ class Home extends Component{
         return(
 
             <Layout>
+
+                <div className="smenu">
+
+                    <div align="center" style={{float:"right", overflow:"visible",height:"50px",width:"100px"}}>
+                        <AccountsUIWrapper/>
+                    </div>
+
+
+                    <div align="center" style={{float:"right", overflow:"visible",width:"120px"}}>
+                        <Badge count={numberOfNotifications}>
+                            <Popover content={content} placement="bottom" title="Yor Notifications">
+                                <button style={{margin:"24px auto auto auto"}}>Notification</button>
+                            </Popover>
+                        </Badge>
+                    </div>
+                </div>
+
+
                 <Header className="header">
                     <div className="logo" />
                     <Menu
@@ -50,22 +68,10 @@ class Home extends Component{
                         <Menu.Item key="3"><Link to="/av/allavs"><Icon type="play-circle-o" />Audio and Video </Link></Menu.Item>
                         {isLabrarian? <Menu.Item key="666"><Link to="/users/allusers"><Icon type="user" />Users </Link></Menu.Item>:""}
 
-
-                        <div align="center" style={{float:"right", overflow:"hidden",height:"50px",width:"100px"}}>
-                            <AccountsUIWrapper/>
-                        </div>
-
-
-                        <div align="center" style={{float:"right", overflow:"hidden",height:"50px",width:"120px"}}>
-                            <Badge count={numberOfNotifications}>
-                                <Popover content={content} placement="bottom" title="Yor Notifications">
-                                    <button>Notification</button>
-                                </Popover>
-                            </Badge>
-                        </div>
-
-
                     </Menu>
+
+
+
                 </Header>
 
             </Layout>

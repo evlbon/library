@@ -332,10 +332,27 @@ body {
 }
 
 .accounts-dialog{
-    width: 300px;
-    align-content: left;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    position: absolute;
+    padding: 20px;
+    overflow: hidden;
+    border: none;
+    font: normal 16px/1 "Times New Roman", Times, serif;
+    text-align: center;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    -webkit-box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+    box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3) ;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
 }
 
+.smenu{
+    position: absolute;
+    margin: 0 auto auto 75%;
+
+}
 #login-username{
     width: 70%;
 }

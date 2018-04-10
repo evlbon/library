@@ -183,10 +183,7 @@ export const Document = Class.create({
             return true;
         },
         renew(userID) {
-            let copy = this.userHas(userID);
-            console.log(userID);
-            console.log(this.userHas(userID));
-            console.log(copy);
+            let copy = this.copies.findOne({userID:userID});
             if (!copy) {
                 throw new Error('user ' + userID + ' didn\'t have this book');
             }

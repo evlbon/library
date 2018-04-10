@@ -26,7 +26,7 @@ class Home extends Component{
             user=User.findOne({libraryID : this.props.currentUser._id});
             if (user.notifications.length!==0){
                 numberOfNotifications=user.notifications.length;
-                content = user.notifications.map((notification)=>(<p>{notification.body}</p>))
+                content = user.notifications.map((notification)=>(<p key={notification.title}>{notification.body}</p>))
             }
         }
 
@@ -45,10 +45,10 @@ class Home extends Component{
                     </div>
 
 
-                    <div align="center" style={{float:"right", overflow:"visible",width:"120px"}}>
+                    <div align="center" style={{float:"right", overflow:"visible",width:"120px",margin:"20px auto auto auto"}}>
                         <Badge count={numberOfNotifications}>
                             <Popover content={content} placement="bottom" title="Yor Notifications">
-                                <button style={{margin:"24px auto auto auto"}}>Notification</button>
+                                <button >Notification</button>
                             </Popover>
                         </Badge>
                     </div>

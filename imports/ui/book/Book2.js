@@ -67,7 +67,7 @@ class Accepted_users extends Component{
     f(){
         clearInterval(this.timer);
         Meteor.call("checkOut",{userID:this.props.userID, documentID:this.props.book._id});
-        Meteor.call("delNotification",{userID:this.props.userID,title:"Take your book"});
+        Meteor.call("delNotification",{userID:this.props.userID,title:this.props.book.title});
     }
 
     render(){
@@ -198,16 +198,16 @@ class Book2 extends Component {
 
                                     <div className="delete">
                                         <button onClick={this.enqueue.bind(this,this.props.book._id)}
-                                                disabled={this.props.book.queue.in_queue(this.props.currentUser._id)||rents2.length!==0}>
+                                                disabled={this.props.currentUser&&(this.props.book.queue.in_queue(this.props.currentUser._id)||rents2.length!==0)}>
                                             Enqueue
                                         </button>
 
                                         <button onClick={this.dequeue.bind(this,this.props.book._id)}
-                                                disabled={!(this.props.book.queue.in_queue(this.props.currentUser._id))}>
+                                                disabled={this.props.currentUser&&(!(this.props.book.queue.in_queue(this.props.currentUser._id)))}>
                                             Dequeue
                                         </button>
                                         <button
-                                            disabled={!(this.props.book.userHas(this.props.currentUser._id))}
+                                            disabled={this.props.currentUser&&(!(this.props.book.userHas(this.props.currentUser._id)))}
                                             onClick={this.props.book.renew.bind(this,this.props.currentUser._id)}>
                                             Renew
                                         </button>

@@ -8,25 +8,17 @@ import * as functions from "../models/documents/functions"
 import {EditBook} from "../api/editBook";
 import { Popover, Button } from 'antd';
 
-const content = (
-    <div>
-        <p>Content</p>
-        <p>Content</p>
-        <p>Content</p>
-        <p>Content</p>
-        <p>Content</p>
-        <p>Content</p>
-        <p>Content</p>
-        <p>Content</p>
-    </div>
-);
 
 class OutUsers extends Component{
+    f(){
+        Meteor.call('outstandingRequest', {userID: this.props.user.libraryID, documentID: this.props.book._id});
+    }
+
     render(){
         return(
 
             <div>
-                <button style={{width:"150px", margin:"1px"}}>{this.props.user.name}</button><br/>
+                <button style={{width:"150px", margin:"1px"}} onClick={this.f.bind(this)}>{this.props.user.name}</button><br/>
             </div>
         )
 
@@ -77,7 +69,7 @@ class Book extends Component {
     renderOutUsers(){
         return(
             <div>
-                {functions.allUsers().map((user)=>(<OutUsers key={user.libraryID} user={user} book={this.props.book}/>))}
+                {functions.allPatrons().map((user)=>(<OutUsers key={user.libraryID} user={user} book={this.props.book}/>))}
             </div>
         )
     }

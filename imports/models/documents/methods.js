@@ -161,6 +161,9 @@ Meteor.methods({
  */
 Meteor.methods({
 
+    'allPatrons' () {
+        return User.find({group: { $in: [ 'Student', 'Professor', 'TA', 'Instructor', 'Visiting' ] }})
+    },
 
     'addAdmin' ({ id,name }) {
         Admin.insert({
@@ -319,7 +322,7 @@ Meteor.methods({
         if(S===0)
             str = "HumbleUser";
         else
-            str = S===1? "Librarian":S===2?"Student":S===3?"Visiting Professor":S===4?"Professor":S===5?"Instructor":"Teaching Assistant";
+            str = S===1? "Librarian":S===2?"Student":S===3?"Visiting":S===4?"Professor":S===5?"Instructor":"TA";
         User.update({libraryID:id},{$set:{group:str}});
         return id;
     },
@@ -345,13 +348,9 @@ Meteor.methods({
 
     'getDocument' (documentID) {
 
-        console.log("WW0.5 " + documentID);
-
         let document = Books.findOne({_id: documentID});
         if(!document) document = JournalArticle.findOne({_id:documentID}); // new
         if(!document) document = AVs.findOne({_id:documentID}); // new
-
-        console.log("WW1" + document);
 
         return document;
     },

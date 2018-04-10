@@ -2,8 +2,8 @@ import {Component} from "react";
 import React from "react";
 import {Meteor} from "meteor/meteor";
 import {User} from "../../models/users/user";
-import Users from "../User"
-import Users2 from "../User2"
+import Users from "./User"
+import Users2 from "./User2"
 import { withTracker } from 'meteor/react-meteor-data';
 import {Librarian} from "../../models/users/librarian";
 

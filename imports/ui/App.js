@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import AccountsUIWrapper from '../AccountsUIWrapper.js';
-import {Librarian} from "../../models/users/librarian"
-import {User} from "../../models/users/user";
+import AccountsUIWrapper from './users/AccountsUIWrapper.js';
+import {Librarian} from "../models/users/librarian"
+import {User} from "../models/users/user";
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import {BrowserRouter, Route, Link} from "react-router-dom"
 import 'antd/dist/antd.css';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import {Layout, Menu, Breadcrumb, Icon, Popover, Button} from 'antd';
+import { Badge } from 'antd';
+
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -17,6 +19,17 @@ const { Header, Content, Sider } = Layout;
 class Home extends Component{
 
     render(){
+        let user = null;
+        let numberOfNotifications=0;
+        let content=<p>Nothing</p>;
+        if(this.props.currentUser && User.findOne({libraryID : this.props.currentUser._id})){
+            user=User.findOne({libraryID : this.props.currentUser._id});
+            if (user.notifications.length!==0){
+                numberOfNotifications=user.notifications.length;
+                content = user.notifications.map((notification)=>(<p>{notification.body}</p>))
+            }
+        }
+
 
         let isLabrarian = this.props.currentUser &&
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&
@@ -31,12 +44,27 @@ class Home extends Component{
                         mode="horizontal"
                         style={{ lineHeight: '64px' }}
                     >
-                        <Menu.Item key="0"><AccountsUIWrapper/></Menu.Item>
                         <Menu.Item key="1"><Link to="/books/allbooks"><Icon type="book" />Books </Link></Menu.Item>
 
                         <Menu.Item key="2"><Link to="/articles/allarticles"><Icon type="profile" />Articles </Link></Menu.Item>
-                        <Menu.Item key="3"><Link to="/av"><Icon type="play-circle-o" />Audio and Video </Link></Menu.Item>
-                        {isLabrarian? <Menu.Item key="666"><Link to="/users"><Icon type="user" />Users </Link></Menu.Item>:""}
+                        <Menu.Item key="3"><Link to="/av/allavs"><Icon type="play-circle-o" />Audio and Video </Link></Menu.Item>
+                        {isLabrarian? <Menu.Item key="666"><Link to="/users/allusers"><Icon type="user" />Users </Link></Menu.Item>:""}
+
+
+                        <div align="center" style={{float:"right", overflow:"hidden",height:"50px",width:"100px"}}>
+                            <AccountsUIWrapper/>
+                        </div>
+
+
+                        <div align="center" style={{float:"right", overflow:"hidden",height:"50px",width:"120px"}}>
+                            <Badge count={numberOfNotifications}>
+                                <Popover content={content} placement="bottom" title="Yor Notifications">
+                                    <button>Notification</button>
+                                </Popover>
+                            </Badge>
+                        </div>
+
+
                     </Menu>
                 </Header>
 

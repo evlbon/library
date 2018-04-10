@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import {Meteor} from "meteor/meteor";
-import {Author} from "../models/utility/author";
-import {Librarian} from "../models/users/librarian";
-import * as functions from "../models/documents/functions";
-import {User} from "../models/users/user";
-import {EditBook} from "../api/editBook";
-import {EditArticle} from "../api/editArticle";
+import {Author} from "../../models/utility/author";
+import {Librarian} from "../../models/users/librarian";
+import * as functions from "../../models/documents/functions";
+import {User} from "../../models/users/user";
+import {EditBook} from "../../api/editBook";
+import {EditArticle} from "../../api/editArticle";
 class Article extends Component {
 
 

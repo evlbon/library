@@ -9,7 +9,7 @@ import 'antd/dist/antd.css';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
 import {BrowserRouter, Route, Link} from "react-router-dom"
-import AV from "../AV";
+import AV from "./AV";
 import AddAVButton from "../../api/AddAVButton";
 
 const { SubMenu } = Menu;

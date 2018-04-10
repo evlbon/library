@@ -1,5 +1,19 @@
 import { Class } from 'meteor/jagi:astronomy';      // Importing extension library astronomy
-import { Enum } from 'meteor/jagi:astronomy';;
+import { Enum } from 'meteor/jagi:astronomy';
+
+export  const Notification = Class.create({
+    name: "Notification",
+    fields:{
+        body:{
+            type: String,
+        },
+        title:{
+            type: String,
+        }
+
+    },
+
+});
 
 export const User = Class.create({                  // Main class of users
     name: 'User',
@@ -32,6 +46,10 @@ export const User = Class.create({                  // Main class of users
             type: Number,
             optional: true,
         },
+        notifications:{
+            type: [Notification],
+            default: [],
+        }
     },
 
     helpers: {                                      // Commands that can be performed on a user class
@@ -43,17 +61,13 @@ export const User = Class.create({                  // Main class of users
                 this.group = "Librarian";
             else this.group = "Faculty";
         },
-        getInfo() {
 
+        addNotification: function (body,title) {
+            this.notifications.push(new Notification({body:body,title:title}))
         },
-        changeName() {
 
-        },
-        changeAddress() {
-
-        },
-        changePhone() {
-
+        delNotification: function (title) {
+            this.notifications.splice(this.notifications.indexOf({title:title}))
         },
     },
 });

@@ -3,7 +3,7 @@ import React from "react";
 import {Meteor} from "meteor/meteor";
 import {Books} from "../../models/documents/book";
 import { withTracker } from 'meteor/react-meteor-data';
-import Book from "../Book";
+import Book from "./Book";
 import AddBookButton from "../../api/AddBookButton";
 import {Librarian} from "../../models/users/librarian";
 
@@ -11,7 +11,7 @@ import 'antd/dist/antd.css';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
 import {BrowserRouter, Route, Link} from "react-router-dom"
-import Book2 from "../Book2";
+import Book2 from "./Book2";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;

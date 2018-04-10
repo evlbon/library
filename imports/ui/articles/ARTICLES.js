@@ -9,7 +9,7 @@ import 'antd/dist/antd.css';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 
 import {BrowserRouter, Route, Link} from "react-router-dom"
-import Article from "../Article";
+import Article from "./Article";
 import AddArticleButton from "../../api/AddArticleButton";
 
 const { SubMenu } = Menu;

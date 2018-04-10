@@ -8,7 +8,7 @@ import { Author } from "../utility/author";
 import { check } from 'meteor/check'
 import { Match } from 'meteor/check'
 import { Copy, Document } from "./document"
-import Article from "../../ui/Article";
+import Article from "../../ui/articles/Article";
 import { Student } from "../users/student";
 import { Faculty } from "../users/faculty";
 
@@ -102,5 +102,5 @@ export function allUsers() {
 }
 
 export function allPatrons() {
-    return User.find({group: { $in: [ 'Student', 'Professor' /*TODO add others*/  ] }})
+    return User.find({group: { $in: [ 'Student', 'Professor', 'TA', 'Instructor', 'Visiting' ] }})
 }

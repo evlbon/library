@@ -5,7 +5,7 @@ import {Copy, Document} from "./document"
 import {Librarian} from "../users/librarian";
 import {JournalArticle} from "./journal_article";
 import {AVs} from "./av"
-import Book from "../../ui/Book";
+import Book from "../../ui/book/Book";
 import * as functions from "./functions";
 
 

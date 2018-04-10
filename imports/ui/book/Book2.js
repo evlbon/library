@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from "meteor/meteor";
-import { Author } from "../models/utility/author";
-import {Librarian} from "../models/users/librarian";
-import {User} from "../models/users/user";
-import * as functions from "../models/documents/functions"
-import {EditBook} from "../api/editBook";
+import { Author } from "../../models/utility/author";
+import {Librarian} from "../../models/users/librarian";
+import {User} from "../../models/users/user";
+import * as functions from "../../models/documents/functions"
+import {EditBook} from "../../api/editBook";
 
 // Book component - represents a single todo item
 
@@ -59,13 +59,15 @@ class Accepted_users extends Component{
         }, 1000);
     }
     te(){
-        this.f();
+        clearInterval(this.timer);
+        Meteor.call("checkOut",{userID:this.props.userID, documentID:this.props.book._id});
         Meteor.call("returnDocument",{userID:this.props.userID, documentID:this.props.book._id});
     }
 
     f(){
         clearInterval(this.timer);
         Meteor.call("checkOut",{userID:this.props.userID, documentID:this.props.book._id});
+        Meteor.call("delNotification",{userID:this.props.userID,title:"Take your book"});
     }
 
     render(){
@@ -100,7 +102,7 @@ class Book2 extends Component {
     }
 
     accept(){
-        Meteor.call("accept",{documentID : this.props.book._id})
+        Meteor.call("accept",{documentID : this.props.book._id});
     }
     deny(){
         Meteor.call("deny",{documentID : this.props.book._id})

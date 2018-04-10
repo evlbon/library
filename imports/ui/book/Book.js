@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from "meteor/meteor";
-import { Author } from "../models/utility/author";
-import {Librarian} from "../models/users/librarian";
-import {User} from "../models/users/user";
-import * as functions from "../models/documents/functions"
-import {EditBook} from "../api/editBook";
+import { Author } from "../../models/utility/author";
+import {Librarian} from "../../models/users/librarian";
+import {User} from "../../models/users/user";
+import * as functions from "../../models/documents/functions"
+import {EditBook} from "../../api/editBook";
 import { Popover, Button } from 'antd';
 
 

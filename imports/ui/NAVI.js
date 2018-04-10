@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import {Librarian} from "../../models/users/librarian"
-import {User} from "../../models/users/user";
+import {Librarian} from "../models/users/librarian"
+import {User} from "../models/users/user";
 
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import {BrowserRouter, Route, Link} from "react-router-dom"
-import BOOKS, {Allbooks, Allbooks2} from "./BOOKS";
-import ARTICLES, {AllArticles} from "./ARTICLES";
-import AaV, {AllAVs} from "./AaV";
-import USERS, {AllUsers, UserStories} from "./USERS";
+import BOOKS, {Allbooks, Allbooks2} from "./book/BOOKS";
+import ARTICLES, {AllArticles} from "./articles/ARTICLES";
+import AaV, {AllAVs} from "./av/AaV";
+import USERS, {AllUsers, UserStories} from "./users/USERS";
 import Home from "./App";
-import {Books} from "../../models/documents/book";
-import {JournalArticle} from "../../models/documents/journal_article";
-import {AVs} from "../../models/documents/av";
+import {Books} from "../models/documents/book";
+import {JournalArticle} from "../models/documents/journal_article";
+import {AVs} from "../models/documents/av";
 
 
 

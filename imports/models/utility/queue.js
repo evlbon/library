@@ -30,17 +30,20 @@ export const Queue = Class.create({
     },
     helpers: {
         get_all_queue: function () {
-            return this.queue_of_students.concat(
-                this.queue_of_instructors.concat(
-                    this.queue_of_TAs.concat(
-                        this.queue_of_visiting.concat(
-                            this.queue_of_professors
+            return this.outstanding_requests.concat(
+                this.queue_of_students.concat(
+                    this.queue_of_instructors.concat(
+                        this.queue_of_TAs.concat(
+                            this.queue_of_visiting.concat(
+                                this.queue_of_professors
+                            )
                         )
                     )
                 )
-            );
+            )
         },
         in_queue: function (id) {
+
             let a = this.get_all_queue().indexOf(id);
             return a >= 0;
         },

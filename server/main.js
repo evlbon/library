@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import '../imports/models/documents/book';
 import '../imports/models/documents/journal_article';
-import '../imports/models/documents/methods'
+import '../imports/methods/index'
 import '../imports/models/documents/tests1'
 
 import '../imports/models/documents/tests2'

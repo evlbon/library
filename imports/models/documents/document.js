@@ -191,6 +191,15 @@ export const Document = Class.create({
             this.save();
         },
 
+        shiftCheckOutDate(userID, days) {
+            let copy = this.copies.findOne({userID:userID});
+            if (!copy) {
+                throw new Error('user ' + userID + ' didn\'t have this book');
+            }
+            copy.checked_out_date += 864e5 * days;
+            this.save();
+        },
+
 
         // todo OBSOLETE HELPERS \/ don't delete em to not fuck up the project. Will be deleted when there is no links to obsolete methods/helpers
         // canCheckOut(userID) {

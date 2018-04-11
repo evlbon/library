@@ -36,4 +36,17 @@ Meteor.methods({
             throw Error('User can\'t renew a book, because he doesn\'t have it');
         }
     },
+
+    'shiftCheckOutDate' ({ userID, documentID, days }) {
+
+        let user = User.findOne({libraryID: userID});
+        let document = Meteor.call("getDocument",  documentID);
+        if (!(user && document)) throw Error('Incorrect id of user or document');
+
+        if (document.userHas(userID)) {
+            document.shiftCheckOutDate(userID, days);
+        } else {
+            throw Error('We can\'t shift checked_out_date, because the user doesn\'t have the doc');
+        }
+    },
 });

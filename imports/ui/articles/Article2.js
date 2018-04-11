@@ -103,6 +103,7 @@ class Article2 extends Component {
     render_Queue(){
         let queue = this.props.jarticle.queue.get_all_queue();
 
+
         return(
 
             <div>

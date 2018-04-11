@@ -17,16 +17,23 @@ const { Header, Content, Sider } = Layout;
 
 
 class Home extends Component{
+    del(){
+        Meteor.call("delAllNotification",{userID:this.props.currentUser._id})
+    }
 
     render(){
         let user = null;
         let numberOfNotifications=0;
+
         let content=<p>Nothing</p>;
         if(this.props.currentUser && User.findOne({libraryID : this.props.currentUser._id})){
             user=User.findOne({libraryID : this.props.currentUser._id});
             if (user.notifications.length!==0){
                 numberOfNotifications=user.notifications.length;
-                content = user.notifications.map((notification)=>(<p key={notification.title}>{notification.body}</p>))
+                content = <div>
+                    {user.notifications.map((notification)=>(<p key={notification.title}>{notification.body}</p>))}
+                    <button onClick={this.del.bind(this)}>clear</button>
+                </div>
             }
         }
 

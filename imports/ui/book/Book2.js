@@ -115,6 +115,9 @@ class Book2 extends Component {
 
     render_Queue(){
         let queue = this.props.book.queue.get_all_queue();
+        if(this.props.book.queue.outstanding_requests.length>0){
+            queue = this.props.book.queue.outstanding_requests
+        }
 
         return(
 

@@ -1,6 +1,7 @@
 import {Books} from "../models/documents/book";
 import {User} from "../models/users/user";
 import {Meteor} from "meteor/meteor";
+import * as functions from "../models/documents/functions";
 
 Meteor.methods({
     'enqueue' ({ userID, documentID }) {
@@ -45,6 +46,12 @@ Meteor.methods({
     'outstandingRequest'({ userID, documentID }) {
 
         let document = Meteor.call("getDocument",  documentID);
+
+        if(document.available()===0){
+            let users = functions.getRenters(document._id);
+            users.map((userr)=>( Meteor.call("addNotification",{userID:userr.libraryID,title:"return "+document.title,body:"You should return '"+document.title+"'"})))
+
+        }
 
         if(document.queue.in_queue(userID)){
             let user = User.findOne({libraryID: userID});

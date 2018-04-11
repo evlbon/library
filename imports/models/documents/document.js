@@ -202,26 +202,8 @@ export const Document = Class.create({
             if (!copy) {
                 throw new Error('user ' + userID + ' didn\'t have this book');
             }
-            copy.checked_out_date += 864e5 * days;
-            // throw Error(copy.checked_out_date + " " + new Date(copy.checked_out_date + 864e5 * days));
-            // throw Error(" " + copy.checked_out_date.getMilliseconds());
+            copy.checked_out_date = new Date(new Date(copy.checked_out_date).getTime() + 864e5 * days)
             this.save();
         },
-
-
-        // todo OBSOLETE HELPERS \/ don't delete em to not fuck up the project. Will be deleted when there is no links to obsolete methods/helpers
-        // canCheckOut(userID) {
-        //     return !this.userHas(userID) && this.available()
-        // },
-        // checkOut(userID) {
-        //     let copy = this.copies.find(o => !(o.checked_out_date || o.reference));
-        //     if (copy) {
-        //         copy.checked_out_date = new Date();
-        //         copy.userID = userID;
-        //         this.save();
-        //         return true;
-        //     } else
-        //         return false;
-        // },
     },
 });

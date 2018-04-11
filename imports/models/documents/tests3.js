@@ -103,12 +103,12 @@ Meteor.methods({
             libId: 1100
         }));
 
-        // STUDENT AND VP
+        // STUDENT AND visiting
         let HumbleUser5 = Meteor.call('addUser', ({name: "Student", password: pass1}));
-        let HumbleUser6 = Meteor.call('addUser', ({name: "VP", password: pass1}));
+        let HumbleUser6 = Meteor.call('addUser', ({name: "visiting", password: pass1}));
 
         let Student = Meteor.call('ModifyUser', ({id: Meteor.users.findOne({username: "Student"})._id, S: 2}));
-        let VP = Meteor.call('ModifyUser', ({id: Meteor.users.findOne({username: "VP"})._id, S: 3}));
+        let visiting = Meteor.call('ModifyUser', ({id: Meteor.users.findOne({username: "visiting"})._id, S: 3}));
 
         Meteor.call('ModifyUserProperties', ({
             id: Meteor.users.findOne({username: "Student"})._id,
@@ -118,7 +118,7 @@ Meteor.methods({
             libId: 1101
         }));
         Meteor.call('ModifyUserProperties', ({
-            id: Meteor.users.findOne({username: "VP"})._id,
+            id: Meteor.users.findOne({username: "visiting"})._id,
             name: "Veronika Rama",
             phone: 30005,
             address: "Stret Atocha, 27",
@@ -133,13 +133,13 @@ Meteor.methods({
         Meteor.call("accept",{documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
         Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
 
-        Meteor.call("shiftCheckOutDate",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id, days: -27});
+        //Meteor.call("shiftCheckOutDate",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id, days: -27});
 
-       // Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
-        // Meteor.call("accept",{documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
-        // Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor2"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
 
-        //Meteor.call("returnDocument",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("returnDocument",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
     },
 
     'test3-2'(){
@@ -148,113 +148,140 @@ Meteor.methods({
         Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
         Meteor.call("accept",{documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
         Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
-        Meteor.call("shiftCheckOutDate",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id, date: -27});
 
         Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
         Meteor.call("accept",{documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
         Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
-        Meteor.call("shiftCheckOutDate",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id, date: -27});
 
         Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
         Meteor.call("accept",{documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
         Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
-        Meteor.call("shiftCheckOutDate",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id, date: -27});
 
         Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
         Meteor.call("accept",{documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
         Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
-        Meteor.call("shiftCheckOutDate",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id, date: -27});
 
-        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"VP"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
         Meteor.call("accept",{documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"VP"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
-        Meteor.call("shiftCheckOutDate",{userID:Meteor.users.findOne({username:"VP"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id, date: -27});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
 
-        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"VP"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
         Meteor.call("accept",{documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"VP"}).id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
-        Meteor.call("shiftCheckOutDate",{userID:Meteor.users.findOne({username:"VP"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id, date: -27});
-
-        // Calculate fines
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"visiting"}).id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
         },
     'test3-3'(){
         Meteor.call('clr_bd3');
 
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
         Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"VP"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
 
-        /**
-         * Professor 1 renew D1
-         * Student renew D2
-         * VP renew D2
-         * check info
-         **/
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+
+        Meteor.call("renewDocument",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
+        Meteor.call("renewDocument",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("renewDocument",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+
     },
 
     'test3-4'(){
         Meteor.call('clr_bd3');
 
 
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
         Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"VP"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
 
-        /**
-         *   Outstanding request on d2
-         *   p1 renew d1
-         *   s renew d2
-         *   vp renew d2
-         *   Check info
-         */
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+
+        Meteor.call("outstandingRequest",{userID:Meteor.users.findOne({username:"Professor2"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+
+        Meteor.call("renewDocument",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
+        //Meteor.call("renewDocument",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        //Meteor.call("renewDocument",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+
     },
+
     'test3-5'(){
         Meteor.call('clr_bd3');
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"VP"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
 
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        //Meteor.call("accept",{documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        //Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
     },
     'test3-6'(){
         Meteor.call('clr_bd3');
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
         Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor2"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
         Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor2"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"VP"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor3"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        //Meteor.call("accept",{documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        //Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        //Meteor.call("accept",{documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        //Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor3"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        //Meteor.call("accept",{documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+        //Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor3"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
 
     },
     'test3-7'(){
         Meteor.call('test3-6');
-        /**
-         * Outstanding for d3
-         */
+        Meteor.call("outstandingRequest",{userID:Meteor.users.findOne({username:"Professor3"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+
     },
 
     'test3-8'(){
         Meteor.call('test3-6');
-        /**
-         P2 returns d3
-         notification for Student that doc is available
-         */
+        Meteor.call("returnDocument",{userID:Meteor.users.findOne({username:"Professor2"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
     },
     'test3-9'(){
         Meteor.call('test3-6');
-        /**
-         * p1 renew d3
-         * same Wait list + new deadline
-         */
+        Meteor.call("renewDocument",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Null References: The Billion Dollar Mistake'})._id});
+
     },
     'test3-10'(){
         Meteor.call('clr_bd3');
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
         Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
-        /**
-         * P1 renew D1
-         */
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Visiting"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
-        /**
-         * VP renew D1
-         */
+
+        Meteor.call("renewDocument",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
+        Meteor.call("accept",{documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
+
+        Meteor.call("renewDocument",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
 
     }
 

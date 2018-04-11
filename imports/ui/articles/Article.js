@@ -15,6 +15,7 @@ import {Button, Popover} from "antd";
 class OutUsers extends Component{
     f(){
         Meteor.call('outstandingRequest', {userID: this.props.user.libraryID, documentID: this.props.jarticle._id});
+
     }
 
     render(){

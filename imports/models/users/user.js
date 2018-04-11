@@ -69,5 +69,8 @@ export const User = Class.create({                  // Main class of users
         delNotification: function (title) {
             this.notifications.splice(this.notifications.indexOf({title:title}))
         },
+        delAllNotification: function () {
+            this.notifications=[]
+        },
     },
 });

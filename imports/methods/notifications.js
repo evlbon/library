@@ -17,4 +17,14 @@ Meteor.methods({
         user.save();
 
     },
+
+    'delAllNotification'({userID}) {
+
+        let user = User.findOne({libraryID: userID});
+        user.delAllNotification();
+        user.save();
+
+    },
+
+
 });

@@ -12,6 +12,11 @@ import { Popover, Button } from 'antd';
 class OutUsers extends Component{
     f(){
         Meteor.call('outstandingRequest', {userID: this.props.user.libraryID, documentID: this.props.book._id});
+        if(this.props.book.available()===0){
+            let users = functions.getRenters(this.props.book._id);
+            users.map((user)=>( Meteor.call("addNotification",{userID:user.libraryID,title:"return "+this.props.book.title,body:"You should return '"+document.title+"'"})))
+
+        }
     }
 
     render(){

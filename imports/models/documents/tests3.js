@@ -133,13 +133,13 @@ Meteor.methods({
         Meteor.call("accept",{documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
         Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id});
 
-        Meteor.call("shiftCheckOutDate",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id, date: -27});
+        Meteor.call("shiftCheckOutDate",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Introduction to Algorithms'})._id, days: -27});
 
-        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
-        Meteor.call("accept",{documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
-        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+       // Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        // Meteor.call("accept",{documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        // Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
 
-        Meteor.call("returnDocument",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
+        //Meteor.call("returnDocument",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:Books.findOne({title:'Design Patterns: Elements of Reusable Object-Oriented Software'})._id});
     },
 
     'test3-2'(){

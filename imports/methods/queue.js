@@ -53,6 +53,9 @@ Meteor.methods({
 
         }
 
+        let q = document.queue.getQueueWithoutOutstand();
+        q.map((u)=>(Meteor.call("addNotification",{userID:u,title:"r",body:"We have "+(document.queue.outstanding_requests.length+1)+" outstanding requests in "+document.title+" usual queue will return when they get documents"})));
+
         if(document.queue.in_queue(userID)){
             let user = User.findOne({libraryID: userID});
 

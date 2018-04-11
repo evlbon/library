@@ -34,7 +34,7 @@ Meteor.methods({
 
         document.accept(userID);
         Meteor.call('dequeue', {userID: userID, documentID: documentID});
-        Meteor.call("addNotification",{userID:userID,title:document.title,body:"You should go to library and take your book"+" '"+document.title+"'"});
+        Meteor.call("addNotification",{userID:userID,title:document.title,body:"You should go to library and take your '"+document.title+"'"});
     },
     'deny' ({ documentID }) {  // accept first person in the queue
         let document = Books.findOne({_id: documentID});

@@ -46,7 +46,7 @@ class UserWithBook extends Component{
         let o = this.props.user;
         return(
             <div>
-                {o.name + '" | '+this.fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.book._id)}
+                {o.name + ' | '+this.fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.book._id)}
                 <button onClick={this.returnBook.bind(this)}
                         disabled={!(functions.hasDocument(o.libraryID, this.props.book._id))}>
                     Return
@@ -63,7 +63,7 @@ class Book extends Component {
 
 
     deleteThisBook() {
-        Meteor.call('documents.delBook',{id : this.props.book._id, name: ["yury", "jojo" ]})
+        Meteor.call('documents.delBook',{id : this.props.book._id})
     }
 
     renderOutUsers(){

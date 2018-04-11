@@ -109,9 +109,7 @@ input:invalid:not(:placeholder-shown) {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
-    width: auto;
     padding: -5px;
-    overflow: hidden;
     border: none;
     font: normal 16px/1 "Times New Roman", Times, serif;
     color: rgba(0,0,0,1);
@@ -119,6 +117,8 @@ input:invalid:not(:placeholder-shown) {
     text-overflow: ellipsis;
     background: #ffffff;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.2) ;
+    width: 30%;
+    overflow: scroll;
 }
 
 .BOOKBOX2 {

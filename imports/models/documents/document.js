@@ -173,9 +173,9 @@ export const Document = Class.create({
             return true;
         },
         checkOut(userID) {  //new. librarian executes it when a patron finally comes to take a book
-            let copy = this.copies.find(o => (o.acceptance_date && o.usersID === userID));
+            let copy = this.copies.find(o => o.acceptance_date && (o.userID === userID));
             if (!copy) {
-                throw new Error( 'Trying to checkout a book but the user weren\'t accepted or smth' );
+                throw new Error('Trying to checkout a book but the user weren\'t accepted or smth' );
             }
             copy.checked_out_date = new Date();
             copy.acceptance_date = null;
@@ -183,8 +183,7 @@ export const Document = Class.create({
             return true;
         },
         renew(userID) {
-            console.log(this.copies);
-            let copy = this.copies.find(o => o.checked_out_date && o.userID === userID);
+            let copy = this.copies.find(o => o.checked_out_date && (o.userID === userID));
             if (!copy) {
                 throw new Error('user ' + userID + ' didn\'t have this book');
             }

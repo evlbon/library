@@ -96,6 +96,10 @@ class Book2 extends Component {
     dequeue(id){
         Meteor.call("dequeue",{userID:this.props.currentUser._id, documentID:id});
     }
+    renew(id){
+        console.log(id);
+        Meteor.call("renewDocument",{userID:this.props.currentUser._id, documentID:id});
+    }
 
     returnBook(id){
         Meteor.call("returnDocument",{userID:this.props.currentUser._id, documentID:id});
@@ -197,18 +201,20 @@ class Book2 extends Component {
                                     </div>:
 
                                     <div className="delete">
-                                        <button onClick={this.enqueue.bind(this,this.props.book._id)}
-                                                disabled={this.props.currentUser&&(this.props.book.queue.in_queue(this.props.currentUser._id)||rents2.length!==0)}>
+                                        <button
+                                            onClick={this.enqueue.bind(this,this.props.book._id)}
+                                            disabled={this.props.currentUser&&(this.props.book.queue.in_queue(this.props.currentUser._id)||rents2.length!==0)}>
                                             Enqueue
                                         </button>
 
-                                        <button onClick={this.dequeue.bind(this,this.props.book._id)}
-                                                disabled={this.props.currentUser&&(!(this.props.book.queue.in_queue(this.props.currentUser._id)))}>
+                                        <button
+                                            onClick={this.dequeue.bind(this,this.props.book._id)}
+                                            disabled={this.props.currentUser&&(!(this.props.book.queue.in_queue(this.props.currentUser._id)))}>
                                             Dequeue
                                         </button>
                                         <button
-                                            disabled={this.props.currentUser&&(!(this.props.book.userHas(this.props.currentUser._id)))}
-                                            onClick={this.props.book.renew.bind(this,this.props.currentUser._id)}>
+                                            onClick={this.renew.bind(this,this.props.book._id)}
+                                            disabled={this.props.currentUser&&(!(this.props.book.userHas(this.props.currentUser._id)))}>
                                             Renew
                                         </button>
 

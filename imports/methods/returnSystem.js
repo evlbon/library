@@ -37,8 +37,8 @@ Meteor.methods({
         }
     },
 
-    'shiftCheckOutDate' ({ userID, documentID, days }) {
 
+    'shiftCheckOutDate' ({ userID, documentID, days }) {
         let user = User.findOne({libraryID: userID});
         let document = Meteor.call("getDocument",  documentID);
         if (!(user && document)) throw Error('Incorrect id of user or document');

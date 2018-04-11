@@ -87,16 +87,22 @@ export const Document = Class.create({
             let renterID = copy.userID;
             let duration;
 
-            if (User.findOne({libraryID: renterID}).group === 'Faculty') {
+            if (User.findOne({libraryID: renterID}).group === 'Student') {
+                duration = 3*7;
+            } else if (User.findOne({libraryID: renterID}).group === 'Instructor') {
                 duration = 4*7;
-            } else {
-                duration = this.bestseller ? 2*7 : 3*7;
+            } else if (User.findOne({libraryID: renterID}).group === 'TA') {
+                duration = 4*7;
+            } else if (User.findOne({libraryID: renterID}).group === 'Visiting') {
+                duration = 1*7;
+            } else if (User.findOne({libraryID: renterID}).group === 'Professor') {
+                duration = 4*7;
             }
 
             return Math.floor((copy.checked_out_date - new Date()) / 864e5) + duration;
         },
         calculateFee: function (userID) {
-            let fee = this.tillDeadline(userID) * 100;
+            let fee = -this.tillDeadline(userID) * 100;
             return Math.max(0, Math.min(fee, this.price));
         },
         renters: function () {
@@ -197,6 +203,8 @@ export const Document = Class.create({
                 throw new Error('user ' + userID + ' didn\'t have this book');
             }
             copy.checked_out_date += 864e5 * days;
+            // throw Error(copy.checked_out_date + " " + new Date(copy.checked_out_date + 864e5 * days));
+            // throw Error(" " + copy.checked_out_date.getMilliseconds());
             this.save();
         },
 

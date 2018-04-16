@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from "meteor/meteor";
-import * as functions from "../../models/documents/functions"
+import * as functions from "../../methods/functions"
 import {User} from "../../models/users/user";
 import { Author } from "../../models/utility/author";
 import {Librarian} from "../../models/users/librarian";

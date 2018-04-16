@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {Meteor} from "meteor/meteor";
 import ReactDOM from 'react-dom';
 import {Copy} from "../models/documents/document";
-import * as functions from "../models/documents/functions"
+import * as functions from "../methods/functions"
 
 import { withTracker } from 'meteor/react-meteor-data';
 import {Librarian} from "../models/users/librarian";

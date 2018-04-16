@@ -1,16 +1,16 @@
-import { Books } from "./book";
-import { JournalArticle } from "./journal_article"
+import { Books } from "../models/documents/book";
+import { JournalArticle } from "../models/documents/journal_article"
 import { Meteor } from 'meteor/meteor';
-import { User } from "../users/user";
-import {AVs} from "./av";
-import { Librarian} from "../users/librarian";
-import { Author } from "../utility/author";
+import { User } from "../models/users/user";
+import {AVs} from "../models/documents/av";
+import { Librarian} from "../models/users/librarian";
+import { Author } from "../models/utility/author";
 import { check } from 'meteor/check'
 import { Match } from 'meteor/check'
-import { Copy, Document } from "./document"
-import Article from "../../ui/articles/Article";
-import { Student } from "../users/student";
-import { Faculty } from "../users/faculty";
+import { Copy, Document } from "../models/documents/document"
+import Article from "../ui/articles/Article";
+import { Student } from "../models/users/student";
+import { Faculty } from "../models/users/faculty";
 
 export function getUsersBooks(userID) {
     let books = [];
@@ -104,3 +104,27 @@ export function allUsers() {
 export function allPatrons() {
     return User.find({group: { $in: [ 'Student', 'Professor', 'TA', 'Instructor', 'Visiting' ] }})
 }
+
+
+export function preTime(id,userID) {
+    let users = getRenters(id);
+    let minT = 9999999;
+    users.forEach(function(item) {
+        if(item.tillDeadline<minT){
+            minT=item.tillDeadline;
+        }
+    });
+    if(users.length===0)
+        minT=0;
+
+    let document = Books.findOne({_id:id});
+    let queue= document.queue.get_all_queue();
+    let index = queue.indexOf(userID);
+    let s=0;
+    for(let i=0;i<index;i++){
+        s+=document.time(queue[i])
+    }
+
+    return s+minT;
+}
+

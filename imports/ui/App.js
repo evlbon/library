@@ -9,6 +9,7 @@ import 'antd/dist/antd.css';
 import {Layout, Menu, Breadcrumb, Icon, Popover, Button} from 'antd';
 import { Badge } from 'antd';
 import {distance, levenshtein} from "../alg/distanceOfLevenshtein";
+import {Admin} from "../models/users/admin";
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -42,6 +43,11 @@ class Home extends Component{
         let isLabrarian = this.props.currentUser &&
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
+
+        let isAdmin = this.props.currentUser &&
+            Admin.findOne({libraryID : this.props.currentUser._id}) &&
+            Admin.findOne({libraryID : this.props.currentUser._id}).group === "Admin";
+
 
 
         console.log(distance("kek","lol"));
@@ -77,7 +83,7 @@ class Home extends Component{
 
                         <Menu.Item key="2"><Link to="/articles/allarticles"><Icon type="profile" />Articles </Link></Menu.Item>
                         <Menu.Item key="3"><Link to="/av/allavs"><Icon type="play-circle-o" />Audio and Video </Link></Menu.Item>
-                        {isLabrarian? <Menu.Item key="666"><Link to="/users/allusers"><Icon type="user" />Users </Link></Menu.Item>:""}
+                        {isLabrarian || isAdmin ? <Menu.Item key="666"><Link to="/users/allusers"><Icon type="user" />Users </Link></Menu.Item>:""}
                         <Menu.Item key="4"><Link to="/search"><Icon type="search" />Search </Link></Menu.Item>
 
                     </Menu>

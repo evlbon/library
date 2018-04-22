@@ -30,6 +30,7 @@ Meteor.methods({
 
     'addLibrarian' ({ id,name }) {
         Librarian.insert({
+            privilege: priv,
             libraryID: id,
             login:name,
             name: name,

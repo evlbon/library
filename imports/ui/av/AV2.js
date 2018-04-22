@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Meteor } from "meteor/meteor";
-import { Author } from "../../models/utility/author";
+import {Meteor} from "meteor/meteor";
+import {Author} from "../../models/utility/author";
 import {Librarian} from "../../models/users/librarian";
+import * as functions from "../../methods/functions";
 import {User} from "../../models/users/user";
-import * as functions from "../../methods/functions"
-import {EditBook} from "../../api/editBook";
+import {EditAV} from "../../api/editAV";
+import 'antd/dist/antd.css';
 import {Button} from "antd";
-
-// Book component - represents a single todo item
 
 class User_in_Queue extends Component{
 
@@ -28,7 +27,7 @@ class User_in_Queue extends Component{
 class Accepted_users extends Component{
     constructor(props){
         super(props);
-        let t = props.jarticle.acceptedTimeLeft(this.props.userID)-new Date();
+        let t = props.av.acceptedTimeLeft(this.props.userID)-new Date();
         t=t/1000-t%1000/1000+86400;
         this.state={
             timeLeft: t,
@@ -61,29 +60,31 @@ class Accepted_users extends Component{
     }
     te(){
         clearInterval(this.timer);
-        Meteor.call("checkOut",{userID:this.props.userID, documentID:this.props.jarticle._id});
-        Meteor.call("returnDocument",{userID:this.props.userID, documentID:this.props.jarticle._id});
+        Meteor.call("checkOut",{userID:this.props.userID, documentID:this.props.av._id});
+        Meteor.call("returnDocument",{userID:this.props.userID, documentID:this.props.av._id});
     }
 
     f(){
         clearInterval(this.timer);
-        Meteor.call("checkOut",{userID:this.props.userID, documentID:this.props.jarticle._id});
-        Meteor.call("delNotification",{userID:this.props.userID,title:this.props.jarticle.title});
+        Meteor.call("checkOut",{userID:this.props.userID, documentID:this.props.av._id});
+        Meteor.call("delNotification",{userID:this.props.userID,title:this.props.av.title});
     }
 
     render(){
         return(
             <div>
                 {this.props.name} - <a>{this.state.h}:{this.state.m}:{this.state.s}</a> Left
-                <button onClick={this.f.bind(this)}>get article</button>
+                <button onClick={this.f.bind(this)}>get av</button>
             </div>
         )
     }
 }
 
-class Article2 extends Component {
 
 
+
+
+class AV2 extends Component {
 
     enqueue(id){
         Meteor.call("enqueue",{userID:this.props.currentUser._id, documentID:id});
@@ -91,19 +92,25 @@ class Article2 extends Component {
     dequeue(id){
         Meteor.call("dequeue",{userID:this.props.currentUser._id, documentID:id});
     }
+    renew(id){
+        console.log(id);
+        Meteor.call("renewDocument",{userID:this.props.currentUser._id, documentID:id});
+    }
 
 
     accept(){
-        Meteor.call("accept",{documentID : this.props.jarticle._id});
+        Meteor.call("accept",{documentID : this.props.av._id});
     }
     deny(){
-        Meteor.call("deny",{documentID : this.props.jarticle._id})
+        Meteor.call("deny",{documentID : this.props.av._id})
     }
 
 
     render_Queue(){
-        let queue = this.props.jarticle.queue.get_all_queue();
-
+        let queue = this.props.av.queue.get_all_queue();
+        if(this.props.av.queue.outstanding_requests.length>0){
+            queue = this.props.av.queue.outstanding_requests
+        }
 
         return(
 
@@ -116,12 +123,11 @@ class Article2 extends Component {
         )
 
     }
-
     renderAccepted(){
-        let users = this.props.jarticle.acceptedRenters();
+        let users = this.props.av.acceptedRenters();
         return(
 
-            (users.map((user)=>(<Accepted_users key={user.libraryID} userID={user.libraryID} name={user.name} jarticle={this.props.jarticle}/>)))
+            (users.map((user)=>(<Accepted_users key={user.libraryID} userID={user.libraryID} name={user.name} av={this.props.av}/>)))
         )
     }
 
@@ -137,13 +143,14 @@ class Article2 extends Component {
     }
 
 
-    render() {
 
+
+    render() {
         let rents2 = null;
 
-        this.props.currentUser ? rents2 = functions.getRentsViaId(this.props.jarticle._id, this.props.currentUser._id):"";
+        this.props.currentUser ? rents2 = functions.getRentsViaId(this.props.av._id, this.props.currentUser._id):"";
 
-        rents2 ? rents2 = rents2.map(o =>(Article2.fun({date:o.tillDeadline}) )):"";
+        rents2 ? rents2 = rents2.map(o =>(AV2.fun({date:o.tillDeadline}) )):"";
 
         let isLabrarian = this.props.currentUser &&
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&
@@ -154,25 +161,20 @@ class Article2 extends Component {
 
 
 
+
         return (
-            <li >
+            <li>
 
-
-
-
-                {/*Filling the fields for Book description*/}
                 <div className="BOOKBOX1">
-                    <h1>Article</h1><br/>
-                    <span className="text">Title: {this.props.jarticle.title} </span><br/>
-                    <span className="text">Journal: {this.props.jarticle.journal} </span><br/>
-                    <span className="text">Authors: {Author.find({ _id: { $in: this.props.jarticle.authorsID} }).map(o => o.name).join(', ')} </span><br/>
-                    <span className="text">Year: {this.props.jarticle.release_date ? this.props.jarticle.release_date.getFullYear() : "undefined"} </span><br/>
-                    <span className="text">Editor: {this.props.jarticle.editor ? this.props.jarticle.editor : 'undefined'} </span><br/>
-                    <span className="text">Price: {this.props.jarticle.price} </span><br/>
-                    <span className="text">Tags: {this.props.jarticle.tags.join(', ')} </span><br/>
-                    <span className="text">Copies available: {
-                        this.props.jarticle.copies.map(o => (o.checked_out_date || o.reference) ? '' : '1').filter(String).length} / { this.props.jarticle.copies.length
-                    } </span><br/>
+                <h1>Audio or Video</h1><br/>
+                <span className="text">Title: {this.props.av.title} </span><br/>
+                <span className="text">Authors: {Author.find({ _id: { $in: this.props.av.authorsID} }).map(o => o.name).join(', ')} </span><br/>
+                <span className="text">Year: {this.props.av.release_date ? this.props.av.release_date.getFullYear() : "undefined"} </span><br/>
+                <span className="text">Price: {this.props.av.price} </span><br/>
+                <span className="text">Tags: {this.props.av.tags.join(', ')} </span><br/>
+                <span className="text">Copies available: {
+                    this.props.av.copies.map(o => (o.checked_out_date || o.reference) ? '' : '1').filter(String).length} / { this.props.av.copies.length
+                } </span><br/>
                 </div>
 
 
@@ -190,18 +192,20 @@ class Article2 extends Component {
                                 </div>:
 
                                 <div className="delete">
-                                    <Button onClick={this.enqueue.bind(this,this.props.jarticle._id)}
-                                            disabled={this.props.currentUser&&(this.props.jarticle.queue.in_queue(this.props.currentUser._id)||rents2.length!==0)}>
+                                    <Button
+                                        onClick={this.enqueue.bind(this,this.props.av._id)}
+                                        disabled={this.props.currentUser&&(this.props.av.queue.in_queue(this.props.currentUser._id)||rents2.length!==0)}>
                                         Enqueue
                                     </Button>
 
-                                    <Button onClick={this.dequeue.bind(this,this.props.jarticle._id)}
-                                            disabled={this.props.currentUser&&(!(this.props.jarticle.queue.in_queue(this.props.currentUser._id)))}>
+                                    <Button
+                                        onClick={this.dequeue.bind(this,this.props.av._id)}
+                                        disabled={this.props.currentUser&&(!(this.props.av.queue.in_queue(this.props.currentUser._id)))}>
                                         Dequeue
                                     </Button>
                                     <Button
-                                        disabled={this.props.currentUser&&(!(this.props.jarticle.userHas(this.props.currentUser._id)))}
-                                        onClick={this.props.jarticle.renew.bind(this,this.props.currentUser._id)}>
+                                        onClick={this.renew.bind(this,this.props.av._id)}
+                                        disabled={this.props.currentUser&&(!(this.props.av.userHas(this.props.currentUser._id)))}>
                                         Renew
                                     </Button>
 
@@ -226,11 +230,11 @@ class Article2 extends Component {
 
                                     <Button
                                         onClick={this.accept.bind(this)}
-                                        disabled={!this.props.jarticle.canAccept()||this.props.jarticle.queue.get_all_queue().length===0}>
+                                        disabled={!this.props.av.canAccept()||this.props.av.queue.get_all_queue().length===0}>
                                         Accept
                                     </Button>
                                     <Button
-                                        disabled={this.props.jarticle.queue.get_all_queue().length===0}
+                                        disabled={this.props.av.queue.get_all_queue().length===0}
                                         onClick={this.deny.bind(this)}>
                                         Deny
                                     </Button>
@@ -244,8 +248,8 @@ class Article2 extends Component {
                                             <h3>YOU RENTED THIS AV</h3><br/>
                                             <pre>{rents2.join("\n")}</pre>
                                         </div>
-                                        :this.props.jarticle.queue.in_queue(this.props.currentUser._id)?
-                                            <p>You should wait {functions.preTime(this.props.jarticle._id,this.props.currentUser._id)} days</p>:""}
+                                        :this.props.av.queue.in_queue(this.props.currentUser._id)?
+                                            <p>You should wait {functions.preTime(this.props.av._id,this.props.currentUser._id)} days</p>:""}
                                 </div>
 
                         }
@@ -263,4 +267,4 @@ export default withTracker(() => {
     return {
         currentUser: Meteor.user(),
     };
-})(Article2);
+})(AV2);

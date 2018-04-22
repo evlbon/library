@@ -12,7 +12,6 @@ export function getUsersBooks(userID) {
         if (o.userHas(userID)) books.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
     });
 
-    // console.log(books);
     return books;
 }
 export function getUsersArticles(userID)
@@ -22,7 +21,6 @@ export function getUsersArticles(userID)
         if (o.userHas(userID)) jarticles.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
     });
 
-    // console.log(books);
     return jarticles;
 }
 export function getUsersAVs(userID)
@@ -32,7 +30,6 @@ export function getUsersAVs(userID)
         if (o.userHas(userID)) avs.push({title: o.title, tillDeadline: o.tillDeadline(userID)});
     });
 
-    // console.log(books);
     return avs;
 }
 
@@ -48,7 +45,6 @@ export function getRentsViaId(documentID,cuzer){
     let document = Books.findOne({_id: documentID});
     if(!(document)) document = JournalArticle.findOne({_id:documentID});
     if(!(document)) document = AVs.findOne({_id:documentID});// new
-    // console.log(cuzer);
     return document.rentingViaId(cuzer);
 }
 

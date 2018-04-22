@@ -44,8 +44,6 @@ class SEARCH extends Component {
                 i=true;
             }
             else{
-                console.log(d);
-                console.log(dist*0.4);
                 if(d<dist*0.4){
                     foundBooks.push(o);
                     i=true;
@@ -61,8 +59,6 @@ class SEARCH extends Component {
                         i=true;
                     }
                     else{
-                        console.log(d);
-                        console.log(dist*0.4);
                         if(ad<dist*0.4){
                             foundBooks.push(o);
                             i=true;
@@ -81,8 +77,6 @@ class SEARCH extends Component {
                         i = true;
                     }
                     else {
-                        console.log(d);
-                        console.log(dist * 0.4);
                         if (ad < dist * 0.4) {
                             foundBooks.push(o);
                             i = true;
@@ -114,8 +108,6 @@ class SEARCH extends Component {
                 i=true;
             }
             else{
-                console.log(d);
-                console.log(dist*0.4);
                 if(d<dist*0.4){
                     foundArticles.push(o);
                     i=true;
@@ -131,8 +123,6 @@ class SEARCH extends Component {
                         i=true;
                     }
                     else{
-                        console.log(d);
-                        console.log(dist*0.4);
                         if(ad<dist*0.4){
                             foundArticles.push(o);
                             i=true;
@@ -151,8 +141,6 @@ class SEARCH extends Component {
                         i = true;
                     }
                     else {
-                        console.log(d);
-                        console.log(dist * 0.4);
                         if (ad < dist * 0.4) {
                             foundArticles.push(o);
                             i = true;
@@ -185,8 +173,6 @@ class SEARCH extends Component {
                 i=true;
             }
             else{
-                console.log(d);
-                console.log(dist*0.4);
                 if(d<dist*0.4){
                     foundAVs.push(o);
                     i=true;
@@ -202,8 +188,6 @@ class SEARCH extends Component {
                         i=true;
                     }
                     else{
-                        console.log(d);
-                        console.log(dist*0.4);
                         if(ad<dist*0.4){
                             foundAVs.push(o);
                             i=true;
@@ -222,8 +206,6 @@ class SEARCH extends Component {
                         i = true;
                     }
                     else {
-                        console.log(d);
-                        console.log(dist * 0.4);
                         if (ad < dist * 0.4) {
                             foundAVs.push(o);
                             i = true;

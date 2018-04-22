@@ -124,7 +124,7 @@ export default withTracker(() => {
 })(Users2);
 function fun( date )
 {
-    console.log(date.date);
+
     if (date.date < 0)
     {
         let ff = - date.date;

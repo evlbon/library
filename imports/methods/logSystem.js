@@ -10,6 +10,5 @@ Meteor.methods({
             event: d.toLocaleString('ru-RU') + ' | ' + str
         });
 
-         console.log(Log.find().map(log => log.event).reverse());
     },
 });

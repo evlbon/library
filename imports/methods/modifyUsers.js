@@ -32,7 +32,7 @@ Meteor.methods({
     },
     'ModifyLibrarian' ({ id,S}) {
         User.update({libraryID:id},{$set:{group:"Librarian"}});
-        User.update({libraryID:id},{$set:{privilege:S}});
+        User.update({libraryID:id},{$set:{privilege:S.toString()}});
         return id;
     },
     'ModifyUserProperties' ({id,name,phone,address,libId}){

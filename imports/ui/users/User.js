@@ -138,7 +138,7 @@ class Users extends Component {
         }
     }
 
-    delUser(){
+    delUser() {
         if (Librarian.findOne({libraryID: this.props.currentUser._id}).group === "Librarian" &&
             Librarian.findOne({libraryID: this.props.user.libraryID}).group === "Librarian") {
             window.alert("You cannot modify librarians!");
@@ -154,10 +154,13 @@ class Users extends Component {
             Meteor.call('addLog', 'User "' + this.props.user.name + '" was deleted');
         }
 
+    }
+    renderNewUser() {
 
+        let isLibrarian1 = User.findOne({libraryID : this.props.currentUser._id}).group === "Librarian"&&User.findOne({libraryID : this.props.currentUser._id}).privilege==="2";
+        let isLibrarian3 = User.findOne({libraryID : this.props.currentUser._id}).group === "Librarian"&&User.findOne({libraryID : this.props.currentUser._id}).privilege==="3";
+        let isAdmin = User.findOne({libraryID : this.props.currentUser._id}).group === "Admin";
 
-        renderNewUser() {
-        let user = this.props.wholeUsers.findOne({_id: this.props.user.libraryID});
         return (
 
             <li>
@@ -191,8 +194,9 @@ class Users extends Component {
                             Make patron <Icon type="down" />
                         </Button>
                     </Dropdown><br/>
+                    {}
 
-                    <Button onClick={this.delUser.bind(this)} type="danger" style={{margin:"2px"}}>Delete</Button>
+                    {isLibrarian3||isAdmin?<Button onClick={this.delUser.bind(this)} type="danger" style={{margin:"2px"}}>Delete</Button>:""}
 
 
                 </div>
@@ -202,7 +206,7 @@ class Users extends Component {
                 <div className="USERBOX">
                     <h1>User login: {this.props.user.login}</h1>
                     <p>Name : <strong>{this.props.user.name}</strong></p>
-                    <p>Group: <strong>{Librarian.findOne({libraryID: this.props.user.libraryID}).group}</strong></p>
+                    <p>Group: <strong>{this.props.user.group} {this.props.user.group==="Librarian"?this.props.user.privilege:""}</strong></p>
                     <p>Address:<strong>{this.props.user.address}</strong></p>
                     <p>Phone Number: <strong>{this.props.user.phone}</strong></p>
                     <p>LibraryID: <strong>{this.props.user.libId}</strong></p>
@@ -235,7 +239,6 @@ class Users extends Component {
         // so that we can style them nicely in CSS
         if (!this.AmILibrarian())
             return "";
-        console.log(this.props.user);
         return (
             <div>
                 {this.renderNewUser()}

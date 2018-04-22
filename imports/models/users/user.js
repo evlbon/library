@@ -49,7 +49,11 @@ export const User = Class.create({                  // Main class of users
         notifications:{
             type: [Notification],
             default: [],
-        }
+        },
+        privilege: {
+            type: String,
+            optional: true,
+        },
     },
 
     helpers: {                                      // Commands that can be performed on a user class

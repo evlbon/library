@@ -63,7 +63,6 @@ export class EditArticle extends Component {
         let References = Number(ReactDOM.findDOMNode(this.refs.References).value.trim());
         (!References)? References=jarticle.numberOfReferences():"";
 
-        console.log("qqqqqqqqqqqqqqqqqq " + Editorr);
 
         if(functions.canEditDocument(this.props.id,Copies,References)) {
             Meteor.call('editArticle',this.props.id,{

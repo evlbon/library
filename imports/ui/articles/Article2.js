@@ -45,7 +45,6 @@ class Accepted_users extends Component{
 
     time(){
         this.timer=setInterval(()=>{
-            console.log(this.state.timeLeft);
             let t =  this.state.timeLeft-1;
             if(t<=0){
                 this.te()

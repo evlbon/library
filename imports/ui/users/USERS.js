@@ -97,27 +97,30 @@ class USERS extends Component{
             Admin.findOne({libraryID : this.props.currentUser._id}) &&
             Admin.findOne({libraryID : this.props.currentUser._id}).group === "Admin";
 
-        if(isLibrarian || isAdmin) return(
+        if(isLibrarian || isAdmin) {
+            let isLibrarian1 = isLibrarian && Librarian.findOne({libraryID : this.props.currentUser._id}).privilege==="1";
+            return(
 
-                    <Sider width={200} style={{ background: '#fff',float:"left" }}>
-                        <Menu
-                            mode="inline"
-                            defaultSelectedKeys={['1']}
-                            defaultOpenKeys={['sub1']}
-                            style={{ height: '100%', borderRight: 0 }}
-                        >
-                            <Menu.Item key="1"><Link to="/users/allusers">All Users </Link></Menu.Item>
-                            <Menu.Item key="2"><Link to="/users/userstories">User Stories </Link></Menu.Item>
-                            <AddNewUser/>
-
-
-                        </Menu>
-                    </Sider>
+                <Sider width={200} style={{ background: '#fff',float:"left" }}>
+                    <Menu
+                        mode="inline"
+                        defaultSelectedKeys={['1']}
+                        defaultOpenKeys={['sub1']}
+                        style={{ height: '100%', borderRight: 0 }}
+                    >
+                        <Menu.Item key="1"><Link to="/users/allusers">All Users </Link></Menu.Item>
+                        <Menu.Item key="2"><Link to="/users/userstories">User Stories </Link></Menu.Item>
+                        {!isLibrarian1?<AddNewUser/>:""}
 
 
+                    </Menu>
+                </Sider>
 
 
-        );
+
+
+            );
+        }
         else return(<h1>YOU AREN'T LIBRARIAN</h1>)
     }
 }

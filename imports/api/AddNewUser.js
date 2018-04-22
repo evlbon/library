@@ -20,17 +20,11 @@ export class AddNewUser extends Component {
         const Group = "HumbleUser";
 
         const pass = ReactDOM.findDOMNode(this.refs.pass).value.trim();
-        console.log("OKAAAAAAAAAY");
-        console.log(Name);
-        console.log(Group);
-        console.log(pass);
-       console.log(
 
         Meteor.call('addUser',{
             name:Name,
             password:pass,
-        }));
-        console.log("Done Didding");
+        });
 
 
         ReactDOM.findDOMNode(this.refs.name).value= "";

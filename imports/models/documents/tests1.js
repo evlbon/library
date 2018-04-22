@@ -94,8 +94,7 @@ Meteor.methods({
         });
         Meteor.call('checkOut', {userID: faculty1, documentID: book1});
         Meteor.call('checkOut', {userID: "Kiweim2rdFGQkYcfF", documentID: "RSJRTCzk5BoBXgtGs"});
-        // console.log('Student 2 can check out book1:');
-        // console.log(Meteor.call('canCheckOut',{userID: student2, documentID: book1}));
+
         Meteor.call('checkOut', {userID: student2, documentID: book1});
     },
 
@@ -111,8 +110,7 @@ Meteor.methods({
                 ]
         });
         Meteor.call('checkOut', {userID: student1, documentID: book1});
-        console.log('Student 1 can check out book1:');
-        console.log(Meteor.call('canCheckOut',{userID: student1, documentID: book1}));
+
 
     },
 
@@ -130,8 +128,7 @@ Meteor.methods({
         });
         Meteor.call('checkOut', {userID: student1, documentID: book1});
         Meteor.call('checkOut', {userID: student2, documentID: book1});
-        console.log('Users who have the document: ');
-        console.log(Meteor.call('getRenters', {documentID: book1}));
+
     },
 
     'test8' () {
@@ -149,10 +146,6 @@ Meteor.methods({
 
         Meteor.call('checkOut', {userID: student1, documentID: book1});
 
-        console.log('Users who have the document: ');
-        console.log(Meteor.call('getRenters', {documentID: book1}));
-        console.log('Amount of references of the document: ');
-        console.log(Meteor.call('numberOfReferences', {documentID: book1}));
     },
 
     'test9' () {
@@ -186,9 +179,8 @@ Meteor.methods({
                 ]
         });
         Meteor.call('checkOut', {userID: student1, documentID: book2});
-        console.log(Meteor.call('canCheckOut',{userID: student1, documentID: book1}));
+
         Meteor.call('checkOut', {userID: student1, documentID: book1});
-        console.log('Documents that user have:');
-        console.log(Meteor.call('getUsersBook', {userID: student1}));
+
     }
 });

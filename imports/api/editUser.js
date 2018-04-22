@@ -35,7 +35,6 @@ export class EditUser extends Component {
         const Address = ReactDOM.findDOMNode(this.refs.address).value.trim();
         const Phone = ReactDOM.findDOMNode(this.refs.phone).value.trim();
         const libId = ReactDOM.findDOMNode(this.refs.libId).value.trim();
-        console.log(Address);
         Meteor.call('ModifyUserProperties',{
             name:Name,
             group:Group,
@@ -60,7 +59,6 @@ export class EditUser extends Component {
         });
     };
     render() {
-        console.log(this.props.ID);
 
         return   <div >
 

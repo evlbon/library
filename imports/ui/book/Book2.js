@@ -46,7 +46,6 @@ class Accepted_users extends Component{
 
     time(){
         this.timer=setInterval(()=>{
-            console.log(this.state.timeLeft);
             let t =  this.state.timeLeft-1;
             if(t<=0){
                 this.te()
@@ -92,7 +91,6 @@ class Book2 extends Component {
         Meteor.call("dequeue",{userID:this.props.currentUser._id, documentID:id});
     }
     renew(id){
-        console.log(id);
         Meteor.call("renewDocument",{userID:this.props.currentUser._id, documentID:id});
     }
 

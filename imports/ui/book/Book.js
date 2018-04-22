@@ -95,6 +95,9 @@ class Book extends Component {
         let isLabrarian = this.props.currentUser &&
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
+
+        let isLibrarian1 = isLabrarian&&Librarian.findOne({libraryID : this.props.currentUser._id}).privilege === "1";
+
         return (
             <li >
 
@@ -149,13 +152,14 @@ class Book extends Component {
                 </div>
 
 
-                <div style={{float:"right"}}>
-                    <Popover content={this.renderOutUsers()} placement="bottom" title="Choose User">
-                        <Button  type="primary">Outstanding request</Button>
-                    </Popover>
+                {isLabrarian && !isLibrarian1?
+                    <div style={{float:"right"}}>
+                        <Popover content={this.renderOutUsers()} placement="bottom" title="Choose User">
+                            <Button  type="primary">Outstanding request</Button>
+                        </Popover>
 
 
-                </div>
+                    </div>:""}
 
 
 

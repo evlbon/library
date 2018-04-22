@@ -8,7 +8,7 @@ export const Librarian = User.inherit({         // Creating librarian class whic
     fields: {
         privilege: {
             type: String,
-            optional: true,
+            default: "1"
         },
     }
 });

@@ -6,7 +6,7 @@ import {Copy, Document} from "./document"
 import {JournalArticle} from "./journal_article";
 import {AVs} from "./av"
 import Book from "../../ui/book/Book";
-import * as functions from "./functions";
+import * as functions from "../../methods/functions";
 
 
 Meteor.methods({

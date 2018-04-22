@@ -1,7 +1,7 @@
 import {Books} from "../models/documents/book";
 import {User} from "../models/users/user";
 import {Meteor} from "meteor/meteor";
-import * as functions from "../models/documents/functions";
+import * as functions from "./functions";
 
 Meteor.methods({
     'enqueue' ({ userID, documentID }) {

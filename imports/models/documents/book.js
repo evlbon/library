@@ -41,7 +41,31 @@ export const Books = Document.inherit({        // A book inherits from Document 
             }
 
             return Math.floor((copy.checked_out_date - new Date()) / 864e5) + duration;
-        }
+        },
+
+        time: function (userID) {
+            let duration=0;
+
+            if (User.findOne({libraryID: userID}).group === 'Student') {
+                duration = this.bestseller ? 2 * 7 : 3 * 7;
+            } else if (User.findOne({libraryID: userID}).group === 'Instructor') {
+                duration = 4 * 7;
+            } else if (User.findOne({libraryID: userID}).group === 'TA') {
+                duration = 4 * 7;
+            } else if (User.findOne({libraryID: userID}).group === 'Visiting') {
+                duration = 1 * 7;
+            } else if (User.findOne({libraryID: userID}).group === 'Professor') {
+                duration = 4 * 7;
+            }
+
+            return duration;
+        },
+
+
+
+
+
+
     }
 });
 

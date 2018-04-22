@@ -4,7 +4,7 @@ import { Meteor } from "meteor/meteor";
 import { Author } from "../../models/utility/author";
 import {Librarian} from "../../models/users/librarian";
 import {User} from "../../models/users/user";
-import * as functions from "../../models/documents/functions"
+import * as functions from "../../methods/functions"
 import {EditBook} from "../../api/editBook";
 import { Popover, Button } from 'antd';
 
@@ -120,6 +120,7 @@ class Book extends Component {
                         :""
                     :""}
                     <br/>
+
 
                 </div>
 

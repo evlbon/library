@@ -4,7 +4,7 @@ import { Meteor } from "meteor/meteor";
 import { Author } from "../../models/utility/author";
 import {Librarian} from "../../models/users/librarian";
 import {User} from "../../models/users/user";
-import * as functions from "../../models/documents/functions"
+import * as functions from "../../methods/functions"
 import {EditBook} from "../../api/editBook";
 
 // Book component - represents a single todo item
@@ -260,7 +260,8 @@ class Book2 extends Component {
                                                 <h3>YOU RENTED THIS BOOK</h3><br/>
                                                 <pre>{rents2.join("\n")}</pre>
                                             </div>
-                                            :""}
+                                            :this.props.book.queue.in_queue(this.props.currentUser._id)?
+                                                <p>You should wait {functions.preTime(this.props.book._id,this.props.currentUser._id)} days</p>:""}
                                     </div>
 
                             }

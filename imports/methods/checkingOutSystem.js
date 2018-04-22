@@ -12,7 +12,7 @@ Meteor.methods({
 
         document.checkOut(userID);
 
-        Meteor.call('addLog', '"' + document.title + '" was checked out by ' + user.name + '(' + user.group + ')');
+        Meteor.call('addLog', '"' + document.title + '" was returned by ' + user.name + '(' + user.group + ')');
     },
 
     'getRenters' ({ documentID }) {

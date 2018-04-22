@@ -148,8 +148,6 @@ Meteor.methods({
         if (!Meteor.isServer) return;
         try {
 
-            Meteor.call('addLog', 'User "' + User.findOne({libraryID:ID2}).name + '" was deleted');
-
             Meteor.users.remove(ID2);
             User.remove({libraryID:ID2});
 

@@ -2,19 +2,14 @@ import {User} from "../models/users/user";
 import {Meteor} from "meteor/meteor";
 
 Meteor.methods({
-    // 'hasDocument' ({ userID, documentID }) {
-    //     let user = User.findOne({libraryID: userID});
-    //     let document = Books.findOne({_id: documentID});
-    //
-    //     if (!(user && document)) throw Error('Incorrect id of user or document');
-    //
-    //     return document.userHas(userID);
-    // },
 
     'returnDocument' ({ userID, documentID }) {
 
         let user = User.findOne({libraryID: userID});
         let document = Meteor.call("getDocument",  documentID);
+        let log = 'User "' + User.findOne({libraryID: userID}).name + '" returned the document "' + document.title + '"';
+        Meteor.call('addLog', log);
+
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.userHas(userID)) {
@@ -28,6 +23,9 @@ Meteor.methods({
 
         let user = User.findOne({libraryID: userID});
         let document = Meteor.call("getDocument",  documentID);
+        let log = 'User "' + User.findOne({libraryID: userID}).name + '" renewed the document "' + document.title + '"';
+        Meteor.call('addLog', log);
+
         if (!(user && document)) throw Error('Incorrect id of user or document');
 
         if (document.userHas(userID)) {

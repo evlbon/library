@@ -5,6 +5,7 @@ import {Copy, Document} from "./document"
 import {Librarian} from "../users/librarian";
 import {JournalArticle} from "./journal_article";
 import {AVs} from "./av"
+import {Log} from "../utility/log";
 import Book from "../../ui/book/Book";
 import * as functions from "../../methods/functions";
 
@@ -12,11 +13,13 @@ import * as functions from "../../methods/functions";
 Meteor.methods({
 
     'clr_bd'() {
+        Log.remove({});
         Meteor.users.remove({});
         User.remove({});
         JournalArticle.remove({});
         Books.remove({});
         AVs.remove({});
+
     },
 
     'test2-1'() {

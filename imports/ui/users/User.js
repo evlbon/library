@@ -25,6 +25,8 @@ class Users extends Component {
                     return;
                 }
                 Meteor.call('ModifyLibrarian', {id: this.props.user.libraryID, S: 1});
+                Meteor.call('addLog', 'User "' + this.props.user.name + '" changed his group from "' +
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group + '" to "Librarian"');
                 break;
             case 12:
                 if (Librarian.findOne({libraryID: this.props.currentUser._id}).group === "Librarian") {
@@ -32,6 +34,8 @@ class Users extends Component {
                     return;
                 }
                 Meteor.call('ModifyLibrarian', {id: this.props.user.libraryID, S: 2});
+                Meteor.call('addLog', 'User "' + this.props.user.name + '" changed his group from "' +
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group + '" to "Librarian"');
                 break;
             case 13:
                 if (Librarian.findOne({libraryID: this.props.currentUser._id}).group === "Librarian") {
@@ -39,11 +43,77 @@ class Users extends Component {
                     return;
                 }
                 Meteor.call('ModifyLibrarian', {id: this.props.user.libraryID, S: 3});
+                Meteor.call('addLog', 'User "' + this.props.user.name + '" changed his group from "' +
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group + '" to "Librarian"');
                 break;
             case 2:
+
+                if (Librarian.findOne({libraryID: this.props.currentUser._id}).group === "Librarian" &&
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group === "Librarian") {
+                    window.alert("You cannot modify librarians!");
+                    return;
+                }
+
+                else if (Admin.findOne({libraryID: this.props.user.libraryID}).group === "Admin") {
+                    window.alert("You cannot modify admin!");
+                    return;
+                }
+                else
+                    Meteor.call('ModifyUser', {id: this.props.user.libraryID, S: number});
+                Meteor.call('addLog', 'User "' + this.props.user.name + '" changed his group from "' +
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group + '" to " Student"');
+                break;
             case 3:
+                if (Librarian.findOne({libraryID: this.props.currentUser._id}).group === "Librarian" &&
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group === "Librarian") {
+                    window.alert("You cannot modify librarians!");
+                    return;
+                }
+
+                else if (Admin.findOne({libraryID: this.props.user.libraryID}).group === "Admin") {
+                    window.alert("You cannot modify admin!");
+                    return;
+                }
+                else
+                    Meteor.call('ModifyUser', {id: this.props.user.libraryID, S: number});
+                Meteor.call('addLog', 'User "' + this.props.user.name + '" changed his group from "' +
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group + '" to " Visiting"');
+                break;
             case 4:
+                if (Librarian.findOne({libraryID: this.props.currentUser._id}).group === "Librarian" &&
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group === "Librarian") {
+                    window.alert("You cannot modify librarians!");
+                    return;
+                }
+
+                else if (Admin.findOne({libraryID: this.props.user.libraryID}).group === "Admin") {
+                    window.alert("You cannot modify admin!");
+                    return;
+                }
+                else
+                    Meteor.call('ModifyUser', {id: this.props.user.libraryID, S: number});
+                // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
+                Meteor.call('addLog', 'User "' + this.props.user.name + '" changed his group from "' +
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group + '" to "Professor"');
+                break;
             case 5:
+                if (Librarian.findOne({libraryID: this.props.currentUser._id}).group === "Librarian" &&
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group === "Librarian") {
+                    window.alert("You cannot modify librarians!");
+                    return;
+                }
+
+                else if (Admin.findOne({libraryID: this.props.user.libraryID}).group === "Admin") {
+                    window.alert("You cannot modify admin!");
+                    return;
+                }
+                else
+                    Meteor.call('ModifyUser', {id: this.props.user.libraryID, S: number});
+                // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
+                Meteor.call('addLog', 'User "' + this.props.user.name + '" changed his group from "' +
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group + '" to "Instructor"');
+                break;
+
             case 6:
                 if (Librarian.findOne({libraryID: this.props.currentUser._id}).group === "Librarian" &&
                     Librarian.findOne({libraryID: this.props.user.libraryID}).group === "Librarian") {
@@ -58,6 +128,8 @@ class Users extends Component {
                 else
                     Meteor.call('ModifyUser', {id: this.props.user.libraryID, S: number});
                 // User.update({libraryID:this.props.user.libraryID},{$set:{group:"Librarian"}});
+                Meteor.call('addLog', 'User "' + this.props.user.name + '" changed his group from "' +
+                    Librarian.findOne({libraryID: this.props.user.libraryID}).group + '" to "TA"');
                 break;
 
 
@@ -77,12 +149,14 @@ class Users extends Component {
             window.alert("You cannot modify admin!");
             return;
         }
-        else
+        else {
             Meteor.call('Delete', {ID: this.props.user._id, ID2: this.props.user.libraryID});
-    }
+            Meteor.call('addLog', 'User "' + this.props.user.name + '" was deleted');
+        }
 
 
-    renderNewUser() {
+
+        renderNewUser() {
         let user = this.props.wholeUsers.findOne({_id: this.props.user.libraryID});
         return (
 
@@ -128,7 +202,7 @@ class Users extends Component {
                 <div className="USERBOX">
                     <h1>User login: {this.props.user.login}</h1>
                     <p>Name : <strong>{this.props.user.name}</strong></p>
-                    <p>Group: <strong>{this.props.user.group}</strong></p>
+                    <p>Group: <strong>{Librarian.findOne({libraryID: this.props.user.libraryID}).group}</strong></p>
                     <p>Address:<strong>{this.props.user.address}</strong></p>
                     <p>Phone Number: <strong>{this.props.user.phone}</strong></p>
                     <p>LibraryID: <strong>{this.props.user.libId}</strong></p>

@@ -6,6 +6,7 @@ import Users from "./User"
 import Users2 from "./User2"
 import { withTracker } from 'meteor/react-meteor-data';
 import {Librarian} from "../../models/users/librarian";
+import {Admin} from "../../models/users/admin";
 
 import 'antd/dist/antd.css';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
@@ -85,18 +86,6 @@ export class UserStories extends Component {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 class USERS extends Component{
 
     render(){
@@ -104,7 +93,11 @@ class USERS extends Component{
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
 
-        if(isLibrarian) return(
+        let isAdmin = this.props.currentUser &&
+            Admin.findOne({libraryID : this.props.currentUser._id}) &&
+            Admin.findOne({libraryID : this.props.currentUser._id}).group === "Admin";
+
+        if(isLibrarian || isAdmin) return(
 
                     <Sider width={200} style={{ background: '#fff',float:"left" }}>
                         <Menu

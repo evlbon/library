@@ -85,6 +85,7 @@ Meteor.methods({
         if (document.release_date.getFullYear() !== release_date.getFullYear()) log += ' ReleaseDate ("' + document.release_date.getFullYear() + '" -> "' + release_date.getFullYear() + '") ';
         if (document.price !== price) log += ' Price ("' + document.price + '" -> "' + price + '") ';
         if (JSON.stringify(document.tags) !== JSON.stringify(tags)) log += ' Tags ("' + document.tags.join(',') + '" -> "' + tags.join(',') + '") ';
+        if (document.copies.length !== number_of_copies) log += ' Copies ("' + document.copies.length + '" -> "' + number_of_copies + '") ';
         if (document.bestseller !== bestseller) log += ' Bestseller ("' + document.bestseller + '" -> "' + bestseller + '") ';
 
         Meteor.call('addLog', log);

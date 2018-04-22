@@ -15,6 +15,9 @@ Meteor.methods({
 
 
     'addAdmin' ({ id,name }) {
+
+        Meteor.call('addLog', 'New user "' + name + '" (Admin) was added');
+
         Admin.insert({
             libraryID: id,
             login:name,
@@ -29,6 +32,9 @@ Meteor.methods({
     },
 
     'addLibrarian' ({ id,name }) {
+
+        Meteor.call('addLog', 'New user "' + name + '" (Librarian) was added');
+
         Librarian.insert({
             privilege: priv,
             libraryID: id,
@@ -44,6 +50,9 @@ Meteor.methods({
     },
 
     'addHumbleUser' ({ id,name }) {
+
+        Meteor.call('addLog', 'New user "' + name + '" (HumbleUser) was added');
+
         Librarian.insert({
             libraryID: id,
             login:name,
@@ -59,6 +68,9 @@ Meteor.methods({
 // PATRONS
 
     'addStudent' ({ id,name  }) {
+
+        Meteor.call('addLog', 'New user "' + name + '" (Student) was added');
+
         Student.insert({
             libraryID:id,
             name: name,
@@ -71,6 +83,9 @@ Meteor.methods({
     },
 
     'addVP' ({ id,name  }) {
+
+        Meteor.call('addLog', 'New user "' + name + '" (Visiting Professor) was added');
+
         VP.insert({
             libraryID:id,
             name: name,
@@ -82,21 +97,11 @@ Meteor.methods({
         return id;
     },
 
-    // 'addFaculty' ({ id,name  }) {
-    //     Faculty.insert({
-    //         libraryID: id,
-    //         name: name,
-    //         login:name,
-    //         group:"Faculty",
-    //         address:"None",
-    //         phone:-1,
-    //     });
-    //     return id;
-    // },
-
-
     // FACULTY members
     'addInstructor' ({ id,name  }) {
+
+        Meteor.call('addLog', 'New user "' + name + '" (Instructor) was added');
+
         Instructors.insert({
             libraryID:id,
             name: name,
@@ -109,6 +114,9 @@ Meteor.methods({
     },
 
     'addTA' ({ id,name  }) {
+
+        Meteor.call('addLog', 'New user "' + name + '" (Teacher Assistant) was added');
+
         TAs.insert({
             libraryID:id,
             name: name,
@@ -121,6 +129,9 @@ Meteor.methods({
     },
 
     'addProfessors' ({ id,name  }) {
+
+        Meteor.call('addLog', 'New user "' + name + '" (Professor) was added');
+
         Professors.insert({
             libraryID:id,
             name: name,
@@ -136,6 +147,8 @@ Meteor.methods({
     'Delete'({ID, ID2}) {
         if (!Meteor.isServer) return;
         try {
+
+            Meteor.call('addLog', 'User "' + User.findOne({libraryID:ID2}).name + '" was deleted');
 
             Meteor.users.remove(ID2);
             User.remove({libraryID:ID2});

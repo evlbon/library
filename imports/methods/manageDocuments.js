@@ -74,6 +74,21 @@ Meteor.methods({
             );
         });
 
+        let log = '"' + document.title + '" was changed. ';
+        if (document.title !== title) log += ' Title ("' + document.title + '" -> "' + title + '") ';
+        if (JSON.stringify(document.authorsID) !== JSON.stringify(authorsID)) log += ' Authors ("' +
+            Author.find({ _id: { $in: document.authorsID} }).map(o => o.name).join(',')
+            + '" -> "' +
+            Author.find({ _id: { $in: authorsID} }).map(o => o.name).join(',') + '") ';
+        if (document.edition !== edition) log += ' Edition ("' + document.edition + '" -> "' + edition + '") ';
+        if (document.publisher !== publisher) log += ' Publisher ("' + document.publisher + '" -> "' + publisher + '") ';
+        if (document.release_date.getFullYear() !== release_date.getFullYear()) log += ' ReleaseDate ("' + document.release_date.getFullYear() + '" -> "' + release_date.getFullYear() + '") ';
+        if (document.price !== price) log += ' Price ("' + document.price + '" -> "' + price + '") ';
+        if (JSON.stringify(document.tags) !== JSON.stringify(tags)) log += ' Tags ("' + document.tags.join(',') + '" -> "' + tags.join(',') + '") ';
+        if (document.bestseller !== bestseller) log += ' Bestseller ("' + document.bestseller + '" -> "' + bestseller + '") ';
+
+        Meteor.call('addLog', log);
+
         document.title = title;
         document.authorsID = authorsID;
         document.edition = edition;
@@ -91,7 +106,6 @@ Meteor.methods({
         title, authors=['Crowd'], editor, journal, release_date,
         price, number_of_copies, number_of_references, tags=[], bestseller=false
     }) {
-        console.log("000000000000000000000000" + editor);
 
         check(title, String);
         check(authors, [String]);

@@ -3,13 +3,6 @@ import {User} from "../models/users/user";
 import {Meteor} from "meteor/meteor";
 
 Meteor.methods({
-    // 'canCheckOut' ({ userID, documentID }) {
-    //     let user = User.findOne({libraryID: userID});
-    //     let document = Meteor.call("getDocument",  documentID);
-    //     if (!(user && document)) throw Error('Incorrect id of user or document');
-    //
-    //     return document.canCheckOut(userID);
-    // },
 
     'checkOut' ({ userID, documentID }) {
 
@@ -19,14 +12,7 @@ Meteor.methods({
 
         document.checkOut(userID);
 
-        // if (document.canCheckOut(userID)) {
-        //     document.checkOut(userID);
-        // } else {
-        //     if (document.userHas(userID))
-        //         throw Error('Can\'t check out more than one same book');
-        //     else
-        //         throw Error('No book available');
-        // }
+        Meteor.call('addLog', '"' + document.title + '" was checked out by ' + user.name + '(' + user.group + ')');
     },
 
     'getRenters' ({ documentID }) {

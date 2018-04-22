@@ -135,20 +135,17 @@ Meteor.methods({
     },
 
     'documents.delAV' ({ id }) {
+        Meteor.call('addLog', '"' + Meteor.call('getDocument', id).title + '" (AV) was deleted');
         AVs.remove(id);
-
-        Meteor.call('addLog', '"' + title + '" (AV) was deleted');
     },
 
     'documents.delBook' ({ id }) {
+        Meteor.call('addLog', '"' + Meteor.call('getDocument', id).title + '" (Book) was deleted');
         Books.remove(id);
-
-        Meteor.call('addLog', '"' + title + '" (Book) was deleted');
     },
 
     'documents.delArticle' ({ id }) {
+        Meteor.call('addLog', '"' + Meteor.call('getDocument', id).title + '" (Article) was deleted');
         JournalArticle.remove(id);
-
-        Meteor.call('addLog', '"' + title + '" (Article) was deleted');
     },
 });

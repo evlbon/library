@@ -9,5 +9,7 @@ Meteor.methods({
         Log.insert({
             event: d.toLocaleString('ru-RU') + ' | ' + str
         });
+
+        // console.log(Log.find().map(log => log.event).reverse());
     },
 });

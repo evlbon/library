@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import {Meteor} from "meteor/meteor";
-import * as functions from "../../models/documents/functions"
 import {User} from "../../models/users/user";
 import {Author} from "../../models/utility/author";
 import {Librarian} from "../../models/users/librarian";
@@ -31,7 +30,7 @@ class Users extends Component {
             case 4:
             case 5:
             case 6:
-                if (Libxrarian.findOne({libraryID: this.props.currentUser._id}).group === "Librarian" &&
+                if (Librarian.findOne({libraryID: this.props.currentUser._id}).group === "Librarian" &&
                     Librarian.findOne({libraryID: this.props.user.libraryID}).group === "Librarian") {
                     window.alert("You cannot modify librarians!");
                     return;

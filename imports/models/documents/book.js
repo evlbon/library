@@ -35,7 +35,7 @@ export const Books = Document.inherit({        // A book inherits from Document 
             } else if (User.findOne({libraryID: renterID}).group === 'TA') {
                 duration = 4 * 7;
             } else if (User.findOne({libraryID: renterID}).group === 'Visiting') {
-                duration = 1 * 7;
+                duration = 7;
             } else if (User.findOne({libraryID: renterID}).group === 'Professor') {
                 duration = 4 * 7;
             }
@@ -53,7 +53,7 @@ export const Books = Document.inherit({        // A book inherits from Document 
             } else if (User.findOne({libraryID: userID}).group === 'TA') {
                 duration = 4 * 7;
             } else if (User.findOne({libraryID: userID}).group === 'Visiting') {
-                duration = 1 * 7;
+                duration = 7;
             } else if (User.findOne({libraryID: userID}).group === 'Professor') {
                 duration = 4 * 7;
             }

@@ -13,6 +13,7 @@ import Home from "./App";
 import {Books} from "../models/documents/book";
 import {JournalArticle} from "../models/documents/journal_article";
 import {AVs} from "../models/documents/av";
+import SEARCH from "./search/Search";
 
 
 
@@ -57,6 +58,8 @@ class Navigation extends Component{
                     <Route path="/users" component={USERS} />
                     <Route exact path="/users/allusers" component={()=>(<AllUsers users={this.props.users}/>)} />
                     <Route exact path="/users/userstories" component={()=>(<UserStories users={this.props.users}/>)} />
+
+                    <Route path="/search" component={SEARCH} />
 
 
 

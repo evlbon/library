@@ -56,10 +56,10 @@ class Home extends Component{
                     </div>
 
 
-                    <div align="center" style={{float:"right", overflow:"visible",width:"120px",margin:"20px auto auto auto"}}>
+                    <div align="center" style={{float:"right", overflow:"visible",width:"120px",margin:"15px auto auto auto"}}>
                         <Badge count={numberOfNotifications}>
                             <Popover content={content} placement="bottom" title="Yor Notifications">
-                                <button >Notification</button>
+                                <Button >Notification</Button>
                             </Popover>
                         </Badge>
                     </div>

@@ -19,7 +19,7 @@ class OutUsers extends Component{
         return(
 
             <div>
-                <button style={{width:"150px", margin:"1px"}} onClick={this.f.bind(this)}>{this.props.user.name}</button><br/>
+                <Button style={{width:"150px", margin:"1px"}} onClick={this.f.bind(this)}>{this.props.user.name}</Button><br/>
             </div>
         )
 
@@ -48,10 +48,11 @@ class UserWithBook extends Component{
         return(
             <div>
                 {o.name + ' | '+this.fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.book._id)}
-                <button onClick={this.returnBook.bind(this)}
-                        disabled={!(functions.hasDocument(o.libraryID, this.props.book._id))}>
+                <Button onClick={this.returnBook.bind(this)}
+                        disabled={!(functions.hasDocument(o.libraryID, this.props.book._id))}
+                        style={{height:"20px"}}>
                     Return
-                </button>
+                </Button>
             </div>
 
 
@@ -101,9 +102,9 @@ class Book extends Component {
                     { this.props.currentUser ?
                         Librarian.findOne({libraryID : this.props.currentUser._id}) ?
                             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                                <button className="delete" onClick={this.deleteThisBook.bind(this)}>
+                                <Button className="delete" onClick={this.deleteThisBook.bind(this)}>
                                     Delete
-                                </button>
+                                </Button>
                                 : ''
                             :""
                         :""

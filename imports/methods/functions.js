@@ -1,16 +1,10 @@
 import { Books } from "../models/documents/book";
 import { JournalArticle } from "../models/documents/journal_article"
-import { Meteor } from 'meteor/meteor';
 import { User } from "../models/users/user";
-import {AVs} from "../models/documents/av";
-import { Librarian} from "../models/users/librarian";
-import { Author } from "../models/utility/author";
-import { check } from 'meteor/check'
-import { Match } from 'meteor/check'
-import { Copy, Document } from "../models/documents/document"
-import Article from "../ui/articles/Article";
+import { AVs } from "../models/documents/av";
 import { Student } from "../models/users/student";
-import { Faculty } from "../models/users/faculty";
+import { Log } from "../models/utility/log";
+
 
 export function getUsersBooks(userID) {
     let books = [];
@@ -128,3 +122,6 @@ export function preTime(id,userID) {
     return s+minT;
 }
 
+export function getLogs() {
+    return Log.find()
+}

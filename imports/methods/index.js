@@ -6,3 +6,4 @@ import './modifyUsers'
 import './queue'
 import './returnSystem'
 import "./notifications"
+import "./logSystem"

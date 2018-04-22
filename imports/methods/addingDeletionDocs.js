@@ -41,6 +41,8 @@ Meteor.methods({
             );
         });
 
+        Meteor.call('addLog', '"' + title + '" (Book) was added');
+
         return Books.insert({
             title: title,
             authorsID: authorsID,
@@ -78,6 +80,8 @@ Meteor.methods({
                     Author.insert({ name: name })
             );
         });
+
+        Meteor.call('addLog', '"' + title + '" (Article) was added');
 
         return JournalArticle.insert({
             title: title,
@@ -117,6 +121,8 @@ Meteor.methods({
             );
         });
 
+        Meteor.call('addLog', '"' + title + '" (AV) was added');
+
         return AVs.insert({
             title: title,
             authorsID: authorsID,
@@ -130,13 +136,19 @@ Meteor.methods({
 
     'documents.delAV' ({ id }) {
         AVs.remove(id);
+
+        Meteor.call('addLog', '"' + title + '" (AV) was deleted');
     },
 
     'documents.delBook' ({ id }) {
         Books.remove(id);
+
+        Meteor.call('addLog', '"' + title + '" (Book) was deleted');
     },
 
     'documents.delArticle' ({ id }) {
         JournalArticle.remove(id);
+
+        Meteor.call('addLog', '"' + title + '" (Article) was deleted');
     },
 });

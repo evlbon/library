@@ -2,7 +2,7 @@ import {Books} from "./book";
 import {Meteor} from 'meteor/meteor';
 import {User} from "../users/user";
 import {Copy, Document} from "./document"
-import {Librarian} from "../users/librarian";
+    import {Librarian} from "../users/librarian";
 import {JournalArticle} from "./journal_article";
 import {AVs} from "./av"
 import Book from "../../ui/book/Book";
@@ -56,9 +56,14 @@ Meteor.methods({
 
         let name1 = "Librarian";
         let pass1 = "123456";
-        let HumbleUser1 = Meteor.call('addUser', ({name: name1, password: pass1}));
+        Meteor.call('addUser', ({name: name1, password: pass1}));
         let userID1 = Meteor.users.findOne({username: name1})._id;
-        let librarian1 = Meteor.call('ModifyUser', ({id: userID1, S: 1}));
+        Meteor.call('ModifyUser', ({id: userID1, S: 1}));
+
+        Meteor.call('addUser', ({name: "librarian2", password: pass1}));
+        let userID2 = Meteor.users.findOne({username: name1})._id;
+        Meteor.call('ModifyUser', ({id: Meteor.users.findOne({username: "librarian2"})._id, S: 1}));
+
 
         Meteor.call('ModifyUserProperties', ({
             id: Meteor.users.findOne({username: "Librarian"})._id,

@@ -5,6 +5,7 @@ import * as functions from "../../models/documents/functions"
 import {User} from "../../models/users/user";
 import { Author } from "../../models/utility/author";
 import {Librarian} from "../../models/users/librarian";
+import {Admin} from "../../models/users/admin";
 
 // Book component - represents a single todo item
 class Users2 extends Component {
@@ -95,10 +96,16 @@ class Users2 extends Component {
             Librarian.findOne({libraryID : this.props.currentUser._id}) ?
                 Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" :false:false;
     }
+    AmIAdmin(){
+        return this.props.currentUser ?
+            Admin.findOne({libraryID : this.props.currentUser._id}) ?
+                Admin.findOne({libraryID : this.props.currentUser._id}).group === "Admin" :false:false;
+    }
+
     render() {
         // Give books a different className when they are checked off,
         // so that we can style them nicely in CSS
-        if(!this.AmILibrarian())
+        if(!this.AmILibrarian() || this.AmIAdmin())
             return "";
         const  user = User.findOne({libraryID : this.props.user._id});
         // console.log(this.props.user);

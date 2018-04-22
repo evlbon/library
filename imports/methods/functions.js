@@ -123,5 +123,5 @@ export function preTime(id,userID) {
 }
 
 export function getLogs() {
-    return Log.find()
+    return Log.find().map(log => log.event)
 }

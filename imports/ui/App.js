@@ -83,8 +83,11 @@ class Home extends Component{
 
                         <Menu.Item key="2"><Link to="/articles/allarticles"><Icon type="profile" />Articles </Link></Menu.Item>
                         <Menu.Item key="3"><Link to="/av/allavs"><Icon type="play-circle-o" />Audio and Video </Link></Menu.Item>
-                        {isLabrarian || isAdmin ? <Menu.Item key="666"><Link to="/users/allusers"><Icon type="user" />Users </Link></Menu.Item>:""}
                         <Menu.Item key="4"><Link to="/search"><Icon type="search" />Search </Link></Menu.Item>
+
+                        {isLabrarian || isAdmin ? <Menu.Item key="666"><Link to="/users/allusers"><Icon type="user" />Users </Link></Menu.Item>:""}
+                        {isAdmin ? <Menu.Item key="777"><Link to="/log"><Icon type="form" />Log </Link></Menu.Item>:""}
+
 
                     </Menu>
 

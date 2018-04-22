@@ -62,9 +62,9 @@ export class EditUser extends Component {
     render() {
         console.log(this.props.ID);
 
-        return   <div className="boxButtons">
+        return   <div >
 
-            <Button className={"myButton"} type="primary" onClick={this.showModal}>Edit this User</Button>
+            <Button  type="primary" onClick={this.showModal} style={{margin:"2px"}}>Edit this User</Button>
 
 
                     <Modal

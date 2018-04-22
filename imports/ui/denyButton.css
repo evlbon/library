@@ -1,0 +1,10 @@
+.accept{
+
+}
+.accept Button {
+    color: lawngreen;
+}
+.accept Button:hover{
+    background: lawngreen;
+    color: white;
+}

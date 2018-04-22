@@ -14,6 +14,7 @@ import {Books} from "../models/documents/book";
 import {JournalArticle} from "../models/documents/journal_article";
 import {AVs} from "../models/documents/av";
 import SEARCH from "./search/Search";
+import LOG from "./log/LOG";
 
 
 
@@ -61,6 +62,8 @@ class Navigation extends Component{
                     <Route exact path="/users/userstories" component={()=>(<UserStories users={this.props.users}/>)} />
 
                     <Route path="/search" component={SEARCH} />
+
+                    <Route path="/log" component={LOG} />
 
 
 

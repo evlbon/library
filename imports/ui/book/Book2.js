@@ -7,6 +7,7 @@ import {User} from "../../models/users/user";
 import * as functions from "../../methods/functions"
 import {EditBook} from "../../api/editBook";
 import {Button} from "antd";
+import '../denyButton.css'
 
 // Book component - represents a single todo item
 
@@ -233,12 +234,17 @@ class Book2 extends Component {
 
                                         <Button
                                             onClick={this.accept.bind(this)}
-                                            disabled={!this.props.book.canAccept()||this.props.book.queue.get_all_queue().length===0}>
+                                            disabled={!this.props.book.canAccept()||this.props.book.queue.get_all_queue().length===0}
+                                            type="primary"
+
+                                        >
                                             Accept
                                         </Button>
                                         <Button
                                             disabled={this.props.book.queue.get_all_queue().length===0}
-                                            onClick={this.deny.bind(this)}>
+                                            onClick={this.deny.bind(this)}
+                                            type="danger"
+                                        >
                                             Deny
                                         </Button>
 

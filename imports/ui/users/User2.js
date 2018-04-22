@@ -70,9 +70,6 @@ class Users2 extends Component {
                 <div className="USERBOX">
                     <h1>User - {this.props.user.name}</h1>
                     Current Type {this.props.user.group}
-                    {console.log(this.props.user.name)}
-                    {console.log(this.props.user._id)}
-                    {console.log(this.props.user.libraryID)}
 
                     {books.length? books.join("\n"):"Nothing"}
 

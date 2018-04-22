@@ -28,6 +28,11 @@ Meteor.methods({
         User.update({libraryID:id},{$set:{group:str}});
         return id;
     },
+    'ModifyLibrarian' ({ id,S}) {
+        User.update({libraryID:id},{$set:{group:"Librarian"}});
+        User.update({libraryID:id},{$set:{privilege:S}});
+        return id;
+    },
     'ModifyUserProperties' ({id,name,phone,address,libId}){
         if(name)
             User.update({libraryID:id},{$set:{name:name}});

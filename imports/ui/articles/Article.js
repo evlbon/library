@@ -22,7 +22,7 @@ class OutUsers extends Component{
         return(
 
             <div>
-                <button style={{width:"150px", margin:"1px"}} onClick={this.f.bind(this)}>{this.props.user.name}</button><br/>
+                <Button style={{width:"150px", margin:"1px"}} onClick={this.f.bind(this)}>{this.props.user.name}</Button><br/>
             </div>
         )
 
@@ -50,11 +50,12 @@ class UserWithArticle extends Component{
         let o = this.props.user;
         return(
             <div>
-                {o.name + ' | '+this.fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.jarticle._id)}
-                <button onClick={this.returnArticle.bind(this)}
-                        disabled={!(functions.hasDocument(o.libraryID, this.props.jarticle._id))}>
+                {o.name + ' | '+this.fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.jarticle._id)+" "}
+                <Button onClick={this.returnArticle.bind(this)}
+                        disabled={!(functions.hasDocument(o.libraryID, this.props.jarticle._id))}
+                        style={{height:"20px"}}>
                     Return
-                </button>
+                </Button>
             </div>
 
 
@@ -100,9 +101,9 @@ class Article extends Component {
                     { this.props.currentUser ?
                         Librarian.findOne({libraryID : this.props.currentUser._id}) ?
                             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                                <button className="delete" onClick={this.deleteThisArticle.bind(this)}>
+                                <Button className="delete" onClick={this.deleteThisArticle.bind(this)}>
                                     Delete
-                                </button>
+                                </Button>
                                 : ''
                             :""
                         :""

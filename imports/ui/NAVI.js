@@ -7,7 +7,7 @@ import { Meteor } from 'meteor/meteor';
 import {BrowserRouter, Route, Link} from "react-router-dom"
 import BOOKS, {Allbooks, Allbooks2} from "./book/BOOKS";
 import ARTICLES, {AllArticles, AllArticles2} from "./articles/ARTICLES";
-import AaV, {AllAVs} from "./av/AaV";
+import AaV, {AllAVs, AllAVs2} from "./av/AaV";
 import USERS, {AllUsers, UserStories} from "./users/USERS";
 import Home from "./App";
 import {Books} from "../models/documents/book";
@@ -53,7 +53,8 @@ class Navigation extends Component{
                     <Route exact path="/articles/allarticles" component={()=>(<AllArticles2 articles={this.props.jarticles}/>)} />
 
                     <Route path="/av" component={AaV} />
-                    <Route exact path="/av/allavs" component={()=>(<AllAVs avs={this.props.avs}/>)} />
+                    <Route exact path="/av/rentedAVs" component={()=>(<AllAVs avs={this.props.avs}/>)} />
+                    <Route exact path="/av/allavs" component={()=>(<AllAVs2 avs={this.props.avs}/>)} />
 
                     <Route path="/users" component={USERS} />
                     <Route exact path="/users/allusers" component={()=>(<AllUsers users={this.props.users}/>)} />

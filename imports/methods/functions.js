@@ -116,8 +116,9 @@ export function preTime(id,userID) {
     });
     if(users.length===0)
         minT=0;
-
     let document = Books.findOne({_id:id});
+    if(!(document)) document = JournalArticle.findOne({_id:id});
+    if(!(document)) document = AVs.findOne({_id:id});// new
     let queue= document.queue.get_all_queue();
     let index = queue.indexOf(userID);
     let s=0;

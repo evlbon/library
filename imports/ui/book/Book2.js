@@ -84,13 +84,6 @@ class Accepted_users extends Component{
 class Book2 extends Component {
 
 
-    deleteThisBook() {
-        Meteor.call('documents.delBook',{id : this.props.book._id, name: ["yury", "jojo" ]})
-    }
-
-    rentBook(id){
-        Meteor.call("checkOut",{userID:this.props.currentUser._id, documentID:id});
-    }
     enqueue(id){
         Meteor.call("enqueue",{userID:this.props.currentUser._id, documentID:id});
     }
@@ -102,9 +95,6 @@ class Book2 extends Component {
         Meteor.call("renewDocument",{userID:this.props.currentUser._id, documentID:id});
     }
 
-    returnBook(id){
-        Meteor.call("returnDocument",{userID:this.props.currentUser._id, documentID:id});
-    }
 
     accept(){
         Meteor.call("accept",{documentID : this.props.book._id});

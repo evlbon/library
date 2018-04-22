@@ -47,7 +47,7 @@ class UserWithBook extends Component{
         let o = this.props.user;
         return(
             <div>
-                {o.name + ' | '+this.fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.book._id)}
+                {o.name + ' | '+this.fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.book._id)+" "}
                 <Button onClick={this.returnBook.bind(this)}
                         disabled={!(functions.hasDocument(o.libraryID, this.props.book._id))}
                         style={{height:"20px"}}>

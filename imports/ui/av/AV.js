@@ -6,8 +6,64 @@ import {Librarian} from "../../models/users/librarian";
 import * as functions from "../../methods/functions";
 import {User} from "../../models/users/user";
 import {EditAV} from "../../api/editAV";
-import {EditBook} from "../../api/editBook";
-import {EditArticle} from "../../api/editArticle";
+import { Popover, Button } from 'antd';
+import 'antd/dist/antd.css';
+
+
+
+class OutUsers extends Component{
+    f(){
+        Meteor.call('outstandingRequest', {userID: this.props.user.libraryID, documentID: this.props.av._id});
+
+    }
+
+    render(){
+        return(
+
+            <div>
+                <Button style={{width:"150px", margin:"1px"}} onClick={this.f.bind(this)}>{this.props.user.name}</Button><br/>
+            </div>
+        )
+
+    }
+
+
+}
+
+class UserWithAV extends Component{
+    fun( date )
+    {
+        if (date.date < 0)
+        {
+            let ff = - date.date;
+            return "Overdue " + ff + " days.";
+        }else return date.date + " days left.";
+    }
+
+    returnAV(){
+        Meteor.call("returnDocument",{userID:this.props.user.libraryID, documentID:this.props.av._id});
+    }
+
+
+    render(){
+        let o = this.props.user;
+        return(
+            <div>
+                {o.name + ' | '+this.fun({date:o.tillDeadline})+' Fee is '+functions.calculateFee(o.libraryID,this.props.av._id)+" "}
+                <Button onClick={this.returnAV.bind(this)}
+                        disabled={!(functions.hasDocument(o.libraryID, this.props.av._id))}
+                        style={{height:"20px"}}>
+                    Return
+                </Button>
+            </div>
+
+
+        )
+    }
+}
+
+
+
 
 class AV extends Component {
 
@@ -16,70 +72,64 @@ class AV extends Component {
         Meteor.call('documents.delAV',{id : this.props.av._id})
 
     }
-    rentAV(id){
-        console.log(this.props.av._id);
-        Meteor.call('checkOut',{userID:this.props.currentUser._id, documentID:id});
+
+
+    renderOutUsers(){
+        return(
+            <div>
+                {functions.allPatrons().map((user)=>(<OutUsers key={user.libraryID} user={user} av={this.props.av}/>))}
+            </div>
+        )
     }
 
-    returnAV(id){
-        Meteor.call('returnDocument',{userID:this.props.currentUser._id, documentID:id});
+
+    renderUsers(){
+        let users = functions.getRenters(this.props.av._id);
+        return(
+            <div>
+                {users.map((user)=>(<UserWithAV key={user.libraryID} user={user} av={this.props.av}/>))}
+            </div>
+        )
     }
+
+
 
     render() {
-        let rents = functions.getRenters(this.props.av._id);
-
-        rents ? rents = rents.map(o => (o.name + '   | '+fun({date:o.tillDeadline})+' Fee is'+functions.calculateFee(o.libraryID,this.props.av._id)+"rubles")):"";
-        let rents2 = functions.getRentsViaId(this.props.av._id, this.props.currentUser._id);
-
-        rents2 ? rents2 = rents2.map(o =>(fun({date:o.tillDeadline}))):"";
+        let isLabrarian = this.props.currentUser &&
+            Librarian.findOne({libraryID : this.props.currentUser._id}) &&
+            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
 
         return (
             <li>
 
                 <div className='boxButtons'>
-                { this.props.currentUser ?
-                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                        <button className="delete" onClick={this.deleteThisAV.bind(this)}>
-                            Delete
-                        </button>
-                        : ''
-                    :""
-                    :""
-                }
-                <br/>
+                    { this.props.currentUser ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
+                                <Button className="delete" onClick={this.deleteThisAV.bind(this)}>
+                                    Delete
+                                </Button>
+                                : ''
+                            :""
+                        :""
+                    }
 
-                { this.props.currentUser ?
-                    Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                            <EditAV id={this.props.av._id}/>
-                            : ''
-                        :""
-                    :""}
 
-                <br/>
-                { this.props.currentUser ?
-                    User.findOne({libraryID : this.props.currentUser._id}) ?
-                        <button className="delete" onClick={this.rentAV.bind(this,this.props.av._id)}
-                                disabled={!(functions.canCheckOut(this.props.currentUser._id,this.props.av._id))}>
-                            Rent
-                        </button>
-                        :""
-                    :""
-                }
-            <br/>
-                {
-                    this.props.currentUser ?
-                    User.findOne({libraryID : this.props.currentUser._id}) ?
-                        <button className="delete" onClick={this.returnAV.bind(this,this.props.av._id)}
-                                disabled={!(functions.hasDocument(this.props.currentUser._id, this.props.av._id))}>
-                            Return
-                        </button>
-                        :""
-                    :""
-                }
+                    <br/>
+
+                    { this.props.currentUser ?
+                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
+                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
+                                <EditAV id={this.props.av._id}/>
+                                : ''
+                            :""
+                        :""}
+                    <br/>
+
 
                 </div>
+
+
                 <div className="BOOKBOX1">
                 <h1>Audio or Video</h1><br/>
                 <span className="text">Title: {this.props.av.title} </span><br/>
@@ -94,34 +144,18 @@ class AV extends Component {
 
 
 
-                {
-                    this.props.currentUser ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                                <div className="BOOKBOX2">
-                                    <h1>Rents</h1><br/>
-                                    {rents ? <pre>{rents.join("\n")}</pre>
-                                        :<p>Nothing</p>}
-                                </div>
-                                : ''
-                            :""
-                        :""
+                <div className="BOOKBOX2">
+                    {this.renderUsers()}
+                </div>
 
-                }
 
-                {
-                    this.props.currentUser ?
-                        User.findOne({libraryID : this.props.currentUser._id}) ?
-                            User.findOne({libraryID : this.props.currentUser._id}).group === "Student" ?
-                                <div className="BOOKBOX2">
-                                    <h1>RENTS</h1><br/>
-                                    {rents2 ? <pre>{rents2.join("\n")}</pre>
-                                        :<p>Nothing</p>}
-                                </div>
-                                : ''
-                            :""
-                        :""
-                }
+                <div style={{float:"right"}}>
+                    <Popover content={this.renderOutUsers()} placement="bottom" title="Choose User">
+                        <Button  type="primary">Outstanding request</Button>
+                    </Popover>
+
+
+                </div>
 
             </li>
         );
@@ -133,12 +167,3 @@ export default withTracker(() => {
         currentUser: Meteor.user(),
     };
 })(AV);
-function fun( date )
-{
-    console.log(date.date);
-    if (date.date < 0)
-    {
-        let ff = - date.date;
-        return "Overdue " + ff + " days.";
-    }else return date.date + " days left.";
-}

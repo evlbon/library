@@ -6,6 +6,7 @@ import {Librarian} from "../../models/users/librarian";
 import {User} from "../../models/users/user";
 import * as functions from "../../methods/functions"
 import {EditBook} from "../../api/editBook";
+import {Button} from "antd";
 
 // Book component - represents a single todo item
 
@@ -204,22 +205,22 @@ class Book2 extends Component {
                                     </div>:
 
                                     <div className="delete">
-                                        <button
+                                        <Button
                                             onClick={this.enqueue.bind(this,this.props.book._id)}
                                             disabled={this.props.currentUser&&(this.props.book.queue.in_queue(this.props.currentUser._id)||rents2.length!==0)}>
                                             Enqueue
-                                        </button>
+                                        </Button>
 
-                                        <button
+                                        <Button
                                             onClick={this.dequeue.bind(this,this.props.book._id)}
                                             disabled={this.props.currentUser&&(!(this.props.book.queue.in_queue(this.props.currentUser._id)))}>
                                             Dequeue
-                                        </button>
-                                        <button
+                                        </Button>
+                                        <Button
                                             onClick={this.renew.bind(this,this.props.book._id)}
                                             disabled={this.props.currentUser&&(!(this.props.book.userHas(this.props.currentUser._id)))}>
                                             Renew
-                                        </button>
+                                        </Button>
 
                                     </div>
 
@@ -240,16 +241,16 @@ class Book2 extends Component {
                                             {this.render_Queue()}
                                         </div>
 
-                                        <button
+                                        <Button
                                             onClick={this.accept.bind(this)}
                                             disabled={!this.props.book.canAccept()||this.props.book.queue.get_all_queue().length===0}>
                                             Accept
-                                        </button>
-                                        <button
+                                        </Button>
+                                        <Button
                                             disabled={this.props.book.queue.get_all_queue().length===0}
                                             onClick={this.deny.bind(this)}>
                                             Deny
-                                        </button>
+                                        </Button>
 
                                     </div>:
 

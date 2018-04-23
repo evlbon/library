@@ -202,7 +202,8 @@ class Book2 extends Component {
 
                                         <Button
                                             onClick={this.dequeue.bind(this,this.props.book._id)}
-                                            disabled={this.props.currentUser&&(!(this.props.book.queue.in_queue(this.props.currentUser._id)))}>
+                                            disabled={this.props.currentUser&&(!(this.props.book.queue.in_queue(this.props.currentUser._id)))}
+                                            type="danger">
                                             Dequeue
                                         </Button>
                                         <Button

@@ -36,27 +36,25 @@ Meteor.methods({
         return id;
     },
     'ModifyUserProperties' ({id,name,phone,address,libId}){
-        let log = 'User "' + User.findOne({libraryID: id}).name + '" was changed.';
-
-        if (User.findOne({libraryID: id}).name !== name) log += ' Name ("' + User.findOne({libraryID: id}).name + '" -> "' + name + '") ';
-        if (User.findOne({libraryID: id}).phone !== phone) log += ' Phone ("' + User.findOne({libraryID: id}).phone + '" -> "' + phone + '") ';
-        if (User.findOne({libraryID: id}).address !== address) log += ' Address ("' + User.findOne({libraryID: id}).address + '" -> "' + address+ '") ';
-        if (User.findOne({libraryID: id}).libId !== libId) log += ' libID ("' + User.findOne({libraryID: id}).libId + '" -> "' + libId+ '") ';
+        let user = User.findOne({libraryID: id});
+        let log = 'User "' + User.findOne({libraryID: id}).name + '" was changed. ';
 
         if(name) {
+            log += 'Name ("' + user.name + '" -> "' + name + '"). ';
             User.update({libraryID: id}, {$set: {name: name}});
         }
         if(phone) {
+            log += 'Phone ("' + user.phone + '" -> "' + phone + '"). ';
             User.update({libraryID: id}, {$set: {phone: Number(phone)}});
         }
         if(address) {
+            log += 'Address ("' + user.address + '" -> "' + address+ '"). ';
             User.update({libraryID: id}, {$set: {address: address}});
         }
         if(libId) {
+            log += 'LibID ("' + user.libId + '" -> "' + libId+ '"). ';
             User.update({libraryID: id}, {$set: {libId: Number(libId)}});
-
         }
-
 
         Meteor.call('addLog', log);
 
@@ -66,7 +64,5 @@ Meteor.methods({
         User.libId = libId;
 
         User.update();
-
-
     },
 });

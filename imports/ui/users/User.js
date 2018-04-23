@@ -165,7 +165,9 @@ class Users extends Component {
 
             <li>
                 <div style={{float:"right"}}>
-                    <EditUser ID={this.props.user.libraryID}/>
+                    {isAdmin || this.props.user.group!=="Admin"?
+                        <EditUser ID={this.props.user.libraryID}/>:""}
+
 
                     <Dropdown overlay={
                         <div>

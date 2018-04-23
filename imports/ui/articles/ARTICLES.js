@@ -93,21 +93,20 @@ class ARTICLES extends Component{
         let isLabrarian = this.props.currentUser &&
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
+        let isLibrarian1 = isLabrarian&&Librarian.findOne({libraryID : this.props.currentUser._id}).privilege === "1";
 
         return(
 
                     <Sider width={200} style={{ background: '#fff' ,float:"left"}}>
                         <Menu
                             mode="inline"
-                            defaultSelectedKeys={['1']}
-                            defaultOpenKeys={['sub1']}
                             style={{ height: '100%', borderRight: 0 }}
                         >
                             <Menu.Item key="1"><Link to="/articles/allarticles">All Articles </Link></Menu.Item>
 
                             {isLabrarian?
                                 <Menu.Item key="2"><Link to="/articles/rentedArticles">Rented Articles </Link></Menu.Item>:""}
-                            {isLabrarian? <AddArticleButton/>:""}
+                            {isLabrarian && isLibrarian1? <AddArticleButton/>:""}
 
 
                         </Menu>

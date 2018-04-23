@@ -198,7 +198,8 @@ class AV2 extends Component {
 
                                     <Button
                                         onClick={this.dequeue.bind(this,this.props.av._id)}
-                                        disabled={this.props.currentUser&&(!(this.props.av.queue.in_queue(this.props.currentUser._id)))}>
+                                        disabled={this.props.currentUser&&(!(this.props.av.queue.in_queue(this.props.currentUser._id)))}
+                                        type="danger">
                                         Dequeue
                                     </Button>
                                     <Button
@@ -233,7 +234,8 @@ class AV2 extends Component {
                                     </Button>
                                     <Button
                                         disabled={this.props.av.queue.get_all_queue().length===0}
-                                        onClick={this.deny.bind(this)}>
+                                        onClick={this.deny.bind(this)}
+                                        type="danger">
                                         Deny
                                     </Button>
 

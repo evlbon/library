@@ -195,7 +195,8 @@ class Article2 extends Component {
                                     </Button>
 
                                     <Button onClick={this.dequeue.bind(this,this.props.jarticle._id)}
-                                            disabled={this.props.currentUser&&(!(this.props.jarticle.queue.in_queue(this.props.currentUser._id)))}>
+                                            disabled={this.props.currentUser&&(!(this.props.jarticle.queue.in_queue(this.props.currentUser._id)))}
+                                            type="danger">
                                         Dequeue
                                     </Button>
                                     <Button
@@ -230,7 +231,8 @@ class Article2 extends Component {
                                     </Button>
                                     <Button
                                         disabled={this.props.jarticle.queue.get_all_queue().length===0}
-                                        onClick={this.deny.bind(this)}>
+                                        onClick={this.deny.bind(this)}
+                                        type="danger">
                                         Deny
                                     </Button>
 

@@ -83,14 +83,14 @@ class AaV extends Component{
         let isLabrarian = this.props.currentUser &&
             Librarian.findOne({libraryID : this.props.currentUser._id}) &&
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
+        let isLibrarian1 = isLabrarian&&Librarian.findOne({libraryID : this.props.currentUser._id}).privilege === "1";
+
 
         return(
 
                     <Sider width={200} style={{ background: '#fff',float:"left" }}>
                         <Menu
                             mode="inline"
-                            defaultSelectedKeys={['1']}
-                            defaultOpenKeys={['sub1']}
                             style={{ height: '100%', borderRight: 0 }}
                         >
                             <Menu.Item key="1"><Link to="/av/allavs">All Audio and Video </Link></Menu.Item>
@@ -99,7 +99,7 @@ class AaV extends Component{
                                 <Menu.Item key="2"><Link to="/av/rentedAVs">Rented AVs </Link></Menu.Item>:""}
 
 
-                            {isLabrarian? <AddAVButton/>:""}
+                            {isLabrarian && isLibrarian1? <AddAVButton/>:""}
 
 
                         </Menu>

@@ -237,33 +237,31 @@ class SEARCH extends Component {
 
     render() {
 
+        if(Meteor.userId())
+            return <Layout style={{padding: '0 24px 24px'}}>
 
-        return (
-                <Layout style={{ padding: '0 24px 24px' }}>
-
-                    <Breadcrumb style={{ margin: '16px 0' }}>
+                    <Breadcrumb style={{margin: '16px 0'}}>
                         <Breadcrumb.Item><Link to="/">Home </Link></Breadcrumb.Item>
                         <Breadcrumb.Item>Search</Breadcrumb.Item>
                     </Breadcrumb>
 
-                    <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 800 }}>
-                        <div style={{margin:" 0 30% 0 0"}}>
+                    <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 800}}>
+                        <div style={{margin: " 0 30% 0 0"}}>
                             <Search placeholder="input search text" enterButton="Search" size="large"
                                     onSearch={(value) => (this.search(value))}/>
                         </div>
 
-                        { this.state.foundBooks.map((book) => (<Book2 key={book._id} book={book}/> ))}
-                        { this.state.foundArticles.map((jarticle) => (<Article2 key={jarticle._id} jarticle={jarticle}/> ))}
-                        { this.state.foundAVs.map((av) => (<AV2 key={av._id} av={av}/> ))}
-
-
+                        {this.state.foundBooks.map((book) => (<Book2 key={book._id} book={book}/>))}
+                        {this.state.foundArticles.map((jarticle) => (
+                            <Article2 key={jarticle._id} jarticle={jarticle}/>))}
+                        {this.state.foundAVs.map((av) => (<AV2 key={av._id} av={av}/>))}
 
 
                     </Content>
-                </Layout>
+                </Layout>;
 
 
-        );
+        else return <h1>PLEASE LOGIN</h1>;
     }
 }
 

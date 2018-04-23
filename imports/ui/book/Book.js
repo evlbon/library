@@ -102,15 +102,10 @@ class Book extends Component {
             <li >
 
                 <div className='boxButtons'>
-                    { this.props.currentUser ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                                <Button className="delete" onClick={this.deleteThisBook.bind(this)}>
-                                    Delete
-                                </Button>
-                                : ''
-                            :""
-                        :""
+                    { isLabrarian && !isLibrarian1?
+                        <Button className="delete" onClick={this.deleteThisBook.bind(this)}>
+                            Delete
+                        </Button>:""
                     }
 
 

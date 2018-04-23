@@ -96,19 +96,15 @@ class Article extends Component {
             Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian";
 
         let isLibrarian1 = isLabrarian&&Librarian.findOne({libraryID : this.props.currentUser._id}).privilege === "1";
+
         return (
             <li>
 
                 <div className='boxButtons'>
-                    { this.props.currentUser ?
-                        Librarian.findOne({libraryID : this.props.currentUser._id}) ?
-                            Librarian.findOne({libraryID : this.props.currentUser._id}).group === "Librarian" ?
-                                <Button className="delete" onClick={this.deleteThisArticle.bind(this)}>
-                                    Delete
-                                </Button>
-                                : ''
-                            :""
-                        :""
+                    { isLabrarian && isLibrarian1?
+                        <Button className="delete" onClick={this.deleteThisArticle.bind(this)}>
+                            Delete
+                        </Button>:""
                     }
 
 

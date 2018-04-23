@@ -7,6 +7,8 @@ import '../imports/models/documents/tests1'
 import '../imports/models/documents/tests2'
 
 import '../imports/models/documents/tests3'
+
+import '../imports/models/documents/tests4'
 import '../imports/models/users/user'
 
 

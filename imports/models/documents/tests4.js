@@ -35,9 +35,27 @@ Meteor.methods({
 
         Meteor.call('addAdmin', {id: Meteor.users.findOne({username: "admin"})._id, name: "Admin"})
 
+    },
+
+    'test4-2'() {
+        Meteor.call('clr_bd4');
+        let pass1 = "123123";
+        Meteor.call('addUser', ({name: "librarian1", password: pass1}));
+        Meteor.call('ModifyUser', ({id: Meteor.users.findOne({username: "librarian1"})._id, S: 1}));
+        Meteor.call('ModifyLibrarian', ({id: Meteor.users.findOne({username: "librarian1"})._id, S: 1}));
 
 
+        Meteor.call('addUser', ({name: "librarian2", password: pass1}));
+        Meteor.call('ModifyUser', ({id: Meteor.users.findOne({username: "librarian2"})._id, S: 1}));
+        Meteor.call('ModifyLibrarian', ({id: Meteor.users.findOne({username: "librarian2"})._id, S: 2}));
 
+        Meteor.call('addUser', ({name: "librarian3", password: pass1}));
+        Meteor.call('ModifyUser', ({id: Meteor.users.findOne({username: "librarian3"})._id, S: 1}));
+        Meteor.call('ModifyLibrarian', ({id: Meteor.users.findOne({username: "librarian3"})._id, S: 3}));
+    },
+    'test4-4'() {
+        Meteor.call('test4-2');
+        let pass1 = "123123";
         // BOOKS
 
         let d1 = Meteor.call('documents.addBook', {
@@ -47,27 +65,33 @@ Meteor.methods({
             publisher: "MIT Press",
             release_date: new Date(2009, 1),
             price: 5000,
+            tags: ["Algorithms", "Data Structures", "Complexity", "Computational Theory"],
             bestseller: false,
             number_of_copies: 3,
             number_of_references: 0
         });
         let d2 = Meteor.call('documents.addBook', {
-            title: 'Design Patterns: Elements of Reusable Object-Oriented Software',
-            authors: ["Erich Gamma", "Ralph Johnson", "John Vlissides", "Richard Helm"],
+            title: 'Algorithms + Data Structures = Programs',
+            authors: ["Niklaus Wirth"],
             edition: "First edition",
-            publisher: "Addison-Wesley Professional",
-            release_date: new Date(2003, 1),
-            price: 1700,
-            bestseller: true,
+            publisher: "Prentice Hall PTR",
+            release_date: new Date(1978, 1),
+            price: 5000,
+            tags:["Algorithms", "Data Structures", "Search Algorithms", "Pascal"],
+            bestseller: false,
             number_of_copies: 3,
             number_of_references: 0
         });
         let d3 = Meteor.call('documents.addBook', {
-            title: 'Null References: The Billion Dollar Mistake',
-            authors: ["Tony Hoare"],
-            price: 700,
+            title: 'The Art of Computer Programming',
+            authors: ["Donald E. Knuth"],
+            edition: "Third edition",
+            publisher: "Addison Wesley Longman Publishing Co., Inc.",
+            release_date: new Date(1997, 1),
+            price: 5000,
+            tags:["Algorithms", "Combinatorial Algorithms", "Recursion"],
             bestseller: false,
-            number_of_copies: 2,
+            number_of_copies: 3,
             number_of_references: 0
         });
 
@@ -126,27 +150,71 @@ Meteor.methods({
             address: "Stret Atocha, 27",
             libId: 1110
         }));
-
     },
 
-    'test4-2'() {
-        Meteor.call('clr_bd4');
-        let pass1 = "123123";
-        Meteor.call('addUser', ({name: "librarian1", password: pass1}));
-        Meteor.call('ModifyUser', ({id: Meteor.users.findOne({username: "librarian1"})._id, S: 1}));
-        Meteor.call('ModifyLibrarian', ({id: Meteor.users.findOne({username: "librarian1"})._id, S: 1}));
+    'test4-5'() {
+        Meteor.call('clr_bd');
+        Meteor.call('test4-4');
+        let book = Books.findOne({title: 'Introduction to Algorithms'})._id;
 
-
-        Meteor.call('addUser', ({name: "librarian2", password: pass1}));
-        Meteor.call('ModifyUser', ({id: Meteor.users.findOne({username: "librarian2"})._id, S: 1}));
-        Meteor.call('ModifyLibrarian', ({id: Meteor.users.findOne({username: "librarian2"})._id, S: 2}));
-
-        Meteor.call('addUser', ({name: "librarian3", password: pass1}));
-        Meteor.call('ModifyUser', ({id: Meteor.users.findOne({username: "librarian3"})._id, S: 1}));
-        Meteor.call('ModifyLibrarian', ({id: Meteor.users.findOne({username: "librarian3"})._id, S: 3}));
-
-
+        Meteor.call('editBook', book, {
+            title: 'Introduction to Algorithms',
+            authors: ["Thomas H. Cormen", "Charles E. Leiserson", "Ronald L. Rivest", "Clifford Stein"],
+            edition: "Third edition",
+            publisher: "MIT Press",
+            release_date: new Date(2009, 1),
+            price: 5000,
+            tags: ["Algorithms", "Data Structures", "Complexity", "Computational Theory"],
+            bestseller: false,
+            number_of_copies: 2,
+            number_of_references: 0
+        });
     },
 
+    'test4-6'() {
+        Meteor.call('clr_bd');
+        Meteor.call('test4-4');
+        let book = Books.findOne({title: "The Art of Computer Programming"})._id;
 
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:book});
+        Meteor.call("accept",{documentID: book});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:book});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor2"})._id, documentID:book});
+        Meteor.call("accept",{documentID: book});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor2"})._id, documentID:book});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:book});
+        Meteor.call("accept",{documentID: book});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:book});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:book});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor3"})._id, documentID:book});
+    },
+
+    'test4-7'() {
+        Meteor.call('clr_bd');
+        Meteor.call('test4-4');
+        let book = Books.findOne({title: "The Art of Computer Programming"})._id;
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:book});
+        Meteor.call("accept",{documentID: book});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor1"})._id, documentID:book});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor2"})._id, documentID:book});
+        Meteor.call("accept",{documentID: book});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Professor2"})._id, documentID:book});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:book});
+        Meteor.call("accept",{documentID: book});
+        Meteor.call("checkOut",{userID:Meteor.users.findOne({username:"Student"})._id, documentID:book});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"visiting"})._id, documentID:book});
+
+        Meteor.call("enqueue",{userID:Meteor.users.findOne({username:"Professor3"})._id, documentID:book});
+
+        Meteor.call("outstandingRequest",{userID:Meteor.users.findOne({username:"Professor3"})._id, documentID:book});
+
+    },
 });
